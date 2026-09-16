@@ -1,14 +1,12 @@
 // src/application/avisos/marcar-como-leido.use-case.ts
-import { GenerarAvisoService } from "../../domain/avisos/generar-aviso.service";
-import { AvisoId } from "../../domain/avisos/value-objects";
+import { HermesAvisoRepository } from "../../domain/avisos/repository";
 
 export class MarcarAvisoLeidoUseCase {
-  constructor(private generarService: GenerarAvisoService) {}
+  constructor(private avisoRepository: HermesAvisoRepository) {}
 
   async ejecutar(avisoId: string): Promise<{ success: boolean; error?: string }> {
-    const id = new AvisoId(avisoId);
     try {
-      await this.generarService.marcarComoLeido(id);
+      await this.avisoRepository.actualizarEstado(avisoId, "leido");
       return { success: true };
     } catch (error) {
       return { success: false, error: error instanceof Error ? error.message : "Error al marcar como leído" };

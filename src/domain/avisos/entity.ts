@@ -1,23 +1,12 @@
-// avisos/entity.ts
-import { AvisoId, AlumnoId, TipoAvisoValue, EstadoAvisoValue, FechaEnvio, TipoAviso, EstadoAviso } from "./value-objects";
-import { Alumno } from "../alumnos/entity";
+// src/domain/avisos/entity.ts
+import { AvisoId, EstadoAvisoValue, FechaEnvio, TipoAvisoValue, EstadoAviso, TipoAviso } from "./value-objects";
 
 /**
  * HermesAviso — Aggregate Root del contexto de avisos.
- *
- * Representa un aviso/alerta que el sistema Hermes genera para un alumno
- * (vencimiento de cuota, cierre, suspensión, recordatorio, etc.)
- *
- * Reglas de negocio:
- * - El aviso siempre tiene un alumno destinatario
- * - El tipo de aviso determina si es crítico (requiere check de visto)
- * - El estado evoluciona: pendiente → enviado → leído/vencido
- * - Un aviso crítico sin confirmar de lectura es una alarma
- * - El aviso genera su propio contenido para WhatsApp
  */
 export class HermesAviso {
   private _id: AvisoId;
-  private _alumnoId: AlumnoId;
+  private _alumnoId: string;
   private _tipo: TipoAvisoValue;
   private _estado: EstadoAvisoValue;
   private _fechaEnvio: FechaEnvio;
@@ -25,15 +14,15 @@ export class HermesAviso {
   private _fechaVisto?: Date;
 
   constructor(
-    id: AvisoId,
-    alumnoId: AlumnoId,
+    id: string,
+    alumnoId: string,
     tipo: TipoAviso,
     estado: EstadoAviso,
     fechaEnvio: Date,
     contenido: string,
     fechaVisto?: Date,
   ) {
-    this._id = id;
+    this._id = new AvisoId(id);
     this._alumnoId = alumnoId;
     this._tipo = new TipoAvisoValue(tipo);
     this._estado = new EstadoAvisoValue(estado);
@@ -44,51 +33,21 @@ export class HermesAviso {
     }
   }
 
-  get id(): AvisoId {
-    return this._id;
-  }
+  get id(): string { return this._id.valor; }
+  get alumnoId(): string { return this._alumnoId; }
+  get tipo(): TipoAvisoValue { return this._tipo; }
+  get estado(): EstadoAvisoValue { return this._estado; }
+  get fechaEnvio(): FechaEnvio { return this._fechaEnvio; }
+  get contenido(): string { return this._contenido; }
+  get fechaVisto(): Date | undefined { return this._fechaVisto; }
 
-  get alumnoId(): AlumnoId {
-    return this._alumnoId;
-  }
-
-  get tipo(): TipoAvisoValue {
-    return this._tipo;
-  }
-
-  get estado(): EstadoAvisoValue {
-    return this._estado;
-  }
-
-  get fechaEnvio(): FechaEnvio {
-    return this._fechaEnvio;
-  }
-
-  get contenido(): string {
-    return this._contenido;
-  }
-
-  get fechaVisto(): Date | undefined {
-    return this._fechaVisto;
-  }
-
-  esCritico(): boolean {
-    return this._tipo.esCritico();
-  }
-
-  fueEnviado(): boolean {
-    return this._estado.valor !== "pendiente";
-  }
-
-  fueVisto(): boolean {
-    return this._estado.valor === "leido";
-  }
+  esCritico(): boolean { return this._tipo.esCritico(); }
+  fueEnviado(): boolean { return this._estado.valor !== "pendiente"; }
+  fueVisto(): boolean { return this._estado.valor === "leido"; }
 
   marcarComoEnviado(): void {
     if (this._estado.valor !== "pendiente") {
-      throw new Error(
-        `No se puede marcar como enviado un aviso que ya está en estado "${this._estado.display()}"`,
-      );
+      throw new Error(`No se puede marcar como enviado un aviso que ya está en estado "${this._estado.display()}"`);
     }
     this._estado = new EstadoAvisoValue("enviado");
   }
@@ -98,9 +57,7 @@ export class HermesAviso {
       throw new Error("El aviso ya fue marcado como leído");
     }
     if (this._estado.valor !== "enviado") {
-      throw new Error(
-        `No se puede marcar como leído un aviso que aún no fue enviado (estado: ${this._estado.display()})`,
-      );
+      throw new Error(`No se puede marcar como leído un aviso que aún no fue enviado (estado: ${this._estado.display()})`);
     }
     this._estado = new EstadoAvisoValue("leido");
     this._fechaVisto = new Date();
@@ -117,24 +74,19 @@ export class HermesAviso {
   }
 
   toWhatsappText(): string {
-    const fecha = this._fechaEnvio.display();
-
-    const encabezado = this.formatearEncabezado();
-
     return [
-      encabezado,
+      this.formatearEncabezado(),
       "",
       this._contenido,
       "",
       `estado: ${this._estado.display()}`,
       `tipo: ${this._tipo.display()}`,
-      `fecha de envío: ${fecha}`,
+      `fecha de envío: ${this._fechaEnvio.display()}`,
     ].join("\n");
   }
 
   toWhatsappCompact(): string {
     const emoji = this._tipo.esCritico() ? "⚠️" : "ℹ️";
-
     return [
       `${emoji} ${this._tipo.display()}`,
       this._contenido,
@@ -150,7 +102,6 @@ export class HermesAviso {
       recordatorio_cobro: "*💰 RECORDATORIO DE COBRO*",
       suspension_clase: "*🚨 SUSPENSIÓN DE CLASE*",
     };
-
     return encabezados[this._tipo.valor] || "*ℹ️ AVISO*";
   }
 }

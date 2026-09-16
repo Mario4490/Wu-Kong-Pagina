@@ -1,6 +1,5 @@
-// alumnos/repository.ts
+// src/domain/alumnos/repository.ts
 import { Alumno } from "./entity";
-import { AlumnoId } from "../shared";
 
 /**
  * Puerto del repositorio de alumnos.
@@ -8,10 +7,10 @@ import { AlumnoId } from "../shared";
  */
 export interface AlumnoRepository {
   /**
-   * Busca un alumno por su ID.
+   * Busca un alumno por su ID (string).
    * Retorna null si no existe.
    */
-  buscarPorId(id: AlumnoId): Promise<Alumno | null>;
+  buscarPorId(id: string): Promise<Alumno | null>;
 
   /**
    * Lista todos los alumnos.
@@ -30,12 +29,11 @@ export interface AlumnoRepository {
 
   /**
    * Actualiza un alumno existente.
-   * Regla: el alumno debe existir.
    */
   actualizar(alumno: Alumno): Promise<void>;
 
   /**
-   * Elimina un alumno (soft o hard según decisión del proyecto).
+   * Elimina un alumno.
    */
-  eliminar(id: AlumnoId): Promise<void>;
+  eliminar(id: string): Promise<void>;
 }

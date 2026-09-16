@@ -1,5 +1,5 @@
-// shared/index.ts
-// Value Objects compartidos entre contextos (evitan duplicación de definiciones)
+// src/domain/shared/index.ts
+// Value Objects compartidos entre contextos
 
 export class AlumnoId {
   constructor(public readonly valor: string) {

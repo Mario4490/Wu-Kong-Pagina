@@ -1,9 +1,6 @@
-// pagos/value-objects.ts
-import { Monto, MetodoPago, MetodoPagoValue, AlumnoId } from "../shared";
+// src/domain/pagos/value-objects.ts
+import { Monto, MetodoPagoValue } from "../shared";
 
-/**
- * PagoId — Value Object
- */
 export class PagoId {
   constructor(public readonly valor: string) {
     if (!valor || valor.trim().length === 0) {
@@ -16,10 +13,6 @@ export class PagoId {
   }
 }
 
-/**
- * FechaPago — Value Object
- * Regla: no puede ser futura
- */
 export class FechaPago {
   constructor(public readonly valor: Date) {
     if (isNaN(valor.getTime())) {

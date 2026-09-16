@@ -1,57 +1,20 @@
-// pagos/registrar-pago.service.ts
+// src/domain/pagos/registrar-pago.service.ts
 import { Pago } from "./entity";
-import { PagoId, AlumnoId, Monto, MetodoPagoValue } from "./value-objects";
 import { PagoRepository } from "./repository";
-import { EstadoAlumnoService } from "./estado-alumno.service";
 
-/**
- * Domain Service para registrar un pago.
- * Reglas:
- * - Valida que el monto sea > 0
- * - Valida que el método sea válido
- * - Crea el pago, lo persiste
- * - Recalcula el estado del alumno
- * - Genera el ReciboDigital asociado (pero no lo persiste — es un concepto derivado)
- */
 export class RegistrarPagoService {
-  constructor(
-    private pagoRepository: PagoRepository,
-    private estadoService: EstadoAlumnoService,
-  ) {}
+  constructor(private pagoRepository: PagoRepository) {}
 
-  async registrar(
-    alumnoId: AlumnoId,
+  async registrarPago(
+    alumnoId: string,
     monto: number,
     fechaPago: Date,
     metodo: "efectivo" | "transferencia" | "transferencia_bancaria" | "qr" | "otro",
-  ): Promise<{ pago: Pago; estadoResultante: "Al día" | "Pendiente" | "Vencido" }> {
-    if (monto <= 0) {
-      throw new Error("El monto del pago debe ser mayor a 0");
-    }
-
-    const metodosValidos = [
-      "efectivo",
-      "transferencia",
-      "transferencia_bancaria",
-      "qr",
-      "otro",
-    ] as const;
-    if (!metodosValidos.includes(metodo)) {
-      throw new Error(`Método de pago inválido: ${metodo}`);
-    }
-
-    const pago = new Pago(
-      new PagoId(crypto.randomUUID()),
-      alumnoId,
-      monto,
-      fechaPago,
-      metodo,
-    );
-
+  ): Promise<Pago> {
+    const id = crypto.randomUUID();
+    const fechaRegistro = new Date();
+    const pago = new Pago(id, alumnoId, monto, fechaPago, metodo, fechaRegistro);
     await this.pagoRepository.guardar(pago);
-
-    const estadoResultante = await this.estadoService.determinarEstado(alumnoId);
-
-    return { pago, estadoResultante };
+    return pago;
   }
 }

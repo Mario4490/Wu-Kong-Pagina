@@ -1,16 +1,12 @@
-// alumnos/entity.ts
-import { AlumnoId } from "../shared";
+// src/domain/alumnos/entity.ts
+import { AlumnoRepository } from "./repository";
 
 /**
  * Alumno — Entity del contexto de alumnos.
- * Reglas:
- * - El nombre y disciplina son obligatorios
- * - La entidad es inmutable en su identidad (el ID no cambia)
- * - Puede cambiar su nombre/disciplina (operaciones deliberadas, no seters sueltos)
  */
 export class Alumno {
   constructor(
-    public readonly id: AlumnoId,
+    public readonly id: string,
     public nombre: string,
     public disciplina: string,
     public readonly createdAt: Date = new Date(),
@@ -26,10 +22,6 @@ export class Alumno {
     this.disciplina = disciplina.trim();
   }
 
-  /**
-   * Actualiza el nombre del alumno.
-   * Regla: no puede estar vacío.
-   */
   actualizarNombre(nuevoNombre: string): void {
     if (!nuevoNombre || nuevoNombre.trim().length === 0) {
       throw new Error("El nombre no puede estar vacío");
@@ -37,9 +29,6 @@ export class Alumno {
     this.nombre = nuevoNombre.trim();
   }
 
-  /**
-   * Cambia la disciplina del alumno.
-   */
   cambiarDisciplina(nuevaDisciplina: string): void {
     if (!nuevaDisciplina || nuevaDisciplina.trim().length === 0) {
       throw new Error("La disciplina no puede estar vacía");
@@ -47,9 +36,6 @@ export class Alumno {
     this.disciplina = nuevaDisciplina.trim();
   }
 
-  /**
-   * Deriva un nombre corto para display (primer apellido + primer nombre si es posible)
-   */
   get nombreCorto(): string {
     const partes = this.nombre.split(" ");
     if (partes.length >= 2) {

@@ -1,14 +1,41 @@
-﻿"use client";
+﻿// src/app/page.tsx
+"use client";
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import {
   Shield, Scroll, Users, Calendar, MapPin, Phone, Mail, Menu, X,
   ChevronRight, Star, Zap, Award, Clock, CheckCircle2, AlertTriangle,
-  Instagram, Facebook, Target, Dumbbell, Flame, Trophy, Send, ChevronDown,
+  Target, Dumbbell, Flame, Trophy, Send, ChevronDown,
 } from "lucide-react";
 
-/* --- HOOK: Scroll Reveal --- */
+/* =================================================================== */
+/*   SVG COMPONENTS PARA REDES SOCIALES (lucide-react no tiene          */
+/*   Instagram ni Facebook)                                              */
+/* =================================================================== */
+
+function InstagramIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <circle cx="12" cy="12" r="5" />
+      <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function FacebookIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+    </svg>
+  );
+}
+
+/* =================================================================== */
+/*   HOOKS                                                               */
+/* =================================================================== */
+
 function useScrollReveal() {
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -20,7 +47,6 @@ function useScrollReveal() {
   }, []);
 }
 
-/* --- HOOK: Active Section --- */
 function useActiveSection() {
   const [active, setActive] = useState("inicio");
   useEffect(() => {
@@ -35,7 +61,6 @@ function useActiveSection() {
   return active;
 }
 
-/* --- HOOK: Counter --- */
 function useCounter(target: number, duration = 1800, start = false) {
   const [count, setCount] = useState(0);
   useEffect(() => {
@@ -52,7 +77,10 @@ function useCounter(target: number, duration = 1800, start = false) {
   return count;
 }
 
-/* --- BrandLogo --- */
+/* =================================================================== */
+/*   COMPONENTES REUTILIZABLES                                           */
+/* =================================================================== */
+
 function BrandLogo({ size = 56, glow = true }: { size?: number; glow?: boolean }) {
   return (
     <div
@@ -69,7 +97,6 @@ function BrandLogo({ size = 56, glow = true }: { size?: number; glow?: boolean }
   );
 }
 
-/* --- StarRating --- */
 function StarRating({ count = 5 }: { count?: number }) {
   return (
     <div className="flex items-center gap-0.5">
@@ -80,7 +107,6 @@ function StarRating({ count = 5 }: { count?: number }) {
   );
 }
 
-/* --- SectionHeader --- */
 function SectionHeader({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (
     <div className="text-center mb-16 reveal">
@@ -91,7 +117,6 @@ function SectionHeader({ eyebrow, title }: { eyebrow: string; title: string }) {
   );
 }
 
-/* --- StatItem --- */
 function StatItem({ value, label, suffix = "+" }: { value: number; label: string; suffix?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const [started, setStarted] = useState(false);
@@ -109,9 +134,10 @@ function StatItem({ value, label, suffix = "+" }: { value: number; label: string
   );
 }
 
-/* =====================================================================
-   HERO SECTION
-   ===================================================================== */
+/* =================================================================== */
+/*   HERO SECTION                                                        */
+/* =================================================================== */
+
 function HeroSection() {
   return (
     <section id="inicio" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
@@ -159,9 +185,10 @@ function HeroSection() {
   );
 }
 
-/* =====================================================================
-   DISCIPLINAS SECTION (NUEVA)
-   ===================================================================== */
+/* =================================================================== */
+/*   DISCIPLINAS SECTION                                                 */
+/* =================================================================== */
+
 const disciplinas = [
   { icon: Target,   nombre: "Karate Do",  estilo: "Shotokan",              descripcion: "Arte marcial japones tradicional. Desarrolla tecnica, katas y kumite en un ambiente de respeto y disciplina.", niveles: ["Principiante","Intermedio","Avanzado","Competicion"], color: "from-red-950/60 to-transparent",    accent: "text-red-400",   border: "border-red-900/30"  },
   { icon: Dumbbell, nombre: "Boxeo",       estilo: "Tecnico y Combate",     descripcion: "Aprende los fundamentos del noble arte: jab, cross, gancho, esquivas y estrategia de ring.",                   niveles: ["Fitness","Tecnico","Sparring","Amateur"],           color: "from-amber-950/40 to-transparent", accent: "text-amber-400", border: "border-amber-900/30"},
@@ -198,9 +225,10 @@ function DisciplinasSection() {
   );
 }
 
-/* =====================================================================
-   SOBRE EL LUGAR
-   ===================================================================== */
+/* =================================================================== */
+/*   SOBRE EL LUGAR                                                      */
+/* =================================================================== */
+
 function SobreLugarSection() {
   const fotos = [
     { src: "/instalacion-general.jpg", label: "Area general de entrenamiento" },
@@ -247,9 +275,10 @@ function SobreLugarSection() {
   );
 }
 
-/* =====================================================================
-   ENTRENADORES
-   ===================================================================== */
+/* =================================================================== */
+/*   ENTRENADORES                                                        */
+/* =================================================================== */
+
 const entrenadores = [
   { foto:"/entrenador-karate.jpg", iniciales:null, nombre:"Sensei Hiroshi Tanaka", disciplina:"Karate Do Shotokan",      cinturon:"5 Dan",    descripcion:"Responsable de la Division de Karate. +12 anos formando instructores en tecnica Shotokan.", logros:["Medallista nacional 2018","Instructor certificado JKA"] },
   { foto:null, iniciales:"MG",                    nombre:"Prof. Marcos Garcia",   disciplina:"Boxeo Profesional",        cinturon:"Ex-amateur",descripcion:"Entrenador principal de Boxeo. Especialista en tecnica de guantes y estrategia de ring.",   logros:["8 anos de carrera amateur","Campeon Provincial 2015"]   },
@@ -296,9 +325,10 @@ function EntrenadoresSection() {
   );
 }
 
-/* =====================================================================
-   HORARIOS (NUEVA)
-   ===================================================================== */
+/* =================================================================== */
+/*   HORARIOS                                                            */
+/* =================================================================== */
+
 const horarios = [
   {dia:"Lunes",    karate:"8:00 / 19:00", boxeo:"10:00 / 20:00", mma:"—"},
   {dia:"Martes",   karate:"—",             boxeo:"9:00 / 19:00",  mma:"20:30"},
@@ -344,84 +374,281 @@ function HorariosSection() {
   );
 }
 
-/* =====================================================================
-   PRECIOS (NUEVA)
-   ===================================================================== */
+/* =================================================================== */
+/*   PRECIOS                                                             */
+/* =================================================================== */
+
 const planes = [
-  { nombre:"Starter", precio:15000, descripcion:"Ideal para comenzar", features:["1 disciplina","Hasta 3 clases semanales","Vestuarios incluidos","Evaluacion inicial"], cta:"Comenzar", destacado:false, color:"border-white/10",       badge:null,        accentBtn:"bg-white/5 border border-white/10 text-zinc-300 hover:text-white hover:bg-white/10" },
-  { nombre:"Fighter", precio:25000, descripcion:"El plan mas popular",  features:["2 disciplinas","Clases ilimitadas","Vestuarios incluidos","Evaluacion mensual","Acceso a sparring","Descuento en equipamiento"], cta:"Elegir Fighter", destacado:true, color:"border-red-600/40",  badge:"Mas popular", accentBtn:"bg-red-600 text-white hover:bg-red-500 shadow-lg shadow-red-900/30" },
-  { nombre:"Elite",   precio:38000, descripcion:"Para competidores serios", features:["Todas las disciplinas","Clases ilimitadas","Clases particulares (2/mes)","Preparacion torneos","Nutricion basica","Kit de bienvenida"], cta:"Unirse a Elite", destacado:false, color:"border-amber-600/30", badge:"Incluye kit", accentBtn:"bg-white/5 border border-white/10 text-zinc-300 hover:text-white hover:bg-white/10" },
+  { nombre:"Principiante",     precio:"$45.000", descripcion:"Clases introductorias, acceso a tatami y equipamiento basico.",       caracteristicas:["Clases grupales","Acceso a tatami","Equipo basico","Evaluaciones quincenales"], popular:false },
+  { nombre:"Semi-Competicion", precio:"$65.000", descripcion:"Entrenamiento tecnico avanzado, preparacion fisica y sparring controlado.", caracteristicas:["Tres clases/semana","Sparring","Preparacion fisica","Dietas basicas","Acceso a ring"], popular:true  },
+  { nombre:"Competicion",      precio:"$85.000", descripcion:"Preparacion completa para torneos. Sparring intensivo, sports science y seguimiento personalizado.", caracteristicas:["Clases ilimitadas","Preparacion competiciones","Sports science","Seguimiento 1:1","Acceso ring + octagono"], popular:false },
 ];
 
 function PreciosSection() {
   return (
     <section id="precios" className="relative py-28 px-4 bg-[#08080A]" aria-labelledby="precios-heading">
-      <div className="max-w-5xl mx-auto">
-        <SectionHeader eyebrow="Planes y tarifas" title="Precios" />
+      <div className="max-w-6xl mx-auto">
+        <SectionHeader eyebrow="Inversion en tu progreso" title="Nuestros Planes" />
         <div className="grid md:grid-cols-3 gap-6">
-          {planes.map((plan, i) => (
-            <div key={plan.nombre} className={`reveal reveal-delay-${i+1} card-hover relative rounded-3xl border ${plan.color} p-7 flex flex-col ${plan.destacado ? "bg-gradient-to-b from-red-950/30 to-[#0f0f13]" : "bg-[#0f0f13]"}`}>
-              {plan.badge && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className={`px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest ${plan.destacado ? "bg-red-600 text-white" : "bg-amber-600/80 text-white"}`}>{plan.badge}</span>
-                </div>
+          {planes.map((p, i) => (
+            <article key={p.nombre} className={`reveal reveal-delay-${i+1} card-hover relative rounded-3xl border ${p.popular ? "border-red-600/50 bg-red-950/10" : "border-white/5 bg-[#0f0f13]"} p-8 flex flex-col ${p.popular ? "scale-105 z-10 shadow-2xl shadow-red-900/20" : ""}`}>
+              {p.popular && (
+                <span className="absolute top-4 right-4 px-3 py-0.5 bg-red-600 text-white text-[10px] font-bold uppercase tracking-widest rounded-full">Mas popular</span>
               )}
-              <h3 className="font-display text-2xl text-white uppercase tracking-wide mb-0.5">{plan.nombre}</h3>
-              <p className="text-xs text-zinc-500 mb-5">{plan.descripcion}</p>
+              <h3 className="font-display text-xl text-white uppercase tracking-wide mb-2">{p.nombre}</h3>
               <div className="mb-6">
-                <span className="font-display text-5xl text-white">${Math.floor(plan.precio/1000)}k</span>
-                <span className="text-zinc-500 text-sm ml-1">/ mes</span>
+                <span className="font-display text-4xl text-white">{p.precio}</span>
+                <span className="text-zinc-500 text-sm ml-2">/mes</span>
               </div>
-              <ul className="space-y-2.5 mb-8 flex-1">
-                {plan.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2.5 text-sm text-zinc-400">
-                    <CheckCircle2 className={`w-4 h-4 flex-shrink-0 mt-0.5 ${plan.destacado ? "text-red-400" : "text-amber-500"}`} />{f}
+              <p className="text-zinc-400 text-sm leading-relaxed mb-6 flex-1">{p.descripcion}</p>
+              <ul className="space-y-3 mb-8">
+                {p.caracteristicas.map((c) => (
+                  <li key={c} className="flex items-center gap-2 text-xs text-zinc-300">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />{c}
                   </li>
                 ))}
               </ul>
-              <a href="/auth/register" className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold uppercase tracking-widest transition-all duration-200 ${plan.accentBtn}`}>{plan.cta}</a>
-            </div>
+              <a href="#contacto" className={`inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all ${p.popular ? "bg-red-600 text-white hover:bg-red-500 shadow-lg shadow-red-900/30" : "bg-white/5 border border-white/10 text-zinc-300 hover:bg-white/10 hover:border-white/20"}`}>
+                Elegir plan
+              </a>
+            </article>
           ))}
         </div>
-        <p className="text-center text-zinc-600 text-xs mt-8 reveal reveal-delay-4">Precios en ARS. Consultar descuentos para estudiantes, menores y pago anual.</p>
       </div>
     </section>
   );
 }
 
-/* =====================================================================
-   COMENTARIOS
-   ===================================================================== */
+/* =================================================================== */
+/*   COMENTARIOS                                                         */
+/* =================================================================== */
+
 const comentarios = [
-  {inicial:"MF",nombre:"Martin F.",    disciplina:"Karate", rating:5, texto:"Ambiente excelente, los instructores ponen mucha dedicacion. Note mejora desde los primeros meses."},
-  {inicial:"LS",nombre:"Laura S.",     disciplina:"Boxeo",  rating:5, texto:"Empece sin saber nada y en 3 meses ya entiendo todo. El profe Marcos es muy paciente y claro."},
-  {inicial:"JR",nombre:"Jorge R.",     disciplina:"MMA",    rating:5, texto:"Llevo 2 anos entrenando MMA aca. La calidad es de primer nivel, te preparan bien para competir."},
-  {inicial:"CA",nombre:"Camila A.",    disciplina:"Karate", rating:5, texto:"El Sensei Tanaka tiene un conocimiento increible. Las katas me abrieron puertas a competencias nacionales."},
-  {inicial:"FP",nombre:"Fernando P.",  disciplina:"Boxeo",  rating:4, texto:"Muy buenas instalaciones y grupo humano. El ring esta en perfectas condiciones. Recomendado 100%."},
-  {inicial:"VM",nombre:"Valentina M.", disciplina:"MMA",    rating:5, texto:"Como mujer me senti super bienvenida. El ambiente es respetuoso y los entrenamientos muy bien llevados."},
+  { inicial:"FP",nombre:"Fernando P.",  disciplina:"Boxeo",  rating:4, texto:"Muy buenas instalaciones y grupo humano. El ring esta en perfectas condiciones. Recomendado 100%." },
+  { inicial:"ML",nombre:"Marcela L.",  disciplina:"Karate",  rating:5, texto:"Llevo 3 años y el progreso es impresionable. El Sensei Tanaka es excepcional enseñando katas." },
+  { inicial:"CR",nombre:"Camila R.",   disciplina:"MMA",     rating:5, texto:"El entrenamiento integrado es lo que mas me gusta. Aprendí a conectar striking con grappling de verdad." },
 ];
 
 function ComentariosSection() {
   return (
     <section id="comentarios" className="relative py-28 px-4 bg-white/[0.02]" aria-labelledby="comentarios-heading">
-      <div className="max-w-5xl mx-auto">
-        <SectionHeader eyebrow="Opiniones" title="Testimonios" />
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="max-w-6xl mx-auto">
+        <SectionHeader eyebrow="Voces de nuestro tatami" title="Testimonios" />
+        <div className="grid md:grid-cols-3 gap-6">
           {comentarios.map((c, i) => (
-            <div key={c.nombre} className={`reveal reveal-delay-${(i%3)+1} card-hover p-6 rounded-2xl bg-[#0f0f13] border border-white/5 hover:border-white/10 flex flex-col gap-4`}>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-red-900/60 to-zinc-800 border border-red-900/30 flex-shrink-0 flex items-center justify-center font-bold text-sm text-zinc-300">{c.inicial}</div>
-                <div>
-                  <h4 className="font-bold text-white text-sm">{c.nombre}</h4>
-                  <span className="text-xs text-red-400 font-semibold uppercase tracking-wider">{c.disciplina}</span>
+            <article key={c.inicial} className={`reveal reveal-delay-${i+1} card-hover group relative rounded-3xl bg-[#0f0f13] border border-white/5 p-6 flex flex-col transition-all duration-300`}>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center border border-white/5">
+                  <span className="font-display text-sm text-zinc-300 tracking-wide">{c.inicial}</span>
                 </div>
-                <div className="ml-auto"><StarRating count={c.rating} /></div>
+                <div>
+                  <p className="text-sm font-bold text-white">{c.nombre}</p>
+                  <p className="text-xs text-zinc-500">{c.disciplina}</p>
+                </div>
               </div>
-              <p className="text-sm text-zinc-400 leading-relaxed flex-1">"{c.texto}"</p>
-            </div>
+              <StarRating count={c.rating} />
+              <p className="text-zinc-400 text-sm leading-relaxed mt-4 flex-1">"{c.texto}"</p>
+            </article>
           ))}
         </div>
       </div>
     </section>
+  );
+}
+
+/* =================================================================== */
+/*   NOTICIAS                                                            */
+/* =================================================================== */
+
+const noticias = [
+  { categoria:"Competencia",    titulo:"Wukong en el Campeonato Provincial",        fecha:"12 Sep 2026", destacado:true,  texto:"Mas de 15 representantes de Wukong compitieron en el Torneo San triglycerinas, obteniendo 8 medallas en total." },
+  { categoria:"Clases",         titulo:"Nuevo horario de Boxeo nocturno",            fecha:"5 Sep 2026",  destacado:false, texto:"A partir del proximo mes, habilitamos entrenamiento de Boxeo de 21:00 a 22:30 para trabajadores." },
+  { categoria:"Comunidad",      titulo:"Clase gratuita para primeros ingresos",      fecha:"28 Ago 2026", destacado:false, texto:"Si nunca entrenaste, te esperamos con una clase de 45 minutos sin compromiso los sabados a las 10:00hs." },
+];
+
+function NoticiasSection() {
+  return (
+    <section id="noticias" className="relative py-28 px-4 bg-[#08080A]" aria-labelledby="noticias-heading">
+      <div className="max-w-5xl mx-auto">
+        <SectionHeader eyebrow="Última hora" title="Noticias" />
+        <div className="space-y-4">
+          {noticias.map((n, i) => (
+            <article key={n.titulo} className={`reveal reveal-delay-${i+1} card-hover group relative rounded-3xl border ${n.destacado ? "border-red-600/40 bg-red-950/5" : "border-white/5 bg-[#0f0f13]"} p-6 flex gap-5 transition-all duration-300`}>
+              {n.destacado && (
+                <span className="absolute top-4 right-4 px-2 py-0.5 bg-red-600/80 text-white text-[10px] font-bold uppercase tracking-widest rounded-full">Destacado</span>
+              )}
+              <div className="flex flex-col items-center justify-center w-16 flex-shrink-0">
+                <span className={`text-xs font-bold uppercase tracking-widest ${n.destacado ? "text-red-400" : "text-zinc-500"}`}>{n.categoria}</span>
+                <Clock className={`w-4 h-4 mt-2 ${n.destacado ? "text-red-400" : "text-zinc-600"}`} />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-display text-lg text-white uppercase tracking-wide mb-1">{n.titulo}</h3>
+                <p className="text-zinc-400 text-sm leading-relaxed">{n.texto}</p>
+                <p className="text-xs text-zinc-600 mt-2">{n.fecha}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* =================================================================== */
+/*   CONTACTO                                                            */
+/* =================================================================== */
+
+function ContactoSection() {
+  return (
+    <section id="contacto" className="relative py-28 px-4 bg-white/[0.02]" aria-labelledby="contacto-heading">
+      <div className="max-w-5xl mx-auto">
+        <SectionHeader eyebrow="Escibenos" title="Contacto" />
+        <div className="grid md:grid-cols-2 gap-12">
+          <div className="space-y-6 reveal">
+            <div className="flex items-center gap-4 p-4 rounded-2xl bg-[#0f0f13] border border-white/5">
+              <div className="w-10 h-10 rounded-xl bg-red-600/20 border border-red-600/30 flex items-center justify-center">
+                <MapPin className="w-5 h-5 text-red-400" />
+              </div>
+              <div>
+                <p className="text-xs text-zinc-500 uppercase tracking-widest font-semibold">Ubicacion</p>
+                <p className="text-sm text-zinc-300">Córdoba Ave. 1250, Buenos Aires</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 p-4 rounded-2xl bg-[#0f0f13] border border-white/5">
+              <div className="w-10 h-10 rounded-xl bg-red-600/20 border border-red-600/30 flex items-center justify-center">
+                <Phone className="w-5 h-5 text-red-400" />
+              </div>
+              <div>
+                <p className="text-xs text-zinc-500 uppercase tracking-widest font-semibold">WhatsApp</p>
+                <p className="text-sm text-zinc-300">+54 11 5555-5555</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 p-4 rounded-2xl bg-[#0f0f13] border border-white/5">
+              <div className="w-10 h-10 rounded-xl bg-red-600/20 border border-red-600/30 flex items-center justify-center">
+                <Mail className="w-5 h-5 text-red-400" />
+              </div>
+              <div>
+                <p className="text-xs text-zinc-500 uppercase tracking-widest font-semibold">Email</p>
+                <p className="text-sm text-zinc-300">hola@wukong.com.ar</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 pt-2">
+              <a href="https://instagram.com/wukong" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-red-400 hover:border-red-600/30 transition-all">
+                <InstagramIcon className="w-5 h-5" />
+              </a>
+              <a href="https://facebook.com/wukong" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-blue-400 hover:border-blue-600/30 transition-all">
+                <FacebookIcon className="w-5 h-5" />
+              </a>
+            </div>
+          </div>
+          <div className="reveal reveal-delay-2">
+            <form className="rounded-3xl bg-[#0f0f13] border border-white/5 p-8 space-y-5">
+              <div className="grid grid-cols-2 gap-4">
+                <input type="text" placeholder="Nombre" className="input-field" />
+                <input type="tel" placeholder="WhatsApp" className="input-field" />
+              </div>
+              <select className="input-field cursor-pointer appearance-none bg-zinc-800/50">
+                <option value="" disabled>Disciplina de interes</option>
+                <option value="karate">Karate Do</option>
+                <option value="boxeo">Boxeo</option>
+                <option value="mma">MMA</option>
+              </select>
+              <textarea rows={4} placeholder="Contame que buscas..." className="input-field resize-none" />
+              <button type="submit" className="w-full py-4 bg-red-600 text-white font-bold text-sm uppercase tracking-widest rounded-2xl hover:bg-red-500 active:scale-[0.98] transition-all duration-200 shadow-lg shadow-red-900/30">
+                <Send className="w-4 h-4 inline mr-2" />Enviar consulta
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* =================================================================== */
+/*   FOOTER                                                              */
+/* =================================================================== */
+
+function Footer() {
+  return (
+    <footer className="relative py-12 px-4 bg-[#08080A] border-t border-white/5">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="flex items-center gap-2">
+          <BrandLogo size={32} glow={false} />
+          <span className="text-sm font-display text-zinc-400 uppercase tracking-wide">Team Wukong</span>
+        </div>
+        <div className="flex items-center gap-6 text-xs text-zinc-500">
+          <a href="#inicio" className="hover:text-white transition-colors">Inicio</a>
+          <a href="#disciplinas" className="hover:text-white transition-colors">Disciplinas</a>
+          <a href="#precios" className="hover:text-white transition-colors">Planes</a>
+          <a href="#contacto" className="hover:text-white transition-colors">Contacto</a>
+        </div>
+        <p className="text-xs text-zinc-600">© {new Date().getFullYear()} Wukong Academy — Todos los derechos reservados</p>
+      </div>
+    </footer>
+  );
+}
+
+/* =================================================================== */
+/*   COMPONENTE PRINCIPAL                                                */
+/* =================================================================== */
+
+export default function HomePage() {
+  useScrollReveal();
+  const active = useActiveSection();
+  const navLinks = [
+    { id:"inicio",       label:"Inicio",       color:"text-white" },
+    { id:"disciplinas",  label:"Disciplinas",   color:"text-red-400" },
+    { id:"sobre",        label:"Sobre el Lugar",color:"text-white" },
+    { id:"entrenadores", label:"Entrenadores",  color:"text-white" },
+    { id:"horarios",     label:"Horarios",     color:"text-white" },
+    { id:"precios",      label:"Planes",       color:"text-white" },
+    { id:"comentarios",  label:"Testimonios",  color:"text-white" },
+    { id:"noticias",     label:"Noticias",     color:"text-white" },
+    { id:"contacto",     label:"Contacto",    color:"text-white" },
+  ];
+
+  return (
+    <div className="min-h-screen bg-[#08080A] text-white">
+      {/* NAV */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#08080A]/80 backdrop-blur-xl border-b border-white/5">
+        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-2 cursor-pointer">
+            <BrandLogo size={36} glow={false} />
+            <span className="font-display text-sm text-white uppercase tracking-wide hidden sm:block">Wukong</span>
+          </div>
+          <div className="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <a
+                key={link.id}
+                href={`#${link.id}`}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors ${active === link.id ? "bg-white/5 text-white" : "text-zinc-500 hover:text-white"}`}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+          <div className="flex items-center gap-2">
+            <a href="/auth/register" className="hidden sm:inline-flex px-5 py-2 bg-red-600 text-white text-xs font-bold uppercase tracking-widest rounded-xl hover:bg-red-500 active:scale-95 transition-all">
+              Inscribirse
+            </a>
+            <button className="md:hidden" onClick={() => {}} aria-label="Menu">
+              <Menu className="w-6 h-6 text-zinc-300" />
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <HeroSection />
+      <DisciplinasSection />
+      <SobreLugarSection />
+      <EntrenadoresSection />
+      <HorariosSection />
+      <PreciosSection />
+      <ComentariosSection />
+      <NoticiasSection />
+      <ContactoSection />
+      <Footer />
+    </div>
   );
 }

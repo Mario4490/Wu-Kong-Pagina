@@ -1,9 +1,4 @@
-// avisos/value-objects.ts
-import { AlumnoId } from "../shared";
-
-/**
- * AvisoId — Value Object
- */
+// src/domain/avisos/value-objects.ts
 export class AvisoId {
   constructor(public readonly valor: string) {
     if (!valor || valor.trim().length === 0) {
@@ -16,16 +11,6 @@ export class AvisoId {
   }
 }
 
-/**
- * TipoAviso — Value Object que restringe los tipos válidos.
- * Tipos definidos por las reglas del negocio:
- * - aviso_vencimiento: Alerta de próximo vencimiento de cuota
- * - aviso_cierre: Cierre por feriado / fecha no laboral
- * - aviso_examen: Información sobre próximo examen de grado
- * - aviso_general: Aviso institucional genérico
- * - recordatorio_cobro: Recordatorio de cobro pendiente
- * - suspension_clase: Suspensión de clase a último momento
- */
 export type TipoAviso =
   | "aviso_vencimiento"
   | "aviso_cierre"
@@ -48,7 +33,6 @@ export class TipoAvisoValue {
       throw new Error(`Tipo de aviso inválido: ${valor}`);
     }
   }
-
   display(): string {
     const labels: Record<TipoAviso, string> = {
       aviso_vencimiento: "Aviso Vencimiento",
@@ -60,24 +44,11 @@ export class TipoAvisoValue {
     };
     return labels[this.valor];
   }
-
   esCritico(): boolean {
-    return [
-      "aviso_vencimiento",
-      "suspension_clase",
-      "recordatorio_cobro",
-    ].includes(this.valor);
+    return ["aviso_vencimiento", "suspension_clase", "recordatorio_cobro"].includes(this.valor);
   }
 }
 
-/**
- * EstadoAviso — Value Object
- * Estados:
- * - pendiente: Aviso generado, aún no enviado
- * - enviado: Aviso enviado por WhatsApp/push/email
- * - leido: Confirmado como leído por el profesor/admin (check de visto)
- * - vencido: Aviso que ya no es relevante (ej. vencimiento que pasó)
- */
 export type EstadoAviso = "pendiente" | "enviado" | "leido" | "vencido";
 
 export class EstadoAvisoValue {
@@ -88,7 +59,6 @@ export class EstadoAvisoValue {
     }
     this.valor = valor;
   }
-
   display(): string {
     const labels: Record<EstadoAviso, string> = {
       pendiente: "Pendiente",
@@ -98,15 +68,11 @@ export class EstadoAvisoValue {
     };
     return labels[this.valor];
   }
-
   esFinal(): boolean {
     return ["leido", "vencido"].includes(this.valor);
   }
 }
 
-/**
- * FechaEnvio — Value Object
- */
 export class FechaEnvio {
   constructor(public readonly valor: Date) {
     if (isNaN(valor.getTime())) {
@@ -114,7 +80,6 @@ export class FechaEnvio {
     }
     this.valor = new Date(valor);
   }
-
   display(): string {
     return this.valor.toLocaleString("esAR", {
       day: "2-digit",
@@ -124,7 +89,6 @@ export class FechaEnvio {
       minute: "2-digit",
     });
   }
-
   toDateOnly(): Date {
     const d = new Date(this.valor);
     d.setHours(0, 0, 0, 0);

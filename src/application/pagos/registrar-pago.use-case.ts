@@ -1,48 +1,29 @@
 // src/application/pagos/registrar-pago.use-case.ts
-import { RegistrarPagoService } from "../../domain/pagos/registrar-pago.service";
 import { Pago } from "../../domain/pagos/entity";
+import { RegistrarPagoService } from "../../domain/pagos/registrar-pago.service";
 import { Alumno } from "../../domain/alumnos/entity";
-import { AlumnoId } from "../../domain/shared";
 import { AlumnoRepository } from "../../domain/alumnos/repository";
+import { EstadoAlumnoService } from "../../domain/pagos/estado-alumno.service";
 
 export class RegistrarPagoUseCase {
   constructor(
-    private registrarService: RegistrarPagoService,
+    private registrarPagoService: RegistrarPagoService,
     private alumnoRepository: AlumnoRepository,
+    private estadoAlumnoService: EstadoAlumnoService,
   ) {}
 
-  async ejecutar(datos: {
-    idAlumno: string;
-    monto: number;
-    fechaPago: string;
-    metodo: "efectivo" | "transferencia" | "transferencia_bancaria" | "qr" | "otro";
-  }): Promise<{
-    success: boolean;
-    pago?: Pago;
-    alumno?: Alumno;
-    estadoResultante?: "Al día" | "Pendiente" | "Vencido";
-    error?: string;
-  }> {
-    const alumnoId = new AlumnoId(datos.idAlumno);
-    const alumno = await this.alumnoRepository.buscarPorId(alumnoId);
-
-    if (!alumno) {
-      return { success: false, error: `Alumno con ID ${datos.idAlumno} no encontrado` };
-    }
-
-    let fechaPago: Date;
+  async ejecutar(
+    alumnoId: string,
+    monto: number,
+    fechaPago: Date,
+    metodo: "efectivo" | "transferencia" | "transferencia_bancaria" | "qr" | "otro",
+  ): Promise<{ success: boolean; pago?: Pago; alumno?: Alumno | undefined; error?: string }> {
     try {
-      fechaPago = new Date(datos.fechaPago);
-      if (isNaN(fechaPago.getTime())) throw new Error("Formato de fecha inválido");
-    } catch {
-      return { success: false, error: "La fecha de pago debe estar en formato YYYY-MM-DD" };
-    }
-
-    try {
-      const resultado = await this.registrarService.registrar(alumnoId, datos.monto, fechaPago, datos.metodo);
-      return { success: true, pago: resultado.pago, alumno, estadoResultante: resultado.estadoResultante };
+      const pago = await this.registrarPagoService.registrarPago(alumnoId, monto, fechaPago, metodo);
+      const alumno = await this.alumnoRepository.buscarPorId(alumnoId);
+      return { success: true, pago, alumno: alumno ?? undefined };
     } catch (error) {
-      return { success: false, alumno, error: error instanceof Error ? error.message : "Error al registrar el pago" };
+      return { success: false, error: error instanceof Error ? error.message : "Error al registrar pago" };
     }
   }
 }

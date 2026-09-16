@@ -1,6 +1,5 @@
 // src/application/avisos/consultar-avisos.use-case.ts
 import { HermesAvisoRepository } from "../../domain/avisos/repository";
-import { AlumnoId } from "../../domain/avisos/value-objects";
 import { HermesAviso } from "../../domain/avisos/entity";
 
 export class ConsultarAvisosAlumnoUseCase {
@@ -12,9 +11,8 @@ export class ConsultarAvisosAlumnoUseCase {
     resumen?: { total: number; pendientes: number; enviados: number; leidos: number; criticosPendientes: number };
     error?: string;
   }> {
-    const id = new AlumnoId(alumnoId);
     try {
-      const avisos = await this.avisoRepository.buscarPorAlumno(id);
+      const avisos = await this.avisoRepository.buscarPorAlumno(alumnoId);
       const criticosPendientes = avisos.filter((a) => a.esCritico() && a.estado.valor === "pendiente").length;
       const resumen = {
         total: avisos.length,

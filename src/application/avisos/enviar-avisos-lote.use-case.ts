@@ -1,6 +1,5 @@
 // src/application/avisos/enviar-avisos-lote.use-case.ts
 import { HermesAvisoRepository } from "../../domain/avisos/repository";
-import { AlumnoId } from "../../domain/avisos/value-objects";
 import { HermesAviso } from "../../domain/avisos/entity";
 
 export class ObtenerAvisosParaEnviarUseCase {
@@ -16,7 +15,7 @@ export class ObtenerAvisosParaEnviarUseCase {
     if (opciones?.soloCriticos) {
       avisos = await this.avisoRepository.buscarAvisosCriticosPendientes();
     } else {
-      avisos = await this.avisoRepository.buscarPorAlumnoYEstado(new AlumnoId(""), "pendiente");
+      avisos = await this.avisoRepository.buscarPorAlumnoYEstado("", "pendiente");
     }
 
     if (opciones?.limit && avisos.length > opciones.limit) {
