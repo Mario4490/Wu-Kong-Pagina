@@ -1,6 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-background: #050505;
+  --color-foreground: #ffffff;
+  --font-bebas: "Bebas Neue", sans-serif;
+}
 
 @layer base {
   :root {
@@ -12,9 +16,18 @@
 
 @layer base {
   body {
-    @apply bg-[#050505] text-white antialiased selection:bg-red-600 selection:text-white;
+    background-color: #050505;
+    color: #ffffff;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
   }
+
+  ::selection {
+    background-color: #dc2626;
+    color: #ffffff;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-bebas);
   }
@@ -22,10 +35,15 @@
 
 @layer utilities {
   .glass {
-    @apply bg-black/40 backdrop-blur-2xl border border-white/5;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
   }
   .glass-card {
-    @apply bg-white/[0.03] backdrop-blur-md border border-white/5 shadow-2xl;
+    background-color: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   }
   .text-glow {
     text-shadow: 0 0 25px rgba(220, 38, 38, 0.6);
