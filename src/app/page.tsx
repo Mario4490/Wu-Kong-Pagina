@@ -233,7 +233,7 @@ function SobreLugarSection() {
   const fotos = [
     { src: "/instalacion-general.jpg", label: "Area general de entrenamiento" },
     { src: "/instalacion-mma.jpg",     label: "Octagono de MMA"               },
-    { src: "/instalacion-karate.jpg",  label: "Clases de Karate"              },
+    { src: "/instalacion-jiujitsu.jpg",label: "Tatami de Jiu Jitsu"           },
     { src: "/instalacion-boxeo.jpg",   label: "Ring de Boxeo"                 },
   ];
   return (
@@ -280,9 +280,9 @@ function SobreLugarSection() {
 /* =================================================================== */
 
 const entrenadores = [
-  { foto:"/entrenador-karate.jpg", iniciales:null, nombre:"Sensei Hiroshi Tanaka", disciplina:"Karate Do Shotokan",      cinturon:"5 Dan",    descripcion:"Responsable de la Division de Karate. +12 anos formando instructores en tecnica Shotokan.", logros:["Medallista nacional 2018","Instructor certificado JKA"] },
-  { foto:null, iniciales:"MG",                    nombre:"Prof. Marcos Garcia",   disciplina:"Boxeo Profesional",        cinturon:"Ex-amateur",descripcion:"Entrenador principal de Boxeo. Especialista en tecnica de guantes y estrategia de ring.",   logros:["8 anos de carrera amateur","Campeon Provincial 2015"]   },
-  { foto:null, iniciales:"LR",                    nombre:"Coach Luis Romero",     disciplina:"MMA Artes Marciales Mixtas",cinturon:"Ex-fighter",descripcion:"Ex-luchador con background BJJ y Muay Thai. Lidera la division MMA y entrenamiento integrado.", logros:["10 peleas profesionales","Cinturon azul BJJ"]           },
+  { foto:null, iniciales:"MG", nombre:"Prof. Marcos Garcia",   disciplina:"Boxeo (Wukong)",    cinturon:"Ex-amateur",descripcion:"Entrenador principal de Boxeo. Especialista en tecnica de guantes y estrategia de ring.",   logros:["8 anos de carrera amateur","Campeon Provincial 2015"]   },
+  { foto:null, iniciales:"DA", nombre:"Mestre Diego",          disciplina:"Jiu Jitsu (Aquiles)", cinturon:"Faixa Preta", descripcion:"Lider de la division Aquiles. Enfocado en sumisiones de alto nivel y control absoluto en el suelo.", logros:["Campeon Nacional BJJ","Instructor Black Belt"] },
+  { foto:null, iniciales:"LR", nombre:"Coach Luis Romero",     disciplina:"MMA",                 cinturon:"Ex-fighter",descripcion:"Ex-luchador con background BJJ y Muay Thai. Lidera la division MMA y entrenamiento integrado.", logros:["10 peleas profesionales","Especialista striking-grappling"]           },
 ];
 
 function EntrenadoresSection() {
@@ -596,6 +596,7 @@ function Footer() {
 export default function HomePage() {
   useScrollReveal();
   const active = useActiveSection();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navLinks = [
     { id:"inicio",       label:"Inicio",       color:"text-white" },
     { id:"disciplinas",  label:"Disciplinas",   color:"text-red-400" },
@@ -632,12 +633,33 @@ export default function HomePage() {
             <a href="/auth/register" className="hidden sm:inline-flex px-5 py-2 bg-red-600 text-white text-xs font-bold uppercase tracking-widest rounded-xl hover:bg-red-500 active:scale-95 transition-all">
               Inscribirse
             </a>
-            <button className="md:hidden" onClick={() => {}} aria-label="Menu">
-              <Menu className="w-6 h-6 text-zinc-300" />
+            <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Menu">
+              {isMenuOpen ? <X className="w-6 h-6 text-zinc-300" /> : <Menu className="w-6 h-6 text-zinc-300" />}
             </button>
           </div>
         </div>
       </nav>
+
+      {/* MOBILE MENU */}
+      {isMenuOpen && (
+        <div className="fixed inset-0 z-40 bg-[#08080A]/95 backdrop-blur-xl pt-24 px-6 flex flex-col gap-6 md:hidden">
+          <div className="flex flex-col gap-4">
+            {navLinks.map((link) => (
+              <a
+                key={link.id}
+                href={`#${link.id}`}
+                onClick={() => setIsMenuOpen(false)}
+                className={`text-2xl font-display uppercase tracking-wide border-b border-white/5 pb-4 ${active === link.id ? link.color : "text-zinc-400"}`}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+          <a href="/auth/register" className="mt-auto mb-12 flex justify-center py-4 bg-red-600 text-white text-sm font-bold uppercase tracking-widest rounded-2xl">
+            Inscribirse Ahora
+          </a>
+        </div>
+      )}
 
       <HeroSection />
       <DisciplinasSection />
