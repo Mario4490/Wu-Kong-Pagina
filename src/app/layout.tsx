@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { Inter, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 
@@ -16,28 +16,39 @@ const bebasNeue = Bebas_Neue({
 });
 
 export const metadata: Metadata = {
-  title: "Wukong | Academia de Artes Marciales",
+  metadataBase: new URL('https://wu-kong-pagina.vercel.app'),
+  title: "Wukong & Aquiles | Academia de Artes Marciales en Puerto Iguazú",
   description:
-    "Entrenamiento en Karate, Boxeo, MMA y más. Dojo Wukong: disciplina, técnica y comunidad en Buenos Aires.",
-  keywords: ["artes marciales", "karate", "boxeo", "MMA", "dojo", "entrenamiento", "Buenos Aires"],
-  authors: [{ name: "Wukong" }],
+    "El centro de entrenamiento de Artes Marciales más completo en Puerto Iguazú. Clases de Boxeo, Jiu Jitsu y MMA para todos los niveles con Mestre Diego y Marcos García.",
+  keywords: ["artes marciales", "boxeo", "jiu jitsu", "MMA", "Wukong", "Aquiles", "Puerto Iguazú", "Misiones", "entrenamiento", "defensa personal", "academia"],
+  authors: [{ name: "Wukong & Aquiles Academy" }],
   openGraph: {
-    title: "Wukong | Academia de Artes Marciales",
+    title: "Wukong & Aquiles | Academia de Artes Marciales",
     description:
-      "Entrenamiento en Karate, Boxeo, MMA y más. Dojo Wukong: disciplina, técnica y comunidad.",
+      "Entrenamiento avanzado en Boxeo, Jiu Jitsu y MMA en Puerto Iguazú. Forjá tu disciplina con los mejores.",
     type: "website",
     locale: "es_AR",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Wukong" }],
+    url: "https://wu-kong-pagina.vercel.app",
+    siteName: "Wukong & Aquiles Academy",
+    images: [{ url: "/hero-dojo.jpg", width: 1200, height: 630, alt: "Dojo Wukong y Aquiles" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Wukong | Academia de Artes Marciales",
+    title: "Wukong & Aquiles | Academia de Artes Marciales",
     description:
-      "Entrenamiento en Karate, Boxeo, MMA y más. Dojo Wukong: disciplina, técnica y comunidad.",
+      "Forjá tu disciplina con los mejores entrenadores de Boxeo, Jiu Jitsu y MMA en Puerto Iguazú.",
+    images: ["/hero-dojo.jpg"],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 

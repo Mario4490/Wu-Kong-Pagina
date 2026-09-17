@@ -107,7 +107,6 @@ function Nav() {
     { label: "El Dojo", href: "#acerca" },
     { label: "Equipo", href: "#entrenadores" },
     { label: "Horarios", href: "#horarios" },
-    { label: "Planes", href: "#precios" },
     { label: "Contacto", href: "#contacto" },
   ];
 
@@ -452,51 +451,6 @@ function Horarios() {
   );
 }
 
-/* =================================================================== */
-/*   PLANES / PRECIOS                                                    */
-/* =================================================================== */
-const planes = [
-  { nombre: "Principiante", precio: "$45.000", desc: "Clases introductorias, acceso a tatami y equipamiento básico.", items: ["Clases grupales", "Acceso a tatami", "Equipo básico", "Evaluaciones quincenales"], popular: false },
-  { nombre: "Semi-Competición", precio: "$65.000", desc: "Entrenamiento técnico avanzado, preparación física y sparring controlado.", items: ["Tres clases/semana", "Sparring controlado", "Preparación física", "Dieta básica", "Acceso a ring"], popular: true },
-  { nombre: "Competición", precio: "$85.000", desc: "Preparación completa para torneos. Sparring intensivo y seguimiento personalizado.", items: ["Clases ilimitadas", "Preparación torneos", "Sports science", "Seguimiento 1:1", "Ring + Octágono"], popular: false },
-];
-
-function Precios() {
-  return (
-    <section id="precios" className="relative py-32 bg-[#050505]">
-      <div className="absolute bottom-0 left-1/2 w-[800px] h-[400px] bg-red-600/5 rounded-full blur-[120px] -translate-x-1/2 translate-y-1/2 pointer-events-none" />
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
-        <SectionHead title="Planes" subtitle="Invertí en tu progreso." align="center" />
-
-        <div className="grid md:grid-cols-3 gap-6 items-start">
-          {planes.map((p, i) => (
-            <article key={p.nombre} className={`reveal delay-${i + 1} relative rounded-3xl border p-8 flex flex-col transition-all duration-500 hover:translate-y-[-4px] ${p.popular ? "border-red-600/50 bg-red-950/10 scale-[1.03] z-10 shadow-[0_0_60px_-15px_rgba(229,26,34,0.3)]" : "border-white/5 glass-card"}`}>
-              {p.popular && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-red-600 text-white text-[10px] font-bold uppercase tracking-widest rounded-full">Más popular</span>
-              )}
-              <h3 className="text-2xl font-bebas text-white uppercase tracking-wide mb-2">{p.nombre}</h3>
-              <div className="mb-6">
-                <span className="text-4xl font-bebas text-white">{p.precio}</span>
-                <span className="text-zinc-500 text-sm ml-2">/mes</span>
-              </div>
-              <p className="text-zinc-400 text-sm leading-relaxed mb-6 flex-1">{p.desc}</p>
-              <ul className="space-y-3 mb-8">
-                {p.items.map((item) => (
-                  <li key={item} className="flex items-center gap-2 text-sm text-zinc-300">
-                    <CheckCircle2 className="w-4 h-4 text-red-500 flex-shrink-0" />{item}
-                  </li>
-                ))}
-              </ul>
-              <a href="#contacto" className={`inline-flex items-center justify-center gap-2 py-4 rounded-2xl text-sm font-bold uppercase tracking-widest transition-all ${p.popular ? "bg-red-600 text-white hover:bg-red-700 shadow-lg shadow-red-900/30" : "bg-white/5 border border-white/10 text-zinc-300 hover:bg-white/10 hover:border-white/20"}`}>
-                Elegir plan
-              </a>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 /* =================================================================== */
 /*   TESTIMONIOS                                                         */
@@ -670,7 +624,7 @@ function Footer() {
             <span className="font-bebas text-zinc-600 text-lg tracking-wider">WUKONG & AQUILES</span>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-6 text-xs text-zinc-600 uppercase tracking-widest font-bold">
-            {["Inicio", "Disciplinas", "Horarios", "Planes", "Contacto"].map((item) => (
+            {["Inicio", "Disciplinas", "Horarios", "Contacto"].map((item) => (
               <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-white transition-colors">{item}</a>
             ))}
           </div>
@@ -701,7 +655,6 @@ export default function HomePage() {
       <Gallery />
       <Coaches />
       <Horarios />
-      <Precios />
       <Testimonials />
       <Noticias />
       <Contacto />
