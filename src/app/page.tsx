@@ -224,7 +224,7 @@ const disciplinas = [
     gradient: "from-zinc-800/60 to-transparent", accent: "text-zinc-300", border: "border-white/10",
   },
   {
-    icon: Flame, nombre: "MMA", team: "Artes Marciales Mixtas", logo: null,
+    icon: Flame, nombre: "MMA", team: "Team Aquiles", logo: "/logo2.png",
     desc: "La disciplina más completa: striking, clinch, grappling y ground-and-pound integrados en un solo sistema.",
     niveles: ["Bases", "Integrado", "Avanzado", "Competición"],
     gradient: "from-red-950/30 to-transparent", accent: "text-red-400", border: "border-red-900/20",
@@ -335,9 +335,8 @@ function Gallery() {
 /* =================================================================== */
 function Coaches() {
   const coaches = [
-    { id: "mg", name: "Marcos García", role: "Head Coach Wukong", discipline: "Boxeo", img: "/logo1.png", color: "from-red-900 to-black", text: "Especialista en striking y estrategia de ring. +10 años formando boxeadores." },
-    { id: "da", name: "Mestre Diego", role: "Líder Aquiles", discipline: "Jiu Jitsu", img: "/logo2.png", color: "from-zinc-800 to-black", text: "Faixa Preta enfocado en control absoluto y sumisiones de alto nivel." },
-    { id: "lr", name: "Luis Romero", role: "Coach MMA", discipline: "MMA", img: null, color: "from-red-950 to-zinc-900", text: "Ex-luchador profesional. Integración perfecta de grappling y striking." },
+    { id: "mg", name: "Marcos García", role: "Head Coach Wukong", discipline: "Boxeo", img: "/logo1.png", color: "from-red-900 to-black", text: "Especialista en striking y estrategia de ring. +10 años formando boxeadores bajo la filosofía Wukong." },
+    { id: "da", name: "Mestre Diego", role: "Líder Aquiles / MMA", discipline: "Jiu Jitsu & MMA", img: "/logo2.png", color: "from-zinc-800 to-black", text: "Faixa Preta enfocado en control absoluto, sumisiones de alto nivel y la integración perfecta para MMA." },
   ];
 
   const [activeId, setActiveId] = useState<string | null>(null);
