@@ -167,8 +167,8 @@ function Hero() {
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 flex flex-col items-center text-center">
         <div className="flex items-center gap-8 mb-10 reveal">
-          <Image src="/logo1.png" alt="Wukong" width={180} height={180} className="w-28 h-28 md:w-44 md:h-44 object-contain animate-float drop-shadow-[0_0_40px_rgba(229,26,34,0.35)]" priority />
-          <Image src="/logo2.png" alt="Aquiles" width={180} height={180} className="w-28 h-28 md:w-44 md:h-44 object-contain animate-float drop-shadow-[0_0_30px_rgba(255,255,255,0.08)]" style={{ animationDelay: "1.5s" }} priority />
+          <Image src="/logo_wukong.png" alt="Wukong" width={180} height={180} className="w-28 h-28 md:w-44 md:h-44 object-contain animate-float drop-shadow-[0_0_40px_rgba(229,26,34,0.35)]" priority />
+          <Image src="/logo_aquiles.png" alt="Aquiles" width={180} height={180} className="w-28 h-28 md:w-44 md:h-44 object-contain animate-float drop-shadow-[0_0_30px_rgba(255,255,255,0.08)]" style={{ animationDelay: "1.5s" }} priority />
         </div>
 
         <h1 className="text-6xl md:text-8xl lg:text-9xl font-bebas text-white tracking-wider leading-none mb-4 reveal delay-1 text-glow">
@@ -212,19 +212,19 @@ function Hero() {
 /* =================================================================== */
 const disciplinas = [
   {
-    icon: Dumbbell, nombre: "Boxeo", team: "Team Wukong", logo: "/logo1.png",
+    icon: Dumbbell, nombre: "Boxeo", team: "Team Wukong", logo: "/logo_wukong.png",
     desc: "El noble arte del striking. Jab, cross, gancho, esquivas y estrategia de ring bajo la filosofía Wukong.",
     niveles: ["Fitness", "Técnico", "Sparring", "Amateur"],
     gradient: "from-red-900/40 to-transparent", accent: "text-red-500", border: "border-red-900/30",
   },
   {
-    icon: Shield, nombre: "Jiu Jitsu", team: "Team Aquiles", logo: "/logo2.png",
+    icon: Shield, nombre: "Jiu Jitsu", team: "Team Aquiles", logo: "/logo_aquiles.png",
     desc: "Dominá el arte de la lucha en el suelo. Palancas, estrangulaciones y control absoluto con la disciplina Aquiles.",
     niveles: ["Bases", "Integrado", "Avanzado", "Competición"],
     gradient: "from-zinc-800/60 to-transparent", accent: "text-zinc-300", border: "border-white/10",
   },
   {
-    icon: Flame, nombre: "MMA", team: "Team Aquiles", logo: "/logo2.png",
+    icon: Flame, nombre: "MMA", team: "Team Aquiles", logo: "/logo_aquiles.png",
     desc: "La disciplina más completa: striking, clinch, grappling y ground-and-pound integrados en un solo sistema.",
     niveles: ["Bases", "Integrado", "Avanzado", "Competición"],
     gradient: "from-red-950/30 to-transparent", accent: "text-red-400", border: "border-red-900/20",
@@ -335,8 +335,8 @@ function Gallery() {
 /* =================================================================== */
 function Coaches() {
   const coaches = [
-    { id: "mg", name: "Marcos García", role: "Head Coach Wukong", discipline: "Boxeo", img: "/logo1.png", color: "from-red-900 to-black", text: "Especialista en striking y estrategia de ring. +10 años formando boxeadores bajo la filosofía Wukong." },
-    { id: "da", name: "Mestre Diego", role: "Líder Aquiles / MMA", discipline: "Jiu Jitsu & MMA", img: "/logo2.png", color: "from-zinc-800 to-black", text: "Faixa Preta enfocado en control absoluto, sumisiones de alto nivel y la integración perfecta para MMA." },
+    { id: "mg", name: "Marcos García", role: "Head Coach Wukong", discipline: "Boxeo", img: "/logo_wukong.png", color: "from-red-900 to-black", text: "Especialista en striking y estrategia de ring. +10 años formando boxeadores bajo la filosofía Wukong." },
+    { id: "da", name: "Mestre Diego", role: "Líder Aquiles / MMA", discipline: "Jiu Jitsu & MMA", img: "/logo_aquiles.png", color: "from-zinc-800 to-black", text: "Faixa Preta enfocado en control absoluto, sumisiones de alto nivel y la integración perfecta para MMA." },
   ];
 
   const [activeId, setActiveId] = useState<string | null>(null);
