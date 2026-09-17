@@ -4,12 +4,12 @@
    DESIGN TOKENS — Wukong Academy
    =================================================================== */
 :root {
-  --red-primary:   #fb2c30;
-  --red-dark:      #a10012;
-  --red-glow:      rgba(251, 44, 48, 0.35);
-  --gold:          #D4AF37;
-  --gold-muted:    #a8872a;
-  --gold-glow:     rgba(212, 175, 55, 0.3);
+  --red-primary:   #E51A22; /* Vibrant red from Aquiles */
+  --red-dark:      #CC0000; /* Deep red from Wukong */
+  --red-glow:      rgba(229, 26, 34, 0.35);
+  --silver:        #E2E8F0;
+  --silver-muted:  #94A3B8;
+  --silver-glow:   rgba(226, 232, 240, 0.3);
   --bg-base:       #08080A;
   --bg-card:       #0f0f13;
   --bg-card-hover: #141418;
@@ -66,19 +66,19 @@ body {
   background-clip: text;
 }
 
-.text-gradient-gold {
-  background: linear-gradient(135deg, #D4AF37 0%, #f5d363 50%, #D4AF37 100%);
+.text-gradient-silver {
+  background: linear-gradient(135deg, #E2E8F0 0%, #F8FAFC 50%, #94A3B8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .border-glow-red {
-  box-shadow: 0 0 0 1px rgba(251, 44, 48, 0.3), 0 8px 32px rgba(251, 44, 48, 0.15);
+  box-shadow: 0 0 0 1px rgba(229, 26, 34, 0.3), 0 8px 32px rgba(229, 26, 34, 0.15);
 }
 
-.border-glow-gold {
-  box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.3), 0 8px 32px rgba(212, 175, 55, 0.1);
+.border-glow-silver {
+  box-shadow: 0 0 0 1px rgba(226, 232, 240, 0.3), 0 8px 32px rgba(226, 232, 240, 0.1);
 }
 
 /* ===================================================================

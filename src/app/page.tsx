@@ -1,4 +1,4 @@
-﻿// src/app/page.tsx
+// src/app/page.tsx
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -152,16 +152,16 @@ function HeroSection() {
         <div className="flex flex-col sm:flex-row items-center gap-6 mb-6">
           <BrandLogo size={96} glow />
           <div className="space-y-2">
-            <h1 className="font-display text-6xl sm:text-7xl md:text-8xl text-white uppercase tracking-wide leading-none">Wukong</h1>
-            <p className="text-sm font-bold tracking-[0.35em] uppercase text-red-400">Academia de Artes Marciales</p>
+            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl text-white uppercase tracking-wide leading-none">Artes Marciales <span className="text-red-500">Wukong</span> &</h1>
+            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl text-white uppercase tracking-wide leading-none">Jujutsu <span className="text-red-500">Aquiles</span></h1>
           </div>
         </div>
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-600/15 border border-red-600/30 text-red-400 text-xs font-bold uppercase tracking-widest mb-8">
           <Flame className="w-3.5 h-3.5" />
-          Buenos Aires · Desde 2010
+          Boxeo, Jiu Jitsu, MMA y más
         </div>
         <p className="text-zinc-300 text-lg sm:text-xl max-w-xl mb-10 leading-relaxed">
-          Forja tu disciplina con los mejores. Karate, Boxeo y MMA para todos los niveles — desde principiante hasta competicion.
+          Forja tu disciplina con los mejores. Wukong representa el Boxeo y Striking, mientras Aquiles lidera el Jiu Jitsu y Grappling.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-4 mb-16">
           <a href="/auth/register" className="inline-flex items-center gap-2 px-8 py-4 bg-red-600 text-white font-bold text-sm uppercase tracking-widest rounded-2xl shadow-2xl shadow-red-900/40 hover:bg-red-500 active:scale-95 transition-all duration-200">
@@ -190,9 +190,9 @@ function HeroSection() {
 /* =================================================================== */
 
 const disciplinas = [
-  { icon: Target,   nombre: "Karate Do",  estilo: "Shotokan",              descripcion: "Arte marcial japones tradicional. Desarrolla tecnica, katas y kumite en un ambiente de respeto y disciplina.", niveles: ["Principiante","Intermedio","Avanzado","Competicion"], color: "from-red-950/60 to-transparent",    accent: "text-red-400",   border: "border-red-900/30"  },
-  { icon: Dumbbell, nombre: "Boxeo",       estilo: "Tecnico y Combate",     descripcion: "Aprende los fundamentos del noble arte: jab, cross, gancho, esquivas y estrategia de ring.",                   niveles: ["Fitness","Tecnico","Sparring","Amateur"],           color: "from-amber-950/40 to-transparent", accent: "text-amber-400", border: "border-amber-900/30"},
-  { icon: Flame,    nombre: "MMA",         estilo: "Artes Marciales Mixtas",descripcion: "La disciplina mas completa: striking, clinch, grappling y ground-and-pound integrados en un solo sistema.",    niveles: ["Bases","Integrado","Avanzado","Competicion"],       color: "from-zinc-900/80 to-transparent",  accent: "text-zinc-300",  border: "border-white/10"    },
+  { icon: Dumbbell, nombre: "Boxeo",      estilo: "Team Wukong",           descripcion: "Aprende los fundamentos del noble arte: jab, cross, gancho, esquivas y estrategia de ring bajo la filosofía Wukong.", niveles: ["Fitness","Técnico","Sparring","Amateur"], color: "from-red-950/60 to-transparent", accent: "text-red-400", border: "border-red-900/30"},
+  { icon: Shield,   nombre: "Jiu Jitsu",  estilo: "Team Aquiles",          descripcion: "Domina el arte de la lucha en el suelo, palancas y estrangulaciones con la técnica y disciplina de Aquiles.", niveles: ["Bases","Integrado","Avanzado","Competición"], color: "from-zinc-900/80 to-transparent", accent: "text-zinc-300", border: "border-white/10"},
+  { icon: Flame,    nombre: "MMA",        estilo: "Artes Marciales Mixtas",descripcion: "La disciplina más completa: striking, clinch, grappling y ground-and-pound integrados en un solo sistema.", niveles: ["Bases","Integrado","Avanzado","Competición"], color: "from-red-950/40 to-transparent", accent: "text-red-500", border: "border-red-900/20"},
 ];
 
 function DisciplinasSection() {
@@ -304,12 +304,12 @@ function EntrenadoresSection() {
               </div>
               <h3 className="font-display text-xl text-white uppercase tracking-wide leading-tight">{t.nombre}</h3>
               <p className="text-xs font-bold tracking-widest text-red-400 uppercase mt-1 mb-1">{t.disciplina}</p>
-              <span className="inline-block px-3 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-bold uppercase tracking-wider mb-4">{t.cinturon}</span>
+              <span className="inline-block px-3 py-0.5 rounded-full bg-zinc-500/10 border border-zinc-500/20 text-zinc-400 text-xs font-bold uppercase tracking-wider mb-4">{t.cinturon}</span>
               <p className="text-sm text-zinc-400 leading-relaxed flex-1 mb-4">{t.descripcion}</p>
               <div className="w-full space-y-1.5 mb-5">
                 {t.logros.map((l) => (
                   <div key={l} className="flex items-center gap-2 text-xs text-zinc-500">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />{l}
+                    <CheckCircle2 className="w-3.5 h-3.5 text-red-500 flex-shrink-0" />{l}
                   </div>
                 ))}
               </div>
@@ -330,12 +330,12 @@ function EntrenadoresSection() {
 /* =================================================================== */
 
 const horarios = [
-  {dia:"Lunes",    karate:"8:00 / 19:00", boxeo:"10:00 / 20:00", mma:"—"},
-  {dia:"Martes",   karate:"—",             boxeo:"9:00 / 19:00",  mma:"20:30"},
-  {dia:"Miercoles",karate:"8:00 / 19:00", boxeo:"10:00 / 20:00", mma:"—"},
-  {dia:"Jueves",   karate:"—",             boxeo:"9:00 / 19:00",  mma:"20:30"},
-  {dia:"Viernes",  karate:"8:00 / 18:00", boxeo:"10:00 / 19:00", mma:"20:00"},
-  {dia:"Sabado",   karate:"9:00",          boxeo:"10:00",         mma:"11:30"},
+  {dia:"Lunes",    boxeo:"10:00 / 20:00", jiujitsu:"8:00 / 19:00", mma:"—"},
+  {dia:"Martes",   boxeo:"9:00 / 19:00",  jiujitsu:"—",             mma:"20:30"},
+  {dia:"Miércoles",boxeo:"10:00 / 20:00", jiujitsu:"8:00 / 19:00", mma:"—"},
+  {dia:"Jueves",   boxeo:"9:00 / 19:00",  jiujitsu:"—",             mma:"20:30"},
+  {dia:"Viernes",  boxeo:"10:00 / 19:00", jiujitsu:"8:00 / 18:00", mma:"20:00"},
+  {dia:"Sábado",   boxeo:"10:00",         jiujitsu:"9:00",          mma:"11:30"},
 ];
 
 function HorariosSection() {
@@ -347,18 +347,18 @@ function HorariosSection() {
           <table className="w-full min-w-[520px]">
             <thead>
               <tr className="border-b border-white/5">
-                <th className="text-left p-5 text-xs font-bold uppercase tracking-widest text-zinc-500">Dia</th>
-                <th className="text-center p-5 text-xs font-bold uppercase tracking-widest text-red-400">Karate</th>
-                <th className="text-center p-5 text-xs font-bold uppercase tracking-widest text-amber-400">Boxeo</th>
-                <th className="text-center p-5 text-xs font-bold uppercase tracking-widest text-zinc-300">MMA</th>
+                <th className="text-left p-5 text-xs font-bold uppercase tracking-widest text-zinc-500">Día</th>
+                <th className="text-center p-5 text-xs font-bold uppercase tracking-widest text-red-400">Boxeo (Wukong)</th>
+                <th className="text-center p-5 text-xs font-bold uppercase tracking-widest text-zinc-300">Jiu Jitsu (Aquiles)</th>
+                <th className="text-center p-5 text-xs font-bold uppercase tracking-widest text-red-500">MMA</th>
               </tr>
             </thead>
             <tbody>
               {horarios.map((row, i) => (
                 <tr key={row.dia} className={`border-b border-white/[0.03] hover:bg-white/[0.02] transition-colors ${i%2===0?"":"bg-white/[0.015]"}`}>
                   <td className="p-5 text-sm font-bold text-white">{row.dia}</td>
-                  <td className="p-5 text-sm text-center text-zinc-400 font-mono">{row.karate}</td>
                   <td className="p-5 text-sm text-center text-zinc-400 font-mono">{row.boxeo}</td>
+                  <td className="p-5 text-sm text-center text-zinc-400 font-mono">{row.jiujitsu}</td>
                   <td className="p-5 text-sm text-center text-zinc-400 font-mono">{row.mma}</td>
                 </tr>
               ))}
@@ -404,7 +404,7 @@ function PreciosSection() {
               <ul className="space-y-3 mb-8">
                 {p.caracteristicas.map((c) => (
                   <li key={c} className="flex items-center gap-2 text-xs text-zinc-300">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />{c}
+                    <CheckCircle2 className="w-3.5 h-3.5 text-red-500 flex-shrink-0" />{c}
                   </li>
                 ))}
               </ul>
@@ -575,7 +575,7 @@ function Footer() {
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-2">
           <BrandLogo size={32} glow={false} />
-          <span className="text-sm font-display text-zinc-400 uppercase tracking-wide">Team Wukong</span>
+          <span className="text-sm font-display text-zinc-400 uppercase tracking-wide">Wukong & Aquiles</span>
         </div>
         <div className="flex items-center gap-6 text-xs text-zinc-500">
           <a href="#inicio" className="hover:text-white transition-colors">Inicio</a>
@@ -613,9 +613,9 @@ export default function HomePage() {
       {/* NAV */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-[#08080A]/80 backdrop-blur-xl border-b border-white/5">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-2 cursor-pointer">
+          <div className="flex items-center gap-3 cursor-pointer">
             <BrandLogo size={36} glow={false} />
-            <span className="font-display text-sm text-white uppercase tracking-wide hidden sm:block">Wukong</span>
+            <span className="font-display text-sm text-white uppercase tracking-wide hidden sm:block">Wukong & Aquiles</span>
           </div>
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
