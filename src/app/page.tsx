@@ -1,675 +1,276 @@
-// src/app/page.tsx
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import {
-  Shield, Scroll, Users, Calendar, MapPin, Phone, Mail, Menu, X,
-  ChevronRight, Star, Zap, Award, Clock, CheckCircle2, AlertTriangle,
-  Target, Dumbbell, Flame, Trophy, Send, ChevronDown,
+  Menu, X, ChevronRight, Star, Clock, MapPin, Phone, Mail, CheckCircle2, Award, ArrowRight
 } from "lucide-react";
-
-/* =================================================================== */
-/*   SVG COMPONENTS PARA REDES SOCIALES (lucide-react no tiene          */
-/*   Instagram ni Facebook)                                              */
-/* =================================================================== */
-
-function InstagramIcon({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-      <circle cx="12" cy="12" r="5" />
-      <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-
-function FacebookIcon({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-    </svg>
-  );
-}
 
 /* =================================================================== */
 /*   HOOKS                                                               */
 /* =================================================================== */
-
 function useScrollReveal() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("visible"); }),
-      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
     );
     document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 }
 
-function useActiveSection() {
-  const [active, setActive] = useState("inicio");
-  useEffect(() => {
-    const ids = ["inicio","disciplinas","sobre","entrenadores","horarios","precios","comentarios","noticias","contacto"];
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) setActive(e.target.id); }),
-      { threshold: 0.35 }
-    );
-    ids.forEach((id) => { const el = document.getElementById(id); if (el) observer.observe(el); });
-    return () => observer.disconnect();
-  }, []);
-  return active;
-}
-
-function useCounter(target: number, duration = 1800, start = false) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!start) return;
-    let startTime: number | null = null;
-    const step = (ts: number) => {
-      if (!startTime) startTime = ts;
-      const progress = Math.min((ts - startTime) / duration, 1);
-      setCount(Math.floor((1 - Math.pow(1 - progress, 3)) * target));
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [target, duration, start]);
-  return count;
-}
-
 /* =================================================================== */
-/*   COMPONENTES REUTILIZABLES                                           */
+/*   UI COMPONENTS                                                       */
 /* =================================================================== */
-
-function BrandLogo({ size = 56, glow = true }: { size?: number; glow?: boolean }) {
+function Nav() {
+  const [isOpen, setIsOpen] = useState(false);
+  
   return (
-    <div
-      className={glow ? "logo-pulse" : ""}
-      style={{
-        width: size, height: size, borderRadius: "18px",
-        background: "linear-gradient(135deg, #fb2c30 0%, #a10012 100%)",
-        display: "flex", alignItems: "center", justifyContent: "center",
-        fontFamily: "var(--font-bebas), Arial Black, sans-serif",
-        fontSize: size * 0.38, color: "#fff", letterSpacing: "0.04em", flexShrink: 0,
-      }}
-      aria-label="Logo Wukong"
-    >WUK</div>
-  );
-}
-
-function StarRating({ count = 5 }: { count?: number }) {
-  return (
-    <div className="flex items-center gap-0.5">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <Star key={i} className={`w-4 h-4 ${i < count ? "text-amber-400 fill-amber-400" : "text-zinc-600"}`} />
-      ))}
-    </div>
-  );
-}
-
-function SectionHeader({ eyebrow, title }: { eyebrow: string; title: string }) {
-  return (
-    <div className="text-center mb-16 reveal">
-      <span className="text-xs font-bold tracking-[0.35em] uppercase text-red-500 mb-3 block">{eyebrow}</span>
-      <h2 className="font-display text-4xl sm:text-5xl text-white uppercase tracking-wide">{title}</h2>
-      <div className="w-20 h-0.5 bg-gradient-to-r from-red-600 to-transparent mx-auto mt-5" />
-    </div>
-  );
-}
-
-function StatItem({ value, label, suffix = "+" }: { value: number; label: string; suffix?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [started, setStarted] = useState(false);
-  const count = useCounter(value, 1800, started);
-  useEffect(() => {
-    const observer = new IntersectionObserver(([e]) => { if (e.isIntersecting) setStarted(true); }, { threshold: 0.5 });
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-  return (
-    <div ref={ref} className="text-center">
-      <div className="font-display text-4xl sm:text-5xl text-white tracking-wide">{started ? count : 0}{suffix}</div>
-      <div className="text-xs text-zinc-400 font-semibold uppercase tracking-widest mt-1">{label}</div>
-    </div>
-  );
-}
-
-/* =================================================================== */
-/*   HERO SECTION                                                        */
-/* =================================================================== */
-
-function HeroSection() {
-  return (
-    <section id="inicio" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
-      <div className="absolute inset-0">
-        <Image src="/hero-dojo.jpg" alt="Dojo Wukong" fill className="object-cover object-center" priority quality={85} />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-[#08080A]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-red-950/30 via-transparent to-transparent" />
-      </div>
-      <div className="absolute top-6 left-6 w-16 h-16 border-t-2 border-l-2 border-red-500/40 pointer-events-none" />
-      <div className="absolute bottom-24 right-6 w-16 h-16 border-b-2 border-r-2 border-red-500/20 pointer-events-none" />
-      <div className="relative z-10 flex flex-col items-center text-center px-4 max-w-4xl mx-auto">
-        <div className="flex flex-col sm:flex-row items-center gap-6 mb-6">
-          <BrandLogo size={96} glow />
-          <div className="space-y-2">
-            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl text-white uppercase tracking-wide leading-none">Artes Marciales <span className="text-red-500">Wukong</span> &</h1>
-            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl text-white uppercase tracking-wide leading-none">Jujutsu <span className="text-red-500">Aquiles</span></h1>
+    <>
+      <nav className="fixed top-0 left-0 right-0 z-50 glass border-b-0 border-white/5 transition-all">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-4 cursor-pointer">
+            <Image src="/logo1.png" alt="Wukong Logo" width={40} height={40} className="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(255,0,0,0.5)]" />
+            <Image src="/logo2.png" alt="Aquiles Logo" width={40} height={40} className="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(255,0,0,0.5)] hidden sm:block" />
           </div>
-        </div>
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-600/15 border border-red-600/30 text-red-400 text-xs font-bold uppercase tracking-widest mb-8">
-          <Flame className="w-3.5 h-3.5" />
-          Boxeo, Jiu Jitsu, MMA y más
-        </div>
-        <p className="text-zinc-300 text-lg sm:text-xl max-w-xl mb-10 leading-relaxed">
-          Forja tu disciplina con los mejores. Wukong representa el Boxeo y Striking, mientras Aquiles lidera el Jiu Jitsu y Grappling.
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-4 mb-16">
-          <a href="/auth/register" className="inline-flex items-center gap-2 px-8 py-4 bg-red-600 text-white font-bold text-sm uppercase tracking-widest rounded-2xl shadow-2xl shadow-red-900/40 hover:bg-red-500 active:scale-95 transition-all duration-200">
-            <Award className="w-5 h-5" />Reservar clase gratis<ChevronRight className="w-4 h-4" />
-          </a>
-          <a href="#disciplinas" className="inline-flex items-center gap-2 px-8 py-4 bg-white/5 border border-white/15 text-white font-bold text-sm uppercase tracking-widest rounded-2xl hover:bg-white/10 hover:border-white/25 transition-all duration-200">
-            Ver disciplinas
-          </a>
-        </div>
-        <div className="grid grid-cols-3 gap-8 sm:gap-16 px-4 py-8 rounded-3xl bg-black/40 backdrop-blur-sm border border-white/5 w-full max-w-lg">
-          <StatItem value={200} label="Alumnos" />
-          <StatItem value={15} label="Anos" suffix="+" />
-          <StatItem value={3} label="Disciplinas" suffix="" />
-        </div>
-      </div>
-      <a href="#disciplinas" className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-zinc-500 hover:text-zinc-300 transition-colors animate-bounce">
-        <span className="text-xs tracking-widest uppercase font-medium">Explorar</span>
-        <ChevronDown className="w-5 h-5" />
-      </a>
-    </section>
-  );
-}
-
-/* =================================================================== */
-/*   DISCIPLINAS SECTION                                                 */
-/* =================================================================== */
-
-const disciplinas = [
-  { icon: Dumbbell, nombre: "Boxeo",      estilo: "Team Wukong",           descripcion: "Aprende los fundamentos del noble arte: jab, cross, gancho, esquivas y estrategia de ring bajo la filosofía Wukong.", niveles: ["Fitness","Técnico","Sparring","Amateur"], color: "from-red-950/60 to-transparent", accent: "text-red-400", border: "border-red-900/30"},
-  { icon: Shield,   nombre: "Jiu Jitsu",  estilo: "Team Aquiles",          descripcion: "Domina el arte de la lucha en el suelo, palancas y estrangulaciones con la técnica y disciplina de Aquiles.", niveles: ["Bases","Integrado","Avanzado","Competición"], color: "from-zinc-900/80 to-transparent", accent: "text-zinc-300", border: "border-white/10"},
-  { icon: Flame,    nombre: "MMA",        estilo: "Artes Marciales Mixtas",descripcion: "La disciplina más completa: striking, clinch, grappling y ground-and-pound integrados en un solo sistema.", niveles: ["Bases","Integrado","Avanzado","Competición"], color: "from-red-950/40 to-transparent", accent: "text-red-500", border: "border-red-900/20"},
-];
-
-function DisciplinasSection() {
-  return (
-    <section id="disciplinas" className="relative py-28 px-4 bg-[#08080A]" aria-labelledby="disciplinas-heading">
-      <div className="max-w-6xl mx-auto">
-        <SectionHeader eyebrow="Lo que ofrecemos" title="Disciplinas" />
-        <div className="grid md:grid-cols-3 gap-6">
-          {disciplinas.map((d, i) => (
-            <article key={d.nombre} className={`reveal reveal-delay-${i+1} card-hover group relative rounded-3xl bg-gradient-to-b ${d.color} border ${d.border} p-8 flex flex-col overflow-hidden`}>
-              <div className={`w-14 h-14 rounded-2xl bg-white/5 border ${d.border} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                <d.icon className={`w-7 h-7 ${d.accent}`} />
-              </div>
-              <h3 className="font-display text-3xl text-white uppercase tracking-wide">{d.nombre}</h3>
-              <p className={`text-xs font-bold tracking-widest uppercase ${d.accent} mt-1 mb-4`}>{d.estilo}</p>
-              <p className="text-zinc-400 text-sm leading-relaxed mb-6 flex-1">{d.descripcion}</p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                {d.niveles.map((nivel) => (
-                  <span key={nivel} className="px-3 py-1 rounded-lg bg-white/5 border border-white/5 text-xs font-semibold text-zinc-400 uppercase tracking-wide">{nivel}</span>
-                ))}
-              </div>
-              <a href="#contacto" className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider ${d.accent} hover:gap-3 transition-all`}>
-                Consultar horarios <ChevronRight className="w-4 h-4" />
-              </a>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* =================================================================== */
-/*   SOBRE EL LUGAR                                                      */
-/* =================================================================== */
-
-function SobreLugarSection() {
-  const fotos = [
-    { src: "/instalacion-general.jpg", label: "Area general de entrenamiento" },
-    { src: "/instalacion-mma.jpg",     label: "Octagono de MMA"               },
-    { src: "/instalacion-jiujitsu.jpg",label: "Tatami de Jiu Jitsu"           },
-    { src: "/instalacion-boxeo.jpg",   label: "Ring de Boxeo"                 },
-  ];
-  return (
-    <section id="sobre" className="relative py-28 px-4 bg-white/[0.02]" aria-labelledby="sobre-heading">
-      <div className="max-w-6xl mx-auto">
-        <SectionHeader eyebrow="Conoce el Dojo" title="Sobre el Lugar" />
-        <div className="grid md:grid-cols-2 gap-12 items-start">
-          <div className="grid grid-cols-2 gap-3 reveal">
-            {fotos.map((foto) => (
-              <div key={foto.src} className="relative rounded-2xl overflow-hidden group" style={{height:"200px"}}>
-                <Image src={foto.src} alt={foto.label} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
-                  <span className="text-xs font-semibold text-white">{foto.label}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="space-y-5 reveal reveal-delay-2">
-            <p className="text-zinc-300 text-lg leading-relaxed">Un espacio disenado para quienes buscan desarrollar tecnica, disciplina y mentalidad competitiva en un ambiente de respeto real.</p>
-            <p className="text-zinc-500 text-sm leading-relaxed">Instalaciones equipadas con tatamis homologados, ring de boxeo reglamentario, octagono de MMA y zona de recuperacion. Programas estructurados por nivel y objetivo.</p>
-            <div className="grid grid-cols-1 gap-3 pt-2">
-              {[
-                {icon:Shield,       text:"Tatamis homologados"             },
-                {icon:Users,        text:"Clases grupales y particulares"  },
-                {icon:Calendar,     text:"Horarios manana, tarde y noche"  },
-                {icon:Trophy,       text:"Preparacion para competencias"   },
-                {icon:CheckCircle2, text:"Vestuarios y duchas"             },
-                {icon:Clock,        text:"Libre acceso en horario de apertura"},
-              ].map(({icon:Icon,text}) => (
-                <div key={text} className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.03] border border-white/5">
-                  <Icon className="w-4 h-4 text-red-500 flex-shrink-0" /><span className="text-sm text-zinc-300">{text}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* =================================================================== */
-/*   ENTRENADORES                                                        */
-/* =================================================================== */
-
-const entrenadores = [
-  { foto:null, iniciales:"MG", nombre:"Prof. Marcos Garcia",   disciplina:"Boxeo (Wukong)",    cinturon:"Ex-amateur",descripcion:"Entrenador principal de Boxeo. Especialista en tecnica de guantes y estrategia de ring.",   logros:["8 anos de carrera amateur","Campeon Provincial 2015"]   },
-  { foto:null, iniciales:"DA", nombre:"Mestre Diego",          disciplina:"Jiu Jitsu (Aquiles)", cinturon:"Faixa Preta", descripcion:"Lider de la division Aquiles. Enfocado en sumisiones de alto nivel y control absoluto en el suelo.", logros:["Campeon Nacional BJJ","Instructor Black Belt"] },
-  { foto:null, iniciales:"LR", nombre:"Coach Luis Romero",     disciplina:"MMA",                 cinturon:"Ex-fighter",descripcion:"Ex-luchador con background BJJ y Muay Thai. Lidera la division MMA y entrenamiento integrado.", logros:["10 peleas profesionales","Especialista striking-grappling"]           },
-];
-
-function EntrenadoresSection() {
-  return (
-    <section id="entrenadores" className="relative py-28 px-4 bg-[#08080A]" aria-labelledby="entrenadores-heading">
-      <div className="max-w-6xl mx-auto">
-        <SectionHeader eyebrow="Nuestro Equipo" title="Entrenadores" />
-        <div className="grid md:grid-cols-3 gap-6">
-          {entrenadores.map((t, i) => (
-            <article key={t.nombre} className={`reveal reveal-delay-${i+1} card-hover group relative rounded-3xl bg-[#0f0f13] border border-white/5 hover:border-red-900/30 p-6 flex flex-col items-center text-center transition-all duration-300`}>
-              <div className="relative w-24 h-24 rounded-full mb-5 overflow-hidden border-2 border-red-600/40 flex-shrink-0">
-                {t.foto ? (
-                  <Image src={t.foto} alt={t.nombre} fill className="object-cover object-top" />
-                ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center">
-                    <span className="font-display text-2xl text-zinc-300 tracking-wide">{t.iniciales}</span>
-                  </div>
-                )}
-              </div>
-              <h3 className="font-display text-xl text-white uppercase tracking-wide leading-tight">{t.nombre}</h3>
-              <p className="text-xs font-bold tracking-widest text-red-400 uppercase mt-1 mb-1">{t.disciplina}</p>
-              <span className="inline-block px-3 py-0.5 rounded-full bg-zinc-500/10 border border-zinc-500/20 text-zinc-400 text-xs font-bold uppercase tracking-wider mb-4">{t.cinturon}</span>
-              <p className="text-sm text-zinc-400 leading-relaxed flex-1 mb-4">{t.descripcion}</p>
-              <div className="w-full space-y-1.5 mb-5">
-                {t.logros.map((l) => (
-                  <div key={l} className="flex items-center gap-2 text-xs text-zinc-500">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-red-500 flex-shrink-0" />{l}
-                  </div>
-                ))}
-              </div>
-              <a href="#contacto" className="flex items-center gap-2 px-5 py-2 bg-white/5 border border-white/10 rounded-xl text-xs font-bold text-zinc-400 hover:text-white hover:border-white/30 transition-all uppercase tracking-wider">
-                <Mail className="w-3.5 h-3.5" />Contactar
-              </a>
-            </article>
-          ))}
-        </div>
-        <p className="text-center text-zinc-600 text-sm mt-10">+ instructores auxiliares disponibles segun disciplina y nivel.</p>
-      </div>
-    </section>
-  );
-}
-
-/* =================================================================== */
-/*   HORARIOS                                                            */
-/* =================================================================== */
-
-const horarios = [
-  {dia:"Lunes",    boxeo:"10:00 / 20:00", jiujitsu:"8:00 / 19:00", mma:"—"},
-  {dia:"Martes",   boxeo:"9:00 / 19:00",  jiujitsu:"—",             mma:"20:30"},
-  {dia:"Miércoles",boxeo:"10:00 / 20:00", jiujitsu:"8:00 / 19:00", mma:"—"},
-  {dia:"Jueves",   boxeo:"9:00 / 19:00",  jiujitsu:"—",             mma:"20:30"},
-  {dia:"Viernes",  boxeo:"10:00 / 19:00", jiujitsu:"8:00 / 18:00", mma:"20:00"},
-  {dia:"Sábado",   boxeo:"10:00",         jiujitsu:"9:00",          mma:"11:30"},
-];
-
-function HorariosSection() {
-  return (
-    <section id="horarios" className="relative py-28 px-4 bg-white/[0.02]" aria-labelledby="horarios-heading">
-      <div className="max-w-5xl mx-auto">
-        <SectionHeader eyebrow="Organiza tu semana" title="Horarios" />
-        <div className="reveal overflow-x-auto rounded-3xl border border-white/5 bg-[#0f0f13]">
-          <table className="w-full min-w-[520px]">
-            <thead>
-              <tr className="border-b border-white/5">
-                <th className="text-left p-5 text-xs font-bold uppercase tracking-widest text-zinc-500">Día</th>
-                <th className="text-center p-5 text-xs font-bold uppercase tracking-widest text-red-400">Boxeo (Wukong)</th>
-                <th className="text-center p-5 text-xs font-bold uppercase tracking-widest text-zinc-300">Jiu Jitsu (Aquiles)</th>
-                <th className="text-center p-5 text-xs font-bold uppercase tracking-widest text-red-500">MMA</th>
-              </tr>
-            </thead>
-            <tbody>
-              {horarios.map((row, i) => (
-                <tr key={row.dia} className={`border-b border-white/[0.03] hover:bg-white/[0.02] transition-colors ${i%2===0?"":"bg-white/[0.015]"}`}>
-                  <td className="p-5 text-sm font-bold text-white">{row.dia}</td>
-                  <td className="p-5 text-sm text-center text-zinc-400 font-mono">{row.boxeo}</td>
-                  <td className="p-5 text-sm text-center text-zinc-400 font-mono">{row.jiujitsu}</td>
-                  <td className="p-5 text-sm text-center text-zinc-400 font-mono">{row.mma}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="flex flex-wrap justify-center gap-6 mt-8 reveal reveal-delay-2">
-          <div className="flex items-center gap-2 text-sm text-zinc-500"><Clock className="w-4 h-4 text-zinc-600" />Horarios sujetos a cambios. Confirmar por WhatsApp.</div>
-          <a href="#contacto" className="inline-flex items-center gap-2 text-sm font-bold text-red-500 hover:text-red-400 transition-colors">Consultar disponibilidad<ChevronRight className="w-4 h-4" /></a>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* =================================================================== */
-/*   PRECIOS                                                             */
-/* =================================================================== */
-
-const planes = [
-  { nombre:"Principiante",     precio:"$45.000", descripcion:"Clases introductorias, acceso a tatami y equipamiento basico.",       caracteristicas:["Clases grupales","Acceso a tatami","Equipo basico","Evaluaciones quincenales"], popular:false },
-  { nombre:"Semi-Competicion", precio:"$65.000", descripcion:"Entrenamiento tecnico avanzado, preparacion fisica y sparring controlado.", caracteristicas:["Tres clases/semana","Sparring","Preparacion fisica","Dietas basicas","Acceso a ring"], popular:true  },
-  { nombre:"Competicion",      precio:"$85.000", descripcion:"Preparacion completa para torneos. Sparring intensivo, sports science y seguimiento personalizado.", caracteristicas:["Clases ilimitadas","Preparacion competiciones","Sports science","Seguimiento 1:1","Acceso ring + octagono"], popular:false },
-];
-
-function PreciosSection() {
-  return (
-    <section id="precios" className="relative py-28 px-4 bg-[#08080A]" aria-labelledby="precios-heading">
-      <div className="max-w-6xl mx-auto">
-        <SectionHeader eyebrow="Inversion en tu progreso" title="Nuestros Planes" />
-        <div className="grid md:grid-cols-3 gap-6">
-          {planes.map((p, i) => (
-            <article key={p.nombre} className={`reveal reveal-delay-${i+1} card-hover relative rounded-3xl border ${p.popular ? "border-red-600/50 bg-red-950/10" : "border-white/5 bg-[#0f0f13]"} p-8 flex flex-col ${p.popular ? "scale-105 z-10 shadow-2xl shadow-red-900/20" : ""}`}>
-              {p.popular && (
-                <span className="absolute top-4 right-4 px-3 py-0.5 bg-red-600 text-white text-[10px] font-bold uppercase tracking-widest rounded-full">Mas popular</span>
-              )}
-              <h3 className="font-display text-xl text-white uppercase tracking-wide mb-2">{p.nombre}</h3>
-              <div className="mb-6">
-                <span className="font-display text-4xl text-white">{p.precio}</span>
-                <span className="text-zinc-500 text-sm ml-2">/mes</span>
-              </div>
-              <p className="text-zinc-400 text-sm leading-relaxed mb-6 flex-1">{p.descripcion}</p>
-              <ul className="space-y-3 mb-8">
-                {p.caracteristicas.map((c) => (
-                  <li key={c} className="flex items-center gap-2 text-xs text-zinc-300">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-red-500 flex-shrink-0" />{c}
-                  </li>
-                ))}
-              </ul>
-              <a href="#contacto" className={`inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all ${p.popular ? "bg-red-600 text-white hover:bg-red-500 shadow-lg shadow-red-900/30" : "bg-white/5 border border-white/10 text-zinc-300 hover:bg-white/10 hover:border-white/20"}`}>
-                Elegir plan
-              </a>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* =================================================================== */
-/*   COMENTARIOS                                                         */
-/* =================================================================== */
-
-const comentarios = [
-  { inicial:"FP",nombre:"Fernando P.",  disciplina:"Boxeo",  rating:4, texto:"Muy buenas instalaciones y grupo humano. El ring esta en perfectas condiciones. Recomendado 100%." },
-  { inicial:"ML",nombre:"Marcela L.",  disciplina:"Karate",  rating:5, texto:"Llevo 3 años y el progreso es impresionable. El Sensei Tanaka es excepcional enseñando katas." },
-  { inicial:"CR",nombre:"Camila R.",   disciplina:"MMA",     rating:5, texto:"El entrenamiento integrado es lo que mas me gusta. Aprendí a conectar striking con grappling de verdad." },
-];
-
-function ComentariosSection() {
-  return (
-    <section id="comentarios" className="relative py-28 px-4 bg-white/[0.02]" aria-labelledby="comentarios-heading">
-      <div className="max-w-6xl mx-auto">
-        <SectionHeader eyebrow="Voces de nuestro tatami" title="Testimonios" />
-        <div className="grid md:grid-cols-3 gap-6">
-          {comentarios.map((c, i) => (
-            <article key={c.inicial} className={`reveal reveal-delay-${i+1} card-hover group relative rounded-3xl bg-[#0f0f13] border border-white/5 p-6 flex flex-col transition-all duration-300`}>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center border border-white/5">
-                  <span className="font-display text-sm text-zinc-300 tracking-wide">{c.inicial}</span>
-                </div>
-                <div>
-                  <p className="text-sm font-bold text-white">{c.nombre}</p>
-                  <p className="text-xs text-zinc-500">{c.disciplina}</p>
-                </div>
-              </div>
-              <StarRating count={c.rating} />
-              <p className="text-zinc-400 text-sm leading-relaxed mt-4 flex-1">"{c.texto}"</p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* =================================================================== */
-/*   NOTICIAS                                                            */
-/* =================================================================== */
-
-const noticias = [
-  { categoria:"Competencia",    titulo:"Wukong en el Campeonato Provincial",        fecha:"12 Sep 2026", destacado:true,  texto:"Mas de 15 representantes de Wukong compitieron en el Torneo San triglycerinas, obteniendo 8 medallas en total." },
-  { categoria:"Clases",         titulo:"Nuevo horario de Boxeo nocturno",            fecha:"5 Sep 2026",  destacado:false, texto:"A partir del proximo mes, habilitamos entrenamiento de Boxeo de 21:00 a 22:30 para trabajadores." },
-  { categoria:"Comunidad",      titulo:"Clase gratuita para primeros ingresos",      fecha:"28 Ago 2026", destacado:false, texto:"Si nunca entrenaste, te esperamos con una clase de 45 minutos sin compromiso los sabados a las 10:00hs." },
-];
-
-function NoticiasSection() {
-  return (
-    <section id="noticias" className="relative py-28 px-4 bg-[#08080A]" aria-labelledby="noticias-heading">
-      <div className="max-w-5xl mx-auto">
-        <SectionHeader eyebrow="Última hora" title="Noticias" />
-        <div className="space-y-4">
-          {noticias.map((n, i) => (
-            <article key={n.titulo} className={`reveal reveal-delay-${i+1} card-hover group relative rounded-3xl border ${n.destacado ? "border-red-600/40 bg-red-950/5" : "border-white/5 bg-[#0f0f13]"} p-6 flex gap-5 transition-all duration-300`}>
-              {n.destacado && (
-                <span className="absolute top-4 right-4 px-2 py-0.5 bg-red-600/80 text-white text-[10px] font-bold uppercase tracking-widest rounded-full">Destacado</span>
-              )}
-              <div className="flex flex-col items-center justify-center w-16 flex-shrink-0">
-                <span className={`text-xs font-bold uppercase tracking-widest ${n.destacado ? "text-red-400" : "text-zinc-500"}`}>{n.categoria}</span>
-                <Clock className={`w-4 h-4 mt-2 ${n.destacado ? "text-red-400" : "text-zinc-600"}`} />
-              </div>
-              <div className="flex-1">
-                <h3 className="font-display text-lg text-white uppercase tracking-wide mb-1">{n.titulo}</h3>
-                <p className="text-zinc-400 text-sm leading-relaxed">{n.texto}</p>
-                <p className="text-xs text-zinc-600 mt-2">{n.fecha}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* =================================================================== */
-/*   CONTACTO                                                            */
-/* =================================================================== */
-
-function ContactoSection() {
-  return (
-    <section id="contacto" className="relative py-28 px-4 bg-white/[0.02]" aria-labelledby="contacto-heading">
-      <div className="max-w-5xl mx-auto">
-        <SectionHeader eyebrow="Escibenos" title="Contacto" />
-        <div className="grid md:grid-cols-2 gap-12">
-          <div className="space-y-6 reveal">
-            <div className="flex items-center gap-4 p-4 rounded-2xl bg-[#0f0f13] border border-white/5">
-              <div className="w-10 h-10 rounded-xl bg-red-600/20 border border-red-600/30 flex items-center justify-center">
-                <MapPin className="w-5 h-5 text-red-400" />
-              </div>
-              <div>
-                <p className="text-xs text-zinc-500 uppercase tracking-widest font-semibold">Ubicacion</p>
-                <p className="text-sm text-zinc-300">Córdoba Ave. 1250, Buenos Aires</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4 p-4 rounded-2xl bg-[#0f0f13] border border-white/5">
-              <div className="w-10 h-10 rounded-xl bg-red-600/20 border border-red-600/30 flex items-center justify-center">
-                <Phone className="w-5 h-5 text-red-400" />
-              </div>
-              <div>
-                <p className="text-xs text-zinc-500 uppercase tracking-widest font-semibold">WhatsApp</p>
-                <p className="text-sm text-zinc-300">+54 11 5555-5555</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4 p-4 rounded-2xl bg-[#0f0f13] border border-white/5">
-              <div className="w-10 h-10 rounded-xl bg-red-600/20 border border-red-600/30 flex items-center justify-center">
-                <Mail className="w-5 h-5 text-red-400" />
-              </div>
-              <div>
-                <p className="text-xs text-zinc-500 uppercase tracking-widest font-semibold">Email</p>
-                <p className="text-sm text-zinc-300">hola@wukong.com.ar</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 pt-2">
-              <a href="https://instagram.com/wukong" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-red-400 hover:border-red-600/30 transition-all">
-                <InstagramIcon className="w-5 h-5" />
-              </a>
-              <a href="https://facebook.com/wukong" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-blue-400 hover:border-blue-600/30 transition-all">
-                <FacebookIcon className="w-5 h-5" />
-              </a>
-            </div>
-          </div>
-          <div className="reveal reveal-delay-2">
-            <form className="rounded-3xl bg-[#0f0f13] border border-white/5 p-8 space-y-5">
-              <div className="grid grid-cols-2 gap-4">
-                <input type="text" placeholder="Nombre" className="input-field" />
-                <input type="tel" placeholder="WhatsApp" className="input-field" />
-              </div>
-              <select className="input-field cursor-pointer appearance-none bg-zinc-800/50">
-                <option value="" disabled>Disciplina de interes</option>
-                <option value="karate">Karate Do</option>
-                <option value="boxeo">Boxeo</option>
-                <option value="mma">MMA</option>
-              </select>
-              <textarea rows={4} placeholder="Contame que buscas..." className="input-field resize-none" />
-              <button type="submit" className="w-full py-4 bg-red-600 text-white font-bold text-sm uppercase tracking-widest rounded-2xl hover:bg-red-500 active:scale-[0.98] transition-all duration-200 shadow-lg shadow-red-900/30">
-                <Send className="w-4 h-4 inline mr-2" />Enviar consulta
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* =================================================================== */
-/*   FOOTER                                                              */
-/* =================================================================== */
-
-function Footer() {
-  return (
-    <footer className="relative py-12 px-4 bg-[#08080A] border-t border-white/5">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="flex items-center gap-2">
-          <BrandLogo size={32} glow={false} />
-          <span className="text-sm font-display text-zinc-400 uppercase tracking-wide">Wukong & Aquiles</span>
-        </div>
-        <div className="flex items-center gap-6 text-xs text-zinc-500">
-          <a href="#inicio" className="hover:text-white transition-colors">Inicio</a>
-          <a href="#disciplinas" className="hover:text-white transition-colors">Disciplinas</a>
-          <a href="#precios" className="hover:text-white transition-colors">Planes</a>
-          <a href="#contacto" className="hover:text-white transition-colors">Contacto</a>
-        </div>
-        <p className="text-xs text-zinc-600">© {new Date().getFullYear()} Wukong Academy — Todos los derechos reservados</p>
-      </div>
-    </footer>
-  );
-}
-
-/* =================================================================== */
-/*   COMPONENTE PRINCIPAL                                                */
-/* =================================================================== */
-
-export default function HomePage() {
-  useScrollReveal();
-  const active = useActiveSection();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navLinks = [
-    { id:"inicio",       label:"Inicio",       color:"text-white" },
-    { id:"disciplinas",  label:"Disciplinas",   color:"text-red-400" },
-    { id:"sobre",        label:"Sobre el Lugar",color:"text-white" },
-    { id:"entrenadores", label:"Entrenadores",  color:"text-white" },
-    { id:"horarios",     label:"Horarios",     color:"text-white" },
-    { id:"precios",      label:"Planes",       color:"text-white" },
-    { id:"comentarios",  label:"Testimonios",  color:"text-white" },
-    { id:"noticias",     label:"Noticias",     color:"text-white" },
-    { id:"contacto",     label:"Contacto",    color:"text-white" },
-  ];
-
-  return (
-    <div className="min-h-screen bg-[#08080A] text-white">
-      {/* NAV */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#08080A]/80 backdrop-blur-xl border-b border-white/5">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3 cursor-pointer">
-            <BrandLogo size={36} glow={false} />
-            <span className="font-display text-sm text-white uppercase tracking-wide hidden sm:block">Wukong & Aquiles</span>
-          </div>
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <a
-                key={link.id}
-                href={`#${link.id}`}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors ${active === link.id ? "bg-white/5 text-white" : "text-zinc-500 hover:text-white"}`}
-              >
-                {link.label}
+          <div className="hidden md:flex items-center gap-8">
+            {["Inicio", "Acerca", "Entrenadores", "Comentarios"].map((item) => (
+              <a key={item} href={`#${item.toLowerCase()}`} className="text-sm font-bold uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">
+                {item}
               </a>
             ))}
           </div>
-          <div className="flex items-center gap-2">
-            <a href="/auth/register" className="hidden sm:inline-flex px-5 py-2 bg-red-600 text-white text-xs font-bold uppercase tracking-widest rounded-xl hover:bg-red-500 active:scale-95 transition-all">
+          <div className="flex items-center gap-4">
+            <a href="/auth/login" className="hidden sm:block text-sm font-bold uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">Ingresar</a>
+            <a href="/auth/register" className="hidden sm:inline-flex items-center justify-center px-6 py-2.5 bg-red-600 text-white text-sm font-bold uppercase tracking-widest rounded-full hover:bg-red-700 transition-colors animate-pulse-glow">
               Inscribirse
             </a>
-            <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Menu">
-              {isMenuOpen ? <X className="w-6 h-6 text-zinc-300" /> : <Menu className="w-6 h-6 text-zinc-300" />}
+            <button className="md:hidden p-2 text-zinc-400 hover:text-white" onClick={() => setIsOpen(true)}>
+              <Menu className="w-6 h-6" />
             </button>
           </div>
         </div>
       </nav>
 
-      {/* MOBILE MENU */}
-      {isMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-[#08080A]/95 backdrop-blur-xl pt-24 px-6 flex flex-col gap-6 md:hidden">
-          <div className="flex flex-col gap-4">
-            {navLinks.map((link) => (
-              <a
-                key={link.id}
-                href={`#${link.id}`}
-                onClick={() => setIsMenuOpen(false)}
-                className={`text-2xl font-display uppercase tracking-wide border-b border-white/5 pb-4 ${active === link.id ? link.color : "text-zinc-400"}`}
-              >
-                {link.label}
-              </a>
-            ))}
+      {/* Mobile Menu Overlay */}
+      <div className={`fixed inset-0 z-[60] bg-black/80 backdrop-blur-2xl transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+        <div className="absolute top-6 right-6">
+          <button className="p-2 text-white bg-white/10 rounded-full hover:bg-white/20 transition-colors" onClick={() => setIsOpen(false)}>
+            <X className="w-6 h-6" />
+          </button>
+        </div>
+        <div className="flex flex-col items-center justify-center h-full gap-8 p-6">
+          <Image src="/logo1.png" alt="Wukong" width={80} height={80} className="mb-8" />
+          {["Inicio", "Acerca", "Entrenadores", "Comentarios"].map((item) => (
+            <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setIsOpen(false)} className="text-4xl font-bebas tracking-wide text-zinc-400 hover:text-white transition-colors">
+              {item}
+            </a>
+          ))}
+          <div className="flex flex-col w-full max-w-xs gap-4 mt-8">
+            <a href="/auth/login" className="py-4 text-center border border-white/20 rounded-2xl text-sm font-bold uppercase tracking-widest text-white hover:bg-white/5 transition-colors">Ingresar</a>
+            <a href="/auth/register" className="py-4 text-center bg-red-600 rounded-2xl text-sm font-bold uppercase tracking-widest text-white hover:bg-red-700 transition-colors">Inscribirse</a>
           </div>
-          <a href="/auth/register" className="mt-auto mb-12 flex justify-center py-4 bg-red-600 text-white text-sm font-bold uppercase tracking-widest rounded-2xl">
-            Inscribirse Ahora
+        </div>
+      </div>
+    </>
+  );
+}
+
+function Hero() {
+  return (
+    <section id="inicio" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-red-900/20 via-[#050505] to-[#050505] z-10" />
+        <div className="absolute inset-0 bg-[url('/instalacion-mma.jpg')] bg-cover bg-center opacity-20 mix-blend-overlay" />
+      </div>
+
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 flex flex-col items-center text-center">
+        <div className="flex items-center gap-6 mb-12 reveal">
+          <Image src="/logo1.png" alt="Wukong Logo" width={160} height={160} className="w-32 h-32 md:w-48 md:h-48 object-contain animate-float drop-shadow-[0_0_30px_rgba(229,26,34,0.3)]" priority />
+          <Image src="/logo2.png" alt="Aquiles Logo" width={160} height={160} className="w-32 h-32 md:w-48 md:h-48 object-contain animate-float drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] delay-1" priority />
+        </div>
+        
+        <h1 className="text-6xl md:text-8xl lg:text-9xl font-bebas text-white tracking-wider leading-none mb-6 reveal delay-1 text-glow">
+          WUKONG <span className="text-red-600">&</span> AQUILES
+        </h1>
+        <p className="text-lg md:text-2xl text-zinc-400 max-w-2xl mx-auto mb-12 reveal delay-2 font-medium">
+          La máxima expresión del Striking y el Grappling. Forja tu disciplina en el centro de entrenamiento más avanzado.
+        </p>
+        
+        <div className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto reveal delay-3">
+          <a href="/auth/register" className="group relative inline-flex items-center justify-center gap-3 px-8 py-5 bg-red-600 overflow-hidden rounded-2xl text-white font-bold uppercase tracking-widest transition-transform hover:scale-105 shadow-[0_0_40px_-10px_rgba(229,26,34,0.6)]">
+            <span className="relative z-10">Comenzar Entrenamiento</span>
+            <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
+            <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 opacity-0 group-hover:opacity-100 transition-opacity" />
+          </a>
+          <a href="#acerca" className="inline-flex items-center justify-center px-8 py-5 glass border-white/20 rounded-2xl text-white font-bold uppercase tracking-widest hover:bg-white/10 transition-colors">
+            Descubrir Dojo
           </a>
         </div>
-      )}
+      </div>
+    </section>
+  );
+}
 
-      <HeroSection />
-      <DisciplinasSection />
-      <SobreLugarSection />
-      <EntrenadoresSection />
-      <HorariosSection />
-      <PreciosSection />
-      <ComentariosSection />
-      <NoticiasSection />
-      <ContactoSection />
+function Gallery() {
+  const images = [
+    { src: "/instalacion-general.jpg", label: "Área de Entrenamiento", size: "md:col-span-2 md:row-span-2" },
+    { src: "/instalacion-jiujitsu.jpg", label: "Tatami de Jiu Jitsu (Aquiles)", size: "md:col-span-1 md:row-span-1" },
+    { src: "/instalacion-mma.jpg", label: "Octágono de MMA", size: "md:col-span-1 md:row-span-1" },
+    { src: "/instalacion-boxeo.jpg", label: "Ring de Boxeo (Wukong)", size: "md:col-span-2 md:row-span-1" },
+  ];
+
+  return (
+    <section id="acerca" className="relative py-32 bg-[#050505]">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="mb-16 reveal">
+          <h2 className="text-5xl md:text-7xl font-bebas tracking-wide text-white mb-4">El Dojo</h2>
+          <div className="w-24 h-1 bg-red-600" />
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-none md:grid-rows-2 gap-4 h-auto md:h-[600px] reveal delay-1">
+          {images.map((img, i) => (
+            <div key={i} className={`relative group overflow-hidden rounded-3xl ${img.size} min-h-[250px]`}>
+              <div className="absolute inset-0 bg-zinc-900 animate-pulse" /> {/* Placeholder loading state */}
+              <Image src={img.src} alt={img.label} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300" />
+              
+              <div className="absolute inset-0 p-6 flex flex-col justify-end translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                <div className="w-10 h-10 rounded-full bg-red-600/20 border border-red-600/50 flex items-center justify-center mb-3 backdrop-blur-md">
+                  <MapPin className="w-5 h-5 text-red-500" />
+                </div>
+                <h3 className="text-2xl font-bebas tracking-wide text-white">{img.label}</h3>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Coaches() {
+  const coaches = [
+    { id: "mg", name: "Marcos García", role: "Head Coach Wukong", discipline: "Boxeo", img: "/logo1.png", color: "from-red-900 to-black", text: "Especialista en striking y estrategia de ring. +10 años de experiencia." },
+    { id: "da", name: "Mestre Diego", role: "Líder Aquiles", discipline: "Jiu Jitsu", img: "/logo2.png", color: "from-zinc-800 to-black", text: "Faixa Preta enfocado en control absoluto y sumisiones de alto nivel." },
+    { id: "lr", name: "Luis Romero", role: "Coach MMA", discipline: "MMA", img: null, color: "from-red-950 to-zinc-900", text: "Ex-luchador profesional. Integración perfecta de grappling y striking." },
+  ];
+
+  const [activeId, setActiveId] = useState<string | null>(null);
+
+  return (
+    <section id="entrenadores" className="relative py-32 bg-[#08080a] overflow-hidden">
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-red-600/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+      
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="mb-20 text-center reveal">
+          <h2 className="text-5xl md:text-7xl font-bebas tracking-wide text-white mb-4">Líderes de Disciplina</h2>
+          <p className="text-zinc-400 max-w-2xl mx-auto">Selecciona un entrenador para ver sus credenciales de combate.</p>
+        </div>
+
+        <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-20">
+          {coaches.map((coach, i) => {
+            const isActive = activeId === coach.id;
+            return (
+              <div 
+                key={coach.id} 
+                className={`reveal delay-${i+1} relative cursor-pointer group`}
+                onMouseEnter={() => setActiveId(coach.id)}
+                onMouseLeave={() => setActiveId(null)}
+              >
+                {/* Burbuja Principal */}
+                <div className={`w-48 h-48 md:w-64 md:h-64 rounded-full p-1 transition-all duration-500 ease-out transform ${isActive ? 'scale-110 shadow-[0_0_50px_rgba(229,26,34,0.3)]' : 'scale-100 opacity-70 hover:opacity-100'} bg-gradient-to-br ${coach.color} border border-white/10`}>
+                  <div className="w-full h-full rounded-full overflow-hidden bg-[#050505] flex items-center justify-center relative">
+                    {coach.img ? (
+                      <Image src={coach.img} alt={coach.name} width={120} height={120} className="w-1/2 h-1/2 object-contain opacity-50 group-hover:opacity-100 transition-opacity" />
+                    ) : (
+                      <span className="text-5xl font-bebas text-zinc-700">{coach.name.charAt(0)}</span>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                    <div className="absolute bottom-6 left-0 right-0 text-center">
+                      <h3 className="text-2xl font-bebas text-white tracking-wider">{coach.name}</h3>
+                      <p className="text-xs font-bold uppercase tracking-widest text-red-500">{coach.discipline}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Popover Detalle (Desktop) */}
+                <div className={`absolute top-1/2 left-full ml-8 w-64 glass-card rounded-2xl p-6 transition-all duration-500 origin-left hidden md:block z-20 ${isActive ? 'opacity-100 scale-100 translate-x-0' : 'opacity-0 scale-95 -translate-x-4 pointer-events-none'}`}>
+                  <h4 className="text-xl font-bebas text-white tracking-wide mb-1">{coach.role}</h4>
+                  <p className="text-sm text-zinc-400 leading-relaxed mb-4">{coach.text}</p>
+                  <div className="flex items-center gap-3">
+                    <button className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-300 hover:text-red-500 hover:border-red-500/50 transition-colors"><Mail className="w-4 h-4" /></button>
+                    <button className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-300 hover:text-red-500 hover:border-red-500/50 transition-colors"><Phone className="w-4 h-4" /></button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Testimonials() {
+  const reviews = [
+    { text: "El nivel de exigencia técnica en Jiu Jitsu es increíble. Mestre Diego realmente se enfoca en los detalles.", author: "Santiago V.", role: "Faixa Azul" },
+    { text: "Instalaciones de primer nivel. El ring de boxeo y el área de pesas están impecables. El mejor dojo de la ciudad.", author: "Lucas M.", role: "Boxeo Amateur" },
+    { text: "Entrenar MMA aquí cambió mi perspectiva. La integración de disciplinas que enseña Luis es brutal.", author: "Camila R.", role: "Competidora" },
+  ];
+
+  return (
+    <section id="comentarios" className="py-32 bg-zinc-950 border-t border-white/5">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="mb-16 text-center reveal">
+          <h2 className="text-5xl md:text-7xl font-bebas tracking-wide text-white mb-4">La Comunidad</h2>
+          <p className="text-zinc-500 font-medium tracking-wide uppercase text-sm">Lo que dicen los guerreros</p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          {reviews.map((r, i) => (
+            <div key={i} className={`glass-card rounded-3xl p-8 relative overflow-hidden reveal delay-${i+1} group`}>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 group-hover:bg-red-600/10 transition-colors" />
+              <Star className="w-8 h-8 text-red-600 mb-6" />
+              <p className="text-zinc-300 text-lg leading-relaxed font-medium mb-8">"{r.text}"</p>
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center">
+                  <span className="font-bebas text-xl text-zinc-500">{r.author.charAt(0)}</span>
+                </div>
+                <div>
+                  <h4 className="font-bold text-white text-sm">{r.author}</h4>
+                  <p className="text-xs text-zinc-500 uppercase tracking-widest">{r.role}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="py-12 bg-black border-t border-white/5 text-center">
+      <Image src="/logo1.png" alt="Wukong" width={48} height={48} className="mx-auto mb-6 opacity-50 grayscale hover:grayscale-0 transition-all" />
+      <p className="text-zinc-500 text-sm font-medium">© {new Date().getFullYear()} Wukong & Aquiles Academy. Todos los derechos reservados.</p>
+    </footer>
+  );
+}
+
+export default function HomePage() {
+  useScrollReveal();
+
+  return (
+    <div className="min-h-screen bg-[#050505]">
+      <Nav />
+      <Hero />
+      <Gallery />
+      <Coaches />
+      <Testimonials />
       <Footer />
     </div>
   );

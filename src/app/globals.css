@@ -1,196 +1,82 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* ===================================================================
-   DESIGN TOKENS — Wukong Academy
-   =================================================================== */
-:root {
-  --red-primary:   #E51A22; /* Vibrant red from Aquiles */
-  --red-dark:      #CC0000; /* Deep red from Wukong */
-  --red-glow:      rgba(229, 26, 34, 0.35);
-  --silver:        #E2E8F0;
-  --silver-muted:  #94A3B8;
-  --silver-glow:   rgba(226, 232, 240, 0.3);
-  --bg-base:       #08080A;
-  --bg-card:       #0f0f13;
-  --bg-card-hover: #141418;
+@layer base {
+  :root {
+    --background: #050505;
+    --foreground: #ffffff;
+    --font-bebas: 'Bebas Neue', sans-serif;
+  }
 }
 
-/* ===================================================================
-   TIPOGRAFÍA
-   =================================================================== */
-@theme inline {
-  --font-sans:   var(--font-inter);
-  --font-bebas:  var(--font-bebas);
+@layer base {
+  body {
+    @apply bg-[#050505] text-white antialiased selection:bg-red-600 selection:text-white;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-bebas);
+  }
 }
 
-body {
-  font-family: var(--font-inter), system-ui, sans-serif;
-  background: var(--bg-base);
-  color: #ffffff;
+@layer utilities {
+  .glass {
+    @apply bg-black/40 backdrop-blur-2xl border border-white/5;
+  }
+  .glass-card {
+    @apply bg-white/[0.03] backdrop-blur-md border border-white/5 shadow-2xl;
+  }
+  .text-glow {
+    text-shadow: 0 0 25px rgba(220, 38, 38, 0.6);
+  }
 }
 
-/* Clase utilitaria para títulos impactantes */
-.font-display {
-  font-family: var(--font-bebas), 'Arial Black', sans-serif;
-  letter-spacing: 0.04em;
+/* Animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0px); }
 }
 
-/* ===================================================================
-   ANIMACIONES DE SCROLL — Fade in desde abajo
-   =================================================================== */
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
+  70% { box-shadow: 0 0 25px 15px rgba(220, 38, 38, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2.5s infinite;
+}
+
 .reveal {
   opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transform: translateY(40px);
+  transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
 }
+.delay-1 { transition-delay: 150ms; }
+.delay-2 { transition-delay: 300ms; }
+.delay-3 { transition-delay: 450ms; }
 
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
-.reveal-delay-4 { transition-delay: 0.4s; }
-.reveal-delay-5 { transition-delay: 0.5s; }
-.reveal-delay-6 { transition-delay: 0.6s; }
-
-/* ===================================================================
-   GRADIENTES ESPECIALES
-   =================================================================== */
-.text-gradient-red {
-  background: linear-gradient(135deg, #ffffff 0%, #d1d5db 50%, #9ca3af 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
 }
-
-.text-gradient-silver {
-  background: linear-gradient(135deg, #E2E8F0 0%, #F8FAFC 50%, #94A3B8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+::-webkit-scrollbar-track {
+  background: #050505;
 }
-
-.border-glow-red {
-  box-shadow: 0 0 0 1px rgba(229, 26, 34, 0.3), 0 8px 32px rgba(229, 26, 34, 0.15);
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 4px;
 }
-
-.border-glow-silver {
-  box-shadow: 0 0 0 1px rgba(226, 232, 240, 0.3), 0 8px 32px rgba(226, 232, 240, 0.1);
-}
-
-/* ===================================================================
-   HERO PARALLAX
-   =================================================================== */
-.hero-bg {
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
-}
-
-@media (max-width: 768px) {
-  .hero-bg {
-    background-attachment: scroll;
-  }
-}
-
-/* ===================================================================
-   STAT COUNTER — Animación de números
-   =================================================================== */
-@keyframes countUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.stat-number {
-  animation: countUp 0.6s ease forwards;
-}
-
-/* ===================================================================
-   CARDS — Hover lift effect
-   =================================================================== */
-.card-hover {
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-}
-.card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-}
-
-/* ===================================================================
-   GLITCH EFFECT — Para el logo hero
-   =================================================================== */
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(251, 44, 48, 0.4), 0 0 60px rgba(251, 44, 48, 0.1); }
-  50%       { box-shadow: 0 0 40px rgba(251, 44, 48, 0.7), 0 0 80px rgba(251, 44, 48, 0.2); }
-}
-.logo-pulse {
-  animation: pulse-glow 3s ease-in-out infinite;
-}
-
-/* ===================================================================
-   SCROLL SUAVE
-   =================================================================== */
-html {
-  scroll-behavior: smooth;
-}
-
-/* ===================================================================
-   SCROLLBAR CUSTOM
-   =================================================================== */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #08080A; }
-::-webkit-scrollbar-thumb { background: #2a2a2e; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--red-primary); }
-
-/* ===================================================================
-   NAV ACTIVE STATE
-   =================================================================== */
-.nav-link-active {
-  color: #ffffff !important;
-  background: rgba(251, 44, 48, 0.1) !important;
-}
-
-/* ===================================================================
-   INPUT FOCUS
-   =================================================================== */
-.input-field {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
-  color: white;
-  border-radius: 12px;
-  padding: 12px 16px;
-  font-size: 14px;
-  width: 100%;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  font-family: var(--font-inter);
-}
-.input-field::placeholder {
-  color: #52525b;
-}
-.input-field:focus {
-  border-color: rgba(251, 44, 48, 0.5);
-  box-shadow: 0 0 0 3px rgba(251, 44, 48, 0.1);
-}
-
-/* ===================================================================
-   DISCIPLINE CARD — icono grande
-   =================================================================== */
-@keyframes shimmer {
-  0%   { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-.shimmer-line {
-  position: relative;
-  overflow: hidden;
-}
-.shimmer-line::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
-  animation: shimmer 2.5s infinite;
+::-webkit-scrollbar-thumb:hover {
+  background: #dc2626;
 }
