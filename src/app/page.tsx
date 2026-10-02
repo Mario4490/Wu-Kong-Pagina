@@ -510,8 +510,8 @@ function Noticias() {
 }
 
 function Contacto() {
-  const mapUrl = "https://maps.google.com/maps/search/Wukong%20team/@-25.60676274,-54.58111345,17z?hl=es";
-  const embedUrl = "https://www.google.com/maps?q=-25.60676274,-54.58111345&z=17&output=embed";
+  const mapUrl = "https://www.google.com/maps/search/?api=1&query=Cacique+Matías+Aracu+433+Puerto+Iguazú+Misiones";
+  const embedUrl = "https://www.google.com/maps/embed/v1/place?key=YOUR_GOOGLE_MAPS_API_KEY&q=Cacique+Matías+Aracu+433+Puerto+Iguazú+Misiones";
 
   return (
     <section id="contacto" className="relative py-24 md:py-32 bg-[#08080a] overflow-hidden">
@@ -521,11 +521,11 @@ function Contacto() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div className="space-y-5 reveal">
-            {[
-              { icon: MapPin, label: "Ubicación", value: "Wukong Team — Puerto Iguazú, Misiones" },
-              { icon: Phone, label: "WhatsApp", value: "+54 11 5555-5555" },
-              { icon: Mail, label: "Email", value: "hola@wukong.com.ar" },
-            ].map(({ icon: Icon, label, value }) => (
+              {
+                { icon: MapPin, label: "Ubicación", value: "Cacique Matías Aracu 433, N3370 Puerto Iguazú, Misiones" },
+                { icon: Phone, label: "WhatsApp", value: "03754570445" },
+                { icon: Mail, label: "Email", value: "hola@wukong.com.ar" },
+              }.map(({ icon: Icon, label, value }) => (
               <div key={label} className="flex items-center gap-4 p-4 sm:p-5 rounded-2xl glass-card">
                 <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-red-600/20 border border-red-600/30 flex items-center justify-center flex-shrink-0">
                   <Icon className="w-5 h-5 text-red-400" />
@@ -554,9 +554,9 @@ function Contacto() {
             </div>
 
             <div className="flex items-center gap-3 pt-2">
-              <a href="https://instagram.com/wukong" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-700 hover:text-pink-400 hover:border-pink-500/30 transition-all"><InstagramIcon className="w-5 h-5" /></a>
+              <a href="https://www.instagram.com/p/CaS7fJkPme4/?igshid=YmMyMTA2M2Y=" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-700 hover:text-pink-400 hover:border-pink-500/30 transition-all"><InstagramIcon className="w-5 h-5" /></a>
               <a href="https://facebook.com/wukong" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-700 hover:text-blue-400 hover:border-blue-500/30 transition-all"><FacebookIcon className="w-5 h-5" /></a>
-              <a href="https://wa.me/5411555555" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-700 hover:text-green-400 hover:border-green-500/30 transition-all"><WhatsAppIcon className="w-5 h-5" /></a>
+              <a href="https://wa.me/543754570445" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-700 hover:text-green-400 hover:border-green-500/30 transition-all"><WhatsAppIcon className="w-5 h-5" /></a>
             </div>
           </div>
 
@@ -602,7 +602,7 @@ function Footer() {
           <div className="flex items-center gap-3">
             <a href="https://instagram.com/wukong" target="_blank" rel="noreferrer" className="text-zinc-700 hover:text-pink-400 transition-colors"><InstagramIcon className="w-5 h-5" /></a>
             <a href="https://facebook.com/wukong" target="_blank" rel="noreferrer" className="text-zinc-700 hover:text-blue-400 transition-colors"><FacebookIcon className="w-5 h-5" /></a>
-            <a href="https://wa.me/5411555555" target="_blank" rel="noreferrer" className="text-zinc-700 hover:text-green-400 transition-colors"><WhatsAppIcon className="w-5 h-5" /></a>
+            <a href="https://wa.me/543754570445" target="_blank" rel="noreferrer" className="text-zinc-700 hover:text-green-400 transition-colors"><WhatsAppIcon className="w-5 h-5" /></a>
           </div>
         </div>
         <div className="text-center mt-10 pt-8 border-t border-white/5">
