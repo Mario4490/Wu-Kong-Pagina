@@ -112,11 +112,11 @@ function Nav() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 glass border-b-0 border-white/5">
+      <nav className="fixed top-0 left-0 right-0 z-50 glass border-b-0 border-white/5 overflow-visible">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <a href="#inicio" className="flex items-center gap-3">
-            <Image src="/logo1.png" alt="Wukong" width={40} height={40} className="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(255,0,0,0.5)]" />
-            <Image src="/logo2.png" alt="Aquiles" width={40} height={40} className="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(255,0,0,0.5)] hidden sm:block" />
+            <Image src="/logo_wukong.png" alt="Wukong" width={40} height={40} className="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(255,0,0,0.5)]" />
+            <Image src="/logo_aquiles.png" alt="Aquiles" width={40} height={40} className="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(255,0,0,0.5)] hidden sm:block" />
           </a>
           <div className="hidden lg:flex items-center gap-6">
             {sections.map((s) => (
@@ -133,13 +133,13 @@ function Nav() {
         </div>
       </nav>
 
-      {/* Mobile overlay */}
-      <div className={`fixed inset-0 z-[60] bg-black/90 backdrop-blur-3xl transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
+      {/* Mobile overlay — solo visible en móvil cuando está abierto */}
+      <div className={`fixed inset-0 z-[60] bg-black/90 backdrop-blur-3xl transition-opacity duration-300 lg:hidden ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
         <button className="absolute top-6 right-6 p-2 text-white bg-white/10 rounded-full hover:bg-white/20 transition-colors" onClick={() => setIsOpen(false)}>
           <X className="w-6 h-6" />
         </button>
         <div className="flex flex-col items-center justify-center h-full gap-6 p-6">
-          <Image src="/logo1.png" alt="Wukong" width={64} height={64} className="mb-6" />
+          <Image src="/logo_wukong.png" alt="Wukong" width={64} height={64} className="mb-6" />
           {sections.map((s) => (
             <a key={s.label} href={s.href} onClick={() => setIsOpen(false)} className="text-3xl font-bebas tracking-widest text-zinc-400 hover:text-white transition-colors">{s.label}</a>
           ))}
@@ -159,9 +159,10 @@ function Nav() {
 function Hero() {
   return (
     <section id="inicio" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-red-900/20 via-[#050505] to-[#050505] z-10" />
-        <div className="absolute inset-0 bg-[url('/hero-dojo.jpg')] bg-cover bg-center opacity-15 mix-blend-overlay" />
+      {/* Banner de fondo — overflow-hidden evita scroll lateral */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-red-900/20 via-[#050505] to-[#050505] z-10"/>
+        <div className="absolute inset-0 bg-[url('/hero-dojo.jpg')] bg-cover bg-center opacity-15 mix-blend-overlay w-[120%] h-[120%] -left-10 -top-10"/>
       </div>
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 flex flex-col items-center text-center">
@@ -619,8 +620,8 @@ function Footer() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="flex items-center gap-4">
-            <Image src="/logo1.png" alt="Wukong" width={36} height={36} className="opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all" />
-            <Image src="/logo2.png" alt="Aquiles" width={36} height={36} className="opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all" />
+            <Image src="/logo_wukong.png" alt="Wukong" width={36} height={36} className="opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all" />
+            <Image src="/logo_aquiles.png" alt="Aquiles" width={36} height={36} className="opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all" />
             <span className="font-bebas text-zinc-600 text-lg tracking-wider">WUKONG & AQUILES</span>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-6 text-xs text-zinc-600 uppercase tracking-widest font-bold">
