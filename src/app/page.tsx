@@ -523,7 +523,7 @@ function Contacto() {
           <div className="space-y-5 reveal">
             {[
               { icon: MapPin, label: "Ubicación", value: "https://maps.app.goo.gl/WrMgkX98UNxLugyP7" },
-              { icon: Phone, label: "WhatsApp", value: "3757-570445" },
+              { icon: Phone, label: "WhatsApp", value: "3757-570445 / 3757-320092" },
               { icon: Mail, label: "Email", value: "hola@wukong.com.ar" },
             ].map(({ icon: Icon, label, value }) => (
               <div key={label} className="flex items-center gap-4 p-4 sm:p-5 rounded-2xl glass-card">
