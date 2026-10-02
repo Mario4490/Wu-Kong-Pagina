@@ -347,7 +347,8 @@ function Coaches() {
 
             return (
               <div key={coach.id} className={`reveal delay-${i + 1} relative cursor-pointer group transition-all duration-500 ${isAnotherActive ? "opacity-40 scale-90" : "opacity-100 scale-100"}`}
-                onMouseEnter={() => setActiveId(coach.id)} onMouseLeave={() => setActiveId(null)}
+                onMouseEnter={() => setActiveId(coach.id)}
+                onMouseLeave={() => setActiveId(null)}
                 onClick={() => setActiveId(isActive ? null : coach.id)}>
 
                 <div className={`w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-full p-1 transition-all duration-500 ease-out ${isActive ? "scale-110 shadow-[0_0_60px_rgba(229,26,34,0.35)]" : "scale-100 opacity-60 group-hover:opacity-100"} bg-gradient-to-br ${coach.color} border border-white/10`}>
