@@ -340,15 +340,17 @@ function Coaches() {
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <SectionHead title="Líderes de Disciplina" subtitle="Seleccioná un entrenador para ver sus credenciales." align="center" />
 
-        <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-20">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-40">
           {coaches.map((coach, i) => {
             const isActive = activeId === coach.id;
+            const isAnotherActive = activeId !== null && activeId !== coach.id;
+
             return (
-              <div key={coach.id} className={`reveal delay-${i + 1} relative cursor-pointer group`}
+              <div key={coach.id} className={`reveal delay-${i + 1} relative cursor-pointer group transition-all duration-500 ${isAnotherActive ? "opacity-40 scale-90" : "opacity-100 scale-100"}`}
                 onMouseEnter={() => setActiveId(coach.id)} onMouseLeave={() => setActiveId(null)}
                 onClick={() => setActiveId(isActive ? null : coach.id)}>
 
-                <div className={`w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-full p-1 transition-all duration-500 ease-out ${isActive ? "scale-110 shadow-[0_0_60px_rgba(229,26,34,0.35)]" : "scale-100 opacity-60 hover:opacity-100"} bg-gradient-to-br ${coach.color} border border-white/10`}>
+                <div className={`w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-full p-1 transition-all duration-500 ease-out ${isActive ? "scale-110 shadow-[0_0_60px_rgba(229,26,34,0.35)]" : "scale-100 opacity-60 group-hover:opacity-100"} bg-gradient-to-br ${coach.color} border border-white/10`}>
                   <div className="w-full h-full rounded-full overflow-hidden bg-[#050505] flex items-center justify-center relative">
                     {coach.img ? (
                       <Image src={coach.img} alt={coach.name} width={100} height={100} className="w-1/2 h-1/2 object-contain opacity-40 group-hover:opacity-100 transition-opacity duration-500" />
@@ -363,7 +365,7 @@ function Coaches() {
                   </div>
                 </div>
 
-                <div className={`absolute top-1/2 left-full ml-8 w-64 glass-card rounded-2xl p-5 transition-all duration-500 origin-left hidden md:block z-50 -translate-y-1/2 ${isActive ? "opacity-100 scale-100 translate-x-0" : "opacity-0 scale-90 -translate-x-4 pointer-events-none"}`}>
+                <div className={`absolute top-1/2 left-full ml-10 w-64 glass-card rounded-2xl p-5 transition-all duration-500 origin-left hidden md:block z-50 -translate-y-1/2 ${isActive ? "opacity-100 scale-100 translate-x-0" : "opacity-0 scale-90 -translate-x-4 pointer-events-none"}`}>
                   <h4 className="text-lg font-bebas text-white tracking-wide mb-1">{coach.role}</h4>
                   <p className="text-sm text-zinc-400 leading-relaxed mb-4">{coach.text}</p>
                   <div className="flex items-center gap-2">
