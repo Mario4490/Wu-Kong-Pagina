@@ -32,8 +32,7 @@ export default function AvisosPage() {
         const { data, error: fetchError } = await supabase
           .from('hermes_avisos')
           .select('*')
-          .eq('alumno_id', user.id)
-          .order('created_at', { ascending: false });
+          .eq('alumno_id', user.id);
 
         if (fetchError) throw fetchError;
         setAvisos(data || []);
