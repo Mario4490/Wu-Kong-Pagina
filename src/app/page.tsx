@@ -521,11 +521,11 @@ function Contacto() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div className="space-y-5 reveal">
-            {[
-              { icon: MapPin, label: "Ubicación", value: "https://maps.app.goo.gl/WrMgkX98UNxLugyP7" },
-              { icon: Phone, label: "WhatsApp", value: "03754570445" },
-              { icon: Mail, label: "Email", value: "hola@wukong.com.ar" },
-            ].map(({ icon: Icon, label, value }) => (
+              {
+                { icon: MapPin, label: "Ubicación", value: "https://maps.app.goo.gl/WrMgkX98UNxLugyP7" },
+                { icon: Phone, label: "WhatsApp", value: "3757-320092" },
+                { icon: Mail, label: "Email", value: "hola@wukong.com.ar" },
+              }.map(({ icon: Icon, label, value }) => (
               <div key={label} className="flex items-center gap-4 p-4 sm:p-5 rounded-2xl glass-card">
                 <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-red-600/20 border border-red-600/30 flex items-center justify-center flex-shrink-0">
                   <Icon className="w-5 h-5 text-red-400" />
@@ -556,7 +556,7 @@ function Contacto() {
             <div className="flex items-center gap-3 pt-2">
               <a href="https://www.instagram.com/p/CaS7fJkPme4/?igshid=YmMyMTA2M2Y=" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-700 hover:text-pink-400 hover:border-pink-500/30 transition-all"><InstagramIcon className="w-5 h-5" /></a>
               <a href="https://facebook.com/wukong" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-700 hover:text-blue-400 hover:border-blue-500/30 transition-all"><FacebookIcon className="w-5 h-5" /></a>
-              <a href="https://wa.me/543754570445" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-700 hover:text-green-400 hover:border-green-500/30 transition-all"><WhatsAppIcon className="w-5 h-5" /></a>
+              <a href="https://wa.me/543757320092" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-700 hover:text-green-400 hover:border-green-500/30 transition-all"><WhatsAppIcon className="w-5 h-5" /></a>
             </div>
           </div>
 
@@ -602,7 +602,7 @@ function Footer() {
           <div className="flex items-center gap-3">
             <a href="https://instagram.com/wukong" target="_blank" rel="noreferrer" className="text-zinc-700 hover:text-pink-400 transition-colors"><InstagramIcon className="w-5 h-5" /></a>
             <a href="https://facebook.com/wukong" target="_blank" rel="noreferrer" className="text-zinc-700 hover:text-blue-400 transition-colors"><FacebookIcon className="w-5 h-5" /></a>
-            <a href="https://wa.me/543754570445" target="_blank" rel="noreferrer" className="text-zinc-700 hover:text-green-400 transition-colors"><WhatsAppIcon className="w-5 h-5" /></a>
+            <a href="https://wa.me/543757320092" target="_blank" rel="noreferrer" className="text-zinc-700 hover:text-green-400 transition-colors"><WhatsAppIcon className="w-5 h-5" /></a>
           </div>
         </div>
         <div className="text-center mt-10 pt-8 border-t border-white/5">
