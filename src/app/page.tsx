@@ -363,7 +363,7 @@ function Coaches() {
                   </div>
                 </div>
 
-                <div className={`absolute top-1/2 left-full ml-6 w-56 glass-card rounded-2xl p-5 transition-all duration-500 origin-left hidden md:block z-20 -translate-y-1/2 ${isActive ? "opacity-100 scale-100 translate-x-0" : "opacity-0 scale-90 -translate-x-4 pointer-events-none"}`}>
+                <div className={`absolute top-1/2 left-full ml-6 w-56 glass-card rounded-2xl p-5 transition-all duration-500 origin-left hidden md:block z-30 -translate-y-1/2 ${isActive ? "opacity-100 scale-100 translate-x-0" : "opacity-0 scale-90 -translate-x-4 pointer-events-none"}`}>
                   <h4 className="text-lg font-bebas text-white tracking-wide mb-1">{coach.role}</h4>
                   <p className="text-sm text-zinc-400 leading-relaxed mb-4">{coach.text}</p>
                   <div className="flex items-center gap-2">
