@@ -124,8 +124,8 @@ function Nav() {
             ))}
           </div>
           <div className="flex items-center gap-4">
-            <a href="/auth/login" className="hidden md:block text-sm font-bold uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">Ingresar</a>
-            <a href="/auth/register" className="hidden sm:inline-flex px-6 py-2.5 bg-red-600 text-white text-sm font-bold uppercase tracking-widest rounded-full hover:bg-red-700 transition-colors animate-pulse-glow">Inscribirse</a>
+            <a href="/login" className="hidden md:block text-sm font-bold uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">Ingresar</a>
+            <a href="/signup" className="hidden sm:inline-flex px-6 py-2.5 bg-red-600 text-white text-sm font-bold uppercase tracking-widest rounded-full hover:bg-red-700 transition-colors animate-pulse-glow">Inscribirse</a>
             <button className="lg:hidden p-2 text-zinc-400 hover:text-white" onClick={() => setIsOpen(true)}>
               <Menu className="w-6 h-6" />
             </button>
@@ -144,8 +144,8 @@ function Nav() {
             <a key={s.label} href={s.href} onClick={() => setIsOpen(false)} className="text-3xl font-bebas tracking-widest text-zinc-400 hover:text-white transition-colors">{s.label}</a>
           ))}
           <div className="flex flex-col w-full max-w-xs gap-4 mt-8">
-            <a href="/auth/login" onClick={() => setIsOpen(false)} className="py-4 text-center border border-white/20 rounded-2xl text-sm font-bold uppercase tracking-widest text-white hover:bg-white/5 transition-colors">Ingresar</a>
-            <a href="/auth/register" onClick={() => setIsOpen(false)} className="py-4 text-center bg-red-600 rounded-2xl text-sm font-bold uppercase tracking-widest text-white hover:bg-red-700 transition-colors">Inscribirse</a>
+            <a href="/login" onClick={() => setIsOpen(false)} className="py-4 text-center border border-white/20 rounded-2xl text-sm font-bold uppercase tracking-widest text-white hover:bg-white/5 transition-colors">Ingresar</a>
+            <a href="/signup" onClick={() => setIsOpen(false)} className="py-4 text-center bg-red-600 rounded-2xl text-sm font-bold uppercase tracking-widest text-white hover:bg-red-700 transition-colors">Inscribirse</a>
           </div>
         </div>
       </div>
