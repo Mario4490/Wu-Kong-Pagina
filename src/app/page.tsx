@@ -1,3 +1,13 @@
+/*
+ * =====================================================================================
+ * ARCHIVO PRINCIPAL: Landing Page - Wukong & Aquiles Academy
+ *
+ * Descripción: Punto de entrada principal del Frontend. Contiene la estructura
+ * completa de la página de aterrizaje, secciones responsive y animaciones.
+ *
+ * Versión: Definitive Responsive Fusion (Diseño Optimizado + Control de Desbordamiento)
+ * =====================================================================================
+ */
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -76,8 +86,8 @@ function StatItem({ value, label, suffix = "+" }: { value: number; label: string
   }, []);
   return (
     <div ref={ref} className="text-center">
-      <div className="text-5xl md:text-6xl font-bebas text-white tracking-wide">{started ? count : 0}{suffix}</div>
-      <div className="text-xs text-zinc-500 font-bold uppercase tracking-[0.2em] mt-2">{label}</div>
+      <div className="text-3xl sm:text-4xl md:text-6xl font-bebas text-white tracking-wide">{started ? count : 0}{suffix}</div>
+      <div className="text-[9px] sm:text-xs text-zinc-500 font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] mt-1 sm:mt-2">{label}</div>
     </div>
   );
 }
@@ -87,11 +97,10 @@ function StatItem({ value, label, suffix = "+" }: { value: number; label: string
 /* =================================================================== */
 function SectionHead({ title, subtitle, align = "left" }: { title: string; subtitle?: string; align?: "left" | "center" }) {
   return (
-    <div className={`mb-16 reveal ${align === "center" ? "text-center" : ""}`}>
-      <h2 className="text-5xl md:text-7xl font-bebas tracking-wide text-white mb-4">{title}</h2>
-      <div className={`w-24 h-1 bg-red-600 ${align === "center" ? "mx-auto" : ""}`} />
-      {subtitle && <p className="text-zinc-500 mt-4 max-w-2xl font-medium tracking-wide uppercase text-sm">{align === "center" ? subtitle : ""}</p>}
-      {subtitle && align !== "center" && <p className="text-zinc-400 mt-4 max-w-xl text-lg">{subtitle}</p>}
+    <div className={`mb-10 md:mb-16 reveal ${align === "center" ? "text-center" : ""}`}>
+      <h2 className="text-3xl sm:text-4xl md:text-7xl font-bebas tracking-wide text-white mb-4 break-words">{title}</h2>
+      <div className={`w-12 md:w-24 h-1 bg-red-600 ${align === "center" ? "mx-auto" : ""}`} />
+      {subtitle && <p className="text-zinc-400 mt-4 max-w-2xl mx-auto md:mx-0 text-xs sm:text-sm md:text-lg font-medium leading-relaxed uppercase tracking-wider">{subtitle}</p>}
     </div>
   );
 }
@@ -112,20 +121,20 @@ function Nav() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 glass border-b-0 border-white/5 overflow-visible">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <a href="#inicio" className="flex items-center gap-3">
-            <Image src="/logo_wukong.png" alt="Wukong" width={40} height={40} className="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(255,0,0,0.5)]" />
-            <Image src="/logo_aquiles.png" alt="Aquiles" width={40} height={40} className="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(255,0,0,0.5)] hidden sm:block" />
+      <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-white/5 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
+          <a href="#inicio" className="flex items-center gap-2 md:gap-3">
+            <Image src="/logo_wukong.png" alt="Wukong" width={40} height={40} className="w-8 h-8 md:w-10 md:h-10 object-contain" />
+            <Image src="/logo_aquiles.png" alt="Aquiles" width={40} height={40} className="w-8 h-8 md:w-10 md:h-10 object-contain hidden sm:block" />
           </a>
           <div className="hidden lg:flex items-center gap-6">
             {sections.map((s) => (
-              <a key={s.label} href={s.href} className="text-[13px] font-bold uppercase tracking-widest text-zinc-500 hover:text-white transition-colors">{s.label}</a>
+              <a key={s.label} href={s.href} className="text-[11px] md:text-[13px] font-bold uppercase tracking-widest text-zinc-500 hover:text-white transition-colors">{s.label}</a>
             ))}
           </div>
-          <div className="flex items-center gap-4">
-            <a href="/login" className="hidden md:block text-sm font-bold uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">Ingresar</a>
-            <a href="/signup" className="hidden sm:inline-flex px-6 py-2.5 bg-red-600 text-white text-sm font-bold uppercase tracking-widest rounded-full hover:bg-red-700 transition-colors animate-pulse-glow">Inscribirse</a>
+          <div className="flex items-center gap-3 md:gap-4">
+            <a href="/login" className="hidden md:block text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">Ingresar</a>
+            <a href="/signup" className="inline-flex px-4 py-2 md:px-6 md:py-2.5 bg-red-600 text-white text-[10px] md:text-sm font-bold uppercase tracking-widest rounded-full hover:bg-red-700 transition-all active:scale-95">Inscribirse</a>
             <button className="lg:hidden p-2 text-zinc-400 hover:text-white" onClick={() => setIsOpen(true)}>
               <Menu className="w-6 h-6" />
             </button>
@@ -133,8 +142,7 @@ function Nav() {
         </div>
       </nav>
 
-      {/* Mobile overlay — solo visible en móvil cuando está abierto */}
-      <div className={`fixed inset-0 z-[60] bg-black/90 backdrop-blur-3xl transition-opacity duration-300 lg:hidden ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
+      <div className={`fixed inset-0 z-[60] bg-black/95 backdrop-blur-xl transition-opacity duration-300 lg:hidden ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
         <button className="absolute top-6 right-6 p-2 text-white bg-white/10 rounded-full hover:bg-white/20 transition-colors" onClick={() => setIsOpen(false)}>
           <X className="w-6 h-6" />
         </button>
@@ -153,47 +161,42 @@ function Nav() {
   );
 }
 
-/* =================================================================== */
-/*   HERO                                                                */
-/* =================================================================== */
 function Hero() {
   return (
     <section id="inicio" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-      {/* Banner de fondo — overflow-hidden evita scroll lateral */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-red-900/20 via-[#050505] to-[#050505] z-10"/>
-        <div className="absolute inset-0 bg-[url('/hero-dojo.jpg')] bg-cover bg-center opacity-15 mix-blend-overlay w-[120%] h-[120%] -left-10 -top-10"/>
+        <div className="absolute inset-0 bg-[url('/hero-dojo.jpg')] bg-cover bg-center opacity-15 mix-blend-overlay w-full h-full" />
       </div>
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 flex flex-col items-center text-center">
-        <div className="flex items-center gap-8 mb-10 reveal">
-          <Image src="/logo_wukong.png" alt="Wukong" width={180} height={180} className="w-28 h-28 md:w-44 md:h-44 object-contain animate-float drop-shadow-[0_0_40px_rgba(229,26,34,0.35)]" priority />
-          <Image src="/logo_aquiles.png" alt="Aquiles" width={180} height={180} className="w-28 h-28 md:w-44 md:h-44 object-contain animate-float drop-shadow-[0_0_30px_rgba(255,255,255,0.08)]" style={{ animationDelay: "1.5s" }} priority />
+        <div className="flex items-center justify-center gap-6 md:gap-8 mb-10 reveal">
+          <Image src="/logo_wukong.png" alt="Wukong" width={180} height={180} className="w-16 h-16 sm:w-20 sm:h-20 md:w-44 md:h-44 object-contain animate-float drop-shadow-[0_0_40px_rgba(229,26,34,0.35)]" priority />
+          <Image src="/logo_aquiles.png" alt="Aquiles" width={180} height={180} className="w-16 h-16 sm:w-20 sm:h-20 md:w-44 md:h-44 object-contain animate-float drop-shadow-[0_0_30px_rgba(255,255,255,0.08)]" style={{ animationDelay: "1.5s" }} priority />
         </div>
 
-        <h1 className="text-6xl md:text-8xl lg:text-9xl font-bebas text-white tracking-wider leading-none mb-4 reveal delay-1 text-glow">
+        <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-bebas text-white tracking-wider leading-none mb-4 reveal delay-1 text-glow break-words">
           WUKONG <span className="text-red-600">&</span> AQUILES
         </h1>
-        <p className="text-lg md:text-xl text-zinc-500 uppercase tracking-[0.3em] font-bold mb-8 reveal delay-1">
+        <p className="text-xs sm:text-sm md:text-xl text-zinc-500 uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold mb-8 reveal delay-1 px-4 text-center">
           Artes Marciales · Boxeo · Jiu Jitsu · MMA
         </p>
-        <p className="text-lg md:text-2xl text-zinc-400 max-w-2xl mx-auto mb-12 reveal delay-2 font-medium leading-relaxed">
+        <p className="text-sm sm:text-base md:text-2xl text-zinc-400 max-w-2xl mx-auto mb-12 reveal delay-2 font-medium leading-relaxed px-4 text-center">
           Forjá tu disciplina con los mejores. El centro de entrenamiento más completo y avanzado de la ciudad.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-5 w-full sm:w-auto reveal delay-3">
-          <a href="/auth/register" className="group relative inline-flex items-center justify-center gap-3 px-10 py-5 bg-red-600 overflow-hidden rounded-2xl text-white font-bold uppercase tracking-widest transition-transform hover:scale-105 shadow-[0_0_50px_-10px_rgba(229,26,34,0.6)]">
+        <div className="flex flex-col sm:flex-row gap-5 w-full sm:w-auto reveal delay-3 px-6 sm:px-0">
+          <a href="/signup" className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 sm:px-10 sm:py-5 bg-red-600 overflow-hidden rounded-2xl text-white font-bold uppercase tracking-widest transition-transform hover:scale-105 shadow-[0_0_50px_-10px_rgba(229,26,34,0.6)] text-center">
             <span className="relative z-10">Comenzar Ahora</span>
             <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
             <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 opacity-0 group-hover:opacity-100 transition-opacity" />
           </a>
-          <a href="#disciplinas" className="inline-flex items-center justify-center gap-2 px-10 py-5 glass border-white/15 rounded-2xl text-white font-bold uppercase tracking-widest hover:bg-white/10 transition-colors">
+          <a href="#disciplinas" className="inline-flex items-center justify-center gap-2 px-8 py-4 sm:px-10 sm:py-5 glass border-white/15 rounded-2xl text-white font-bold uppercase tracking-widest hover:bg-white/10 transition-colors text-center">
             Explorar <ChevronDown className="w-4 h-4" />
           </a>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-3 gap-8 sm:gap-16 mt-20 px-6 py-8 glass rounded-3xl w-full max-w-lg reveal delay-3">
+        <div className="grid grid-cols-3 gap-4 sm:gap-16 mt-20 px-4 py-8 glass rounded-3xl w-full max-w-lg reveal delay-3">
           <StatItem value={200} label="Alumnos" />
           <StatItem value={15} label="Años" suffix="+" />
           <StatItem value={3} label="Disciplinas" suffix="" />
@@ -207,9 +210,51 @@ function Hero() {
   );
 }
 
-/* =================================================================== */
-/*   DISCIPLINAS                                                         */
-/* =================================================================== */
+function Disciplinas() {
+  return (
+    <section id="disciplinas" className="relative py-24 md:py-32 bg-[#050505] overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(229,26,34,0.05),transparent_70%)] pointer-events-none" />
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <SectionHead title="Disciplinas" subtitle="Tres caminos, un objetivo: la excelencia marcial." />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {disciplinas.map((d, i) => (
+            <article key={d.nombre} className={`reveal delay-${i + 1} group relative rounded-3xl bg-gradient-to-b ${d.gradient} border ${d.border} p-6 sm:p-8 flex flex-col overflow-hidden hover:border-red-600/40 transition-all duration-500 w-full`}>
+              <div className="absolute -top-20 -right-20 w-40 h-40 bg-red-600/5 rounded-full blur-3xl group-hover:bg-red-600/10 transition-colors duration-700" />
+
+              <div className="flex items-center gap-4 mb-6">
+                <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white/5 border ${d.border} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                  {d.logo ? (
+                    <Image src={d.logo} alt={d.team} width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8 object-contain" />
+                  ) : (
+                    <d.icon className={`w-6 h-6 sm:w-7 sm:h-7 ${d.accent}`} />
+                  )}
+                </div>
+                <div className="overflow-hidden">
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-bebas text-white uppercase tracking-wide truncate">{d.nombre}</h3>
+                  <p className={`text-[9px] sm:text-xs font-bold tracking-[0.2em] uppercase ${d.accent}`}>{d.team}</p>
+                </div>
+              </div>
+
+              <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed mb-6 flex-1">{d.desc}</p>
+
+              <div className="flex flex-wrap gap-2 mb-6">
+                {d.niveles.map((n) => (
+                  <span key={n} className="px-2 py-1 rounded-lg bg-white/5 border border-white/5 text-[9px] sm:text-[10px] font-bold text-zinc-500 uppercase tracking-wider">{n}</span>
+                ))}
+              </div>
+
+              <a href="#horarios" className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider ${d.accent} hover:gap-3 transition-all`}>
+                Ver horarios <ChevronRight className="w-4 h-4" />
+              </a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 const disciplinas = [
   {
     icon: Dumbbell, nombre: "Boxeo", team: "Team Wukong", logo: "/logo_wukong.png",
@@ -231,55 +276,6 @@ const disciplinas = [
   },
 ];
 
-function Disciplinas() {
-  return (
-    <section id="disciplinas" className="relative py-32 bg-[#050505]">
-      <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-red-600/5 rounded-full blur-[150px] -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <SectionHead title="Disciplinas" subtitle="Tres caminos, un objetivo: la excelencia marcial." />
-
-        <div className="grid md:grid-cols-3 gap-6">
-          {disciplinas.map((d, i) => (
-            <article key={d.nombre} className={`reveal delay-${i + 1} group relative rounded-3xl bg-gradient-to-b ${d.gradient} border ${d.border} p-8 flex flex-col overflow-hidden hover:border-red-600/40 transition-all duration-500`}>
-              {/* Glow orb */}
-              <div className="absolute -top-20 -right-20 w-40 h-40 bg-red-600/5 rounded-full blur-3xl group-hover:bg-red-600/10 transition-colors duration-700" />
-
-              <div className="flex items-center gap-4 mb-6">
-                <div className={`w-14 h-14 rounded-2xl bg-white/5 border ${d.border} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                  {d.logo ? (
-                    <Image src={d.logo} alt={d.team} width={32} height={32} className="w-8 h-8 object-contain" />
-                  ) : (
-                    <d.icon className={`w-7 h-7 ${d.accent}`} />
-                  )}
-                </div>
-                <div>
-                  <h3 className="text-3xl font-bebas text-white uppercase tracking-wide">{d.nombre}</h3>
-                  <p className={`text-xs font-bold tracking-[0.2em] uppercase ${d.accent}`}>{d.team}</p>
-                </div>
-              </div>
-
-              <p className="text-zinc-400 text-sm leading-relaxed mb-6 flex-1">{d.desc}</p>
-
-              <div className="flex flex-wrap gap-2 mb-6">
-                {d.niveles.map((n) => (
-                  <span key={n} className="px-3 py-1 rounded-lg bg-white/5 border border-white/5 text-[11px] font-bold text-zinc-500 uppercase tracking-wider">{n}</span>
-                ))}
-              </div>
-
-              <a href="#horarios" className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider ${d.accent} hover:gap-3 transition-all`}>
-                Ver horarios <ChevronRight className="w-4 h-4" />
-              </a>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* =================================================================== */
-/*   GALERÍA                                                             */
-/* =================================================================== */
 function Gallery() {
   const images = [
     { src: "/instalacion-general.jpg", label: "Área de Entrenamiento", size: "md:col-span-2 md:row-span-2" },
@@ -289,13 +285,13 @@ function Gallery() {
   ];
 
   return (
-    <section id="acerca" className="relative py-32 bg-[#08080a]">
+    <section id="acerca" className="relative py-24 md:py-32 bg-[#08080a] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <SectionHead title="El Dojo" subtitle="Instalaciones equipadas con tatamis homologados, ring reglamentario, octágono y zona de recuperación." />
 
         <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4 md:h-[600px] reveal delay-1">
           {images.map((img, i) => (
-            <div key={i} className={`relative group overflow-hidden rounded-3xl ${img.size} min-h-[220px]`}>
+            <div key={i} className={`relative group overflow-hidden rounded-3xl ${img.size} min-h-[220px] w-full`}>
               <div className="absolute inset-0 bg-zinc-900" />
               <Image src={img.src} alt={img.label} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-50 group-hover:opacity-90 transition-opacity duration-300" />
@@ -303,14 +299,13 @@ function Gallery() {
                 <div className="w-10 h-10 rounded-full bg-red-600/20 border border-red-600/40 flex items-center justify-center mb-3 backdrop-blur-md">
                   <MapPin className="w-5 h-5 text-red-500" />
                 </div>
-                <h3 className="text-xl font-bebas tracking-wide text-white">{img.label}</h3>
+                <h3 className="text-lg sm:text-xl font-bebas tracking-wide text-white">{img.label}</h3>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Features */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8 reveal delay-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-8 reveal delay-2">
           {[
             { icon: Shield, text: "Tatamis homologados" },
             { icon: Users, text: "Clases grupales y particulares" },
@@ -321,7 +316,7 @@ function Gallery() {
           ].map(({ icon: Icon, text }) => (
             <div key={text} className="flex items-center gap-3 p-4 rounded-2xl glass-card">
               <Icon className="w-4 h-4 text-red-500 flex-shrink-0" />
-              <span className="text-sm text-zinc-300">{text}</span>
+              <span className="text-xs sm:text-sm text-zinc-300">{text}</span>
             </div>
           ))}
         </div>
@@ -330,9 +325,6 @@ function Gallery() {
   );
 }
 
-/* =================================================================== */
-/*   ENTRENADORES                                                        */
-/* =================================================================== */
 function Coaches() {
   const coaches = [
     { id: "mg", name: "Marcos García", role: "Head Coach Wukong", discipline: "Boxeo", img: "/logo_wukong.png", color: "from-red-900 to-black", text: "Especialista en striking y estrategia de ring. +10 años formando boxeadores bajo la filosofía Wukong." },
@@ -342,7 +334,7 @@ function Coaches() {
   const [activeId, setActiveId] = useState<string | null>(null);
 
   return (
-    <section id="entrenadores" className="relative py-32 bg-[#050505] overflow-hidden">
+    <section id="entrenadores" className="relative py-24 md:py-32 bg-[#050505] overflow-hidden">
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-red-600/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -356,7 +348,7 @@ function Coaches() {
                 onMouseEnter={() => setActiveId(coach.id)} onMouseLeave={() => setActiveId(null)}
                 onClick={() => setActiveId(isActive ? null : coach.id)}>
 
-                <div className={`w-48 h-48 md:w-56 md:h-56 rounded-full p-1 transition-all duration-500 ease-out ${isActive ? "scale-110 shadow-[0_0_60px_rgba(229,26,34,0.35)]" : "scale-100 opacity-60 hover:opacity-100"} bg-gradient-to-br ${coach.color} border border-white/10`}>
+                <div className={`w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-full p-1 transition-all duration-500 ease-out ${isActive ? "scale-110 shadow-[0_0_60px_rgba(229,26,34,0.35)]" : "scale-100 opacity-60 hover:opacity-100"} bg-gradient-to-br ${coach.color} border border-white/10`}>
                   <div className="w-full h-full rounded-full overflow-hidden bg-[#050505] flex items-center justify-center relative">
                     {coach.img ? (
                       <Image src={coach.img} alt={coach.name} width={100} height={100} className="w-1/2 h-1/2 object-contain opacity-40 group-hover:opacity-100 transition-opacity duration-500" />
@@ -365,13 +357,12 @@ function Coaches() {
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                     <div className="absolute bottom-5 left-0 right-0 text-center">
-                      <h3 className="text-xl font-bebas text-white tracking-wider">{coach.name}</h3>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-red-500">{coach.discipline}</p>
+                      <h3 className="text-base sm:text-lg md:text-xl font-bebas text-white tracking-wider">{coach.name}</h3>
+                      <p className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-red-500">{coach.discipline}</p>
                     </div>
                   </div>
                 </div>
 
-                {/* Popover */}
                 <div className={`absolute top-1/2 left-full ml-6 w-56 glass-card rounded-2xl p-5 transition-all duration-500 origin-left hidden md:block z-20 -translate-y-1/2 ${isActive ? "opacity-100 scale-100 translate-x-0" : "opacity-0 scale-90 -translate-x-4 pointer-events-none"}`}>
                   <h4 className="text-lg font-bebas text-white tracking-wide mb-1">{coach.role}</h4>
                   <p className="text-sm text-zinc-400 leading-relaxed mb-4">{coach.text}</p>
@@ -382,17 +373,15 @@ function Coaches() {
                   </div>
                 </div>
 
-                {/* Mobile Expand */}
-                {isActive && (
-                  <div className="md:hidden mt-4 glass-card rounded-2xl p-5 text-center">
-                    <h4 className="text-lg font-bebas text-white tracking-wide mb-1">{coach.role}</h4>
-                    <p className="text-sm text-zinc-400 leading-relaxed mb-3">{coach.text}</p>
-                    <div className="flex items-center justify-center gap-2">
-                      <button className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400"><Mail className="w-4 h-4" /></button>
-                      <button className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400"><Phone className="w-4 h-4" /></button>
-                    </div>
+                <div className={`md:hidden mt-6 glass-card rounded-2xl p-5 text-center transition-all duration-500 ${isActive ? "opacity-100 scale-100" : "opacity-0 scale-90 pointer-events-none"}`}>
+                  <h4 className="text-lg font-bebas text-white tracking-wide mb-1">{coach.role}</h4>
+                  <p className="text-sm text-zinc-400 leading-relaxed mb-3">{coach.text}</p>
+                  <div className="flex items-center justify-center gap-2">
+                    <button className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400"><Mail className="w-4 h-4" /></button>
+                    <button className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400"><Phone className="w-4 h-4" /></button>
+                    <button className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-green-500 transition-colors"><WhatsAppIcon className="w-4 h-4" /></button>
                   </div>
-                )}
+                </div>
               </div>
             );
           })}
@@ -402,9 +391,44 @@ function Coaches() {
   );
 }
 
-/* =================================================================== */
-/*   HORARIOS                                                            */
-/* =================================================================== */
+function Horarios() {
+  return (
+    <section id="horarios" className="relative py-24 md:py-32 bg-[#08080a] overflow-hidden">
+      <div className="max-w-5xl mx-auto px-6">
+        <SectionHead title="Horarios" subtitle="Organizá tu semana de entrenamiento." align="center" />
+
+        <div className="reveal overflow-x-auto rounded-3xl glass-card">
+          <table className="w-full min-w-[600px]">
+            <thead className="bg-zinc-900/50">
+              <tr className="border-b border-white/5">
+                <th className="text-left p-4 sm:p-5 text-xs font-bold uppercase tracking-widest text-zinc-600">Día</th>
+                <th className="text-center p-4 sm:p-5 text-xs font-bold uppercase tracking-widest text-red-500">🥊 Boxeo</th>
+                <th className="text-center p-4 sm:p-5 text-xs font-bold uppercase tracking-widest text-zinc-300">🥋 Jiu Jitsu</th>
+                <th className="text-center p-4 sm:p-5 text-xs font-bold uppercase tracking-widest text-red-400">🔥 MMA</th>
+              </tr>
+            </thead>
+            <tbody>
+              {horarios.map((row, i) => (
+                <tr key={row.dia} className={`border-b border-white/[0.03] hover:bg-white/[0.03] transition-colors ${i % 2 !== 0 ? "bg-white/[0.01]" : ""}`}>
+                  <td className="p-4 sm:p-5 text-sm font-bold text-white">{row.dia}</td>
+                  <td className="p-4 sm:p-5 text-sm text-center text-zinc-400 font-mono">{row.boxeo}</td>
+                  <td className="p-4 sm:p-5 text-sm text-center text-zinc-400 font-mono">{row.jiujitsu}</td>
+                  <td className="p-4 sm:p-5 text-sm text-center text-zinc-400 font-mono">{row.mma}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-6 mt-8 reveal delay-1">
+          <div className="flex items-center gap-2 text-xs sm:text-sm text-zinc-600"><Clock className="w-4 h-4" />Horarios sujetos a cambios.</div>
+          <a href="#contacto" className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-red-500 hover:text-red-400 transition-colors">Consultar disponibilidad <ChevronRight className="w-4 h-4" /></a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 const horarios = [
   { dia: "Lunes", boxeo: "10:00 / 20:00", jiujitsu: "8:00 / 19:00", mma: "—" },
   { dia: "Martes", boxeo: "9:00 / 19:00", jiujitsu: "—", mma: "20:30" },
@@ -414,48 +438,6 @@ const horarios = [
   { dia: "Sábado", boxeo: "10:00", jiujitsu: "9:00", mma: "11:30" },
 ];
 
-function Horarios() {
-  return (
-    <section id="horarios" className="relative py-32 bg-[#08080a]">
-      <div className="max-w-5xl mx-auto px-6">
-        <SectionHead title="Horarios" subtitle="Organizá tu semana de entrenamiento." align="center" />
-
-        <div className="reveal overflow-x-auto rounded-3xl glass-card">
-          <table className="w-full min-w-[520px]">
-            <thead>
-              <tr className="border-b border-white/5">
-                <th className="text-left p-5 text-xs font-bold uppercase tracking-widest text-zinc-600">Día</th>
-                <th className="text-center p-5 text-xs font-bold uppercase tracking-widest text-red-500">🥊 Boxeo</th>
-                <th className="text-center p-5 text-xs font-bold uppercase tracking-widest text-zinc-300">🥋 Jiu Jitsu</th>
-                <th className="text-center p-5 text-xs font-bold uppercase tracking-widest text-red-400">🔥 MMA</th>
-              </tr>
-            </thead>
-            <tbody>
-              {horarios.map((row, i) => (
-                <tr key={row.dia} className={`border-b border-white/[0.03] hover:bg-white/[0.03] transition-colors ${i % 2 !== 0 ? "bg-white/[0.01]" : ""}`}>
-                  <td className="p-5 text-sm font-bold text-white">{row.dia}</td>
-                  <td className="p-5 text-sm text-center text-zinc-400 font-mono">{row.boxeo}</td>
-                  <td className="p-5 text-sm text-center text-zinc-400 font-mono">{row.jiujitsu}</td>
-                  <td className="p-5 text-sm text-center text-zinc-400 font-mono">{row.mma}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <div className="flex flex-wrap justify-center gap-6 mt-8 reveal delay-1">
-          <div className="flex items-center gap-2 text-sm text-zinc-600"><Clock className="w-4 h-4" />Horarios sujetos a cambios.</div>
-          <a href="#contacto" className="inline-flex items-center gap-2 text-sm font-bold text-red-500 hover:text-red-400 transition-colors">Consultar disponibilidad <ChevronRight className="w-4 h-4" /></a>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-
-/* =================================================================== */
-/*   TESTIMONIOS                                                         */
-/* =================================================================== */
 function Testimonials() {
   const reviews = [
     { text: "El nivel de exigencia técnica en Jiu Jitsu es increíble. Mestre Diego realmente se enfoca en los detalles.", author: "Santiago V.", role: "Faixa Azul", stars: 5 },
@@ -464,27 +446,27 @@ function Testimonials() {
   ];
 
   return (
-    <section id="comentarios" className="py-32 bg-[#08080a] border-t border-white/5">
+    <section id="comentarios" className="py-24 md:py-32 bg-[#08080a] border-t border-white/5">
       <div className="max-w-7xl mx-auto px-6">
         <SectionHead title="La Comunidad" subtitle="Lo que dicen los guerreros" align="center" />
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {reviews.map((r, i) => (
-            <div key={i} className={`glass-card rounded-3xl p-8 relative overflow-hidden reveal delay-${i + 1} group hover:border-red-900/30 transition-all duration-500`}>
+            <div key={i} className={`glass-card rounded-3xl p-6 sm:p-8 relative overflow-hidden reveal delay-${i + 1} group hover:border-red-900/30 transition-all duration-500`}>
               <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 group-hover:bg-red-600/10 transition-colors duration-500" />
               <div className="flex items-center gap-1 mb-6">
                 {Array.from({ length: r.stars }).map((_, j) => (
                   <Star key={j} className="w-4 h-4 text-amber-400 fill-amber-400" />
                 ))}
               </div>
-              <p className="text-zinc-300 text-lg leading-relaxed font-medium mb-8 relative z-10">&ldquo;{r.text}&rdquo;</p>
+              <p className="text-zinc-300 text-base sm:text-lg leading-relaxed font-medium mb-8 relative z-10">&ldquo;{r.text}&rdquo;</p>
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-zinc-700 to-zinc-900 flex items-center justify-center border border-white/5">
                   <span className="font-bebas text-xl text-zinc-400">{r.author.charAt(0)}</span>
                 </div>
-                <div>
-                  <h4 className="font-bold text-white text-sm">{r.author}</h4>
-                  <p className="text-xs text-zinc-500 uppercase tracking-widest">{r.role}</p>
+                <div className="overflow-hidden">
+                  <h4 className="font-bold text-white text-sm truncate">{r.author}</h4>
+                  <p className="text-xs text-zinc-500 uppercase tracking-widest truncate">{r.role}</p>
                 </div>
               </div>
             </div>
@@ -495,32 +477,29 @@ function Testimonials() {
   );
 }
 
-/* =================================================================== */
-/*   NOTICIAS                                                            */
-/* =================================================================== */
-const noticias = [
-  { cat: "Competencia", titulo: "Wukong en el Campeonato Provincial", fecha: "12 Sep 2026", destacado: true, texto: "Más de 15 representantes de Wukong compitieron en el Torneo Provincial, obteniendo 8 medallas en total." },
-  { cat: "Clases", titulo: "Nuevo horario de Boxeo nocturno", fecha: "5 Sep 2026", destacado: false, texto: "A partir del próximo mes, habilitamos entrenamiento de Boxeo de 21:00 a 22:30 para trabajadores." },
-  { cat: "Comunidad", titulo: "Clase gratuita para primeros ingresos", fecha: "28 Ago 2026", destacado: false, texto: "Si nunca entrenaste, te esperamos con una clase de 45 min sin compromiso los sábados a las 10:00hs." },
-];
-
 function Noticias() {
+  const noticias = [
+    { cat: "Competencia", titulo: "Wukong en el Campeonato Provincial", fecha: "12 Sep 2026", destacado: true, texto: "Más de 15 representantes de Wukong compitieron en el Torneo Provincial, obteniendo 8 medallas en total." },
+    { cat: "Clases", titulo: "Nuevo horario de Boxeo nocturno", fecha: "5 Sep 2026", destacado: false, texto: "A partir del próximo mes, habilitamos entrenamiento de Boxeo de 21:00 a 22:30 para trabajadores." },
+    { cat: "Comunidad", titulo: "Clase gratuita para primeros ingresos", fecha: "28 Ago 2026", destacado: false, texto: "Si nunca entrenaste, te esperamos con una clase de 45 min sin compromiso los sábados a las 10:00hs." },
+  ];
+
   return (
-    <section id="noticias" className="py-32 bg-[#050505]">
+    <section id="noticias" className="py-24 md:py-32 bg-[#050505] overflow-hidden">
       <div className="max-w-5xl mx-auto px-6">
         <SectionHead title="Noticias" subtitle="Última hora de la academia." />
         <div className="space-y-4">
           {noticias.map((n, i) => (
-            <article key={n.titulo} className={`reveal delay-${i + 1} group relative rounded-3xl border p-6 flex gap-5 transition-all duration-300 hover:border-red-900/40 ${n.destacado ? "border-red-600/30 bg-red-950/5" : "border-white/5 glass-card"}`}>
+            <article key={n.titulo} className={`reveal delay-${i + 1} group relative rounded-3xl border p-5 sm:p-6 flex gap-4 sm:gap-5 transition-all duration-300 hover:border-red-900/40 ${n.destacado ? "border-red-600/30 bg-red-950/5" : "border-white/5 glass-card"}`}>
               {n.destacado && <span className="absolute top-4 right-4 px-2.5 py-0.5 bg-red-600 text-white text-[10px] font-bold uppercase tracking-widest rounded-full">Destacado</span>}
-              <div className="flex flex-col items-center justify-center w-16 flex-shrink-0">
-                <span className={`text-[10px] font-bold uppercase tracking-widest ${n.destacado ? "text-red-400" : "text-zinc-500"}`}>{n.cat}</span>
-                <Zap className={`w-4 h-4 mt-2 ${n.destacado ? "text-red-400" : "text-zinc-700"}`} />
+              <div className="flex flex-col items-center justify-center w-12 sm:w-16 flex-shrink-0">
+                <span className={`text-[9px] sm:text-[10px] font-bold uppercase tracking-widest ${n.destacado ? "text-red-400" : "text-zinc-500"}`}>{n.cat}</span>
+                <Zap className={`w-3 h-3 sm:w-4 sm:h-4 mt-2 ${n.destacado ? "text-red-400" : "text-zinc-700"}`} />
               </div>
               <div className="flex-1">
-                <h3 className="text-lg font-bebas text-white uppercase tracking-wide mb-1">{n.titulo}</h3>
-                <p className="text-zinc-400 text-sm leading-relaxed">{n.texto}</p>
-                <p className="text-xs text-zinc-600 mt-2">{n.fecha}</p>
+                <h3 className="text-base sm:text-lg font-bebas text-white uppercase tracking-wide mb-1 break-words">{n.titulo}</h3>
+                <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed break-words">{n.texto}</p>
+                <p className="text-[10px] sm:text-xs text-zinc-600 mt-2">{n.fecha}</p>
               </div>
             </article>
           ))}
@@ -530,39 +509,34 @@ function Noticias() {
   );
 }
 
-/* =================================================================== */
-/*   CONTACTO                                                            */
-/* =================================================================== */
 function Contacto() {
   const mapUrl = "https://maps.google.com/maps/search/Wukong%20team/@-25.60676274,-54.58111345,17z?hl=es";
   const embedUrl = "https://www.google.com/maps?q=-25.60676274,-54.58111345&z=17&output=embed";
 
   return (
-    <section id="contacto" className="relative py-32 bg-[#08080a]">
+    <section id="contacto" className="relative py-24 md:py-32 bg-[#08080a] overflow-hidden">
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-red-600/5 rounded-full blur-[120px] translate-x-1/2 -translate-y-1/2 pointer-events-none" />
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         <SectionHead title="Contacto" subtitle="Escribinos y comenzá tu camino." align="center" />
 
-        <div className="grid md:grid-cols-2 gap-12">
-          {/* Info + Mapa */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div className="space-y-5 reveal">
             {[
               { icon: MapPin, label: "Ubicación", value: "Wukong Team — Puerto Iguazú, Misiones" },
               { icon: Phone, label: "WhatsApp", value: "+54 11 5555-5555" },
               { icon: Mail, label: "Email", value: "hola@wukong.com.ar" },
             ].map(({ icon: Icon, label, value }) => (
-              <div key={label} className="flex items-center gap-4 p-5 rounded-2xl glass-card">
-                <div className="w-11 h-11 rounded-xl bg-red-600/20 border border-red-600/30 flex items-center justify-center flex-shrink-0">
+              <div key={label} className="flex items-center gap-4 p-4 sm:p-5 rounded-2xl glass-card">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-red-600/20 border border-red-600/30 flex items-center justify-center flex-shrink-0">
                   <Icon className="w-5 h-5 text-red-400" />
                 </div>
-                <div>
-                  <p className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">{label}</p>
-                  <p className="text-sm text-zinc-300">{value}</p>
+                <div className="overflow-hidden">
+                  <p className="text-[9px] sm:text-[10px] text-zinc-500 uppercase tracking-widest font-bold">{label}</p>
+                  <p className="text-xs sm:text-sm text-zinc-300 truncate">{value}</p>
                 </div>
               </div>
             ))}
 
-            {/* Google Maps Embed */}
             <div className="rounded-2xl overflow-hidden border border-white/5 h-[220px] relative">
               <iframe
                 src={embedUrl}
@@ -580,16 +554,15 @@ function Contacto() {
             </div>
 
             <div className="flex items-center gap-3 pt-2">
-              <a href="https://instagram.com/wukong" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-pink-400 hover:border-pink-500/30 transition-all"><InstagramIcon className="w-5 h-5" /></a>
-              <a href="https://facebook.com/wukong" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-blue-400 hover:border-blue-500/30 transition-all"><FacebookIcon className="w-5 h-5" /></a>
-              <a href="https://wa.me/5411555555" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-green-400 hover:border-green-500/30 transition-all"><WhatsAppIcon className="w-5 h-5" /></a>
+              <a href="https://instagram.com/wukong" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-700 hover:text-pink-400 hover:border-pink-500/30 transition-all"><InstagramIcon className="w-5 h-5" /></a>
+              <a href="https://facebook.com/wukong" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-700 hover:text-blue-400 hover:border-blue-500/30 transition-all"><FacebookIcon className="w-5 h-5" /></a>
+              <a href="https://wa.me/5411555555" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-700 hover:text-green-400 hover:border-green-500/30 transition-all"><WhatsAppIcon className="w-5 h-5" /></a>
             </div>
           </div>
 
-          {/* Form */}
           <div className="reveal delay-2">
-            <form className="rounded-3xl glass-card p-8 space-y-5">
-              <div className="grid grid-cols-2 gap-4">
+            <form className="rounded-3xl glass-card p-6 sm:p-8 space-y-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <input type="text" placeholder="Nombre" className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/5 text-white text-sm placeholder:text-zinc-600 focus:outline-none focus:border-red-600/40 transition-colors" />
                 <input type="tel" placeholder="WhatsApp" className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/5 text-white text-sm placeholder:text-zinc-600 focus:outline-none focus:border-red-600/40 transition-colors" />
               </div>
@@ -611,9 +584,6 @@ function Contacto() {
   );
 }
 
-/* =================================================================== */
-/*   FOOTER                                                              */
-/* =================================================================== */
 function Footer() {
   return (
     <footer className="py-16 bg-black border-t border-white/5">
@@ -632,6 +602,7 @@ function Footer() {
           <div className="flex items-center gap-3">
             <a href="https://instagram.com/wukong" target="_blank" rel="noreferrer" className="text-zinc-700 hover:text-pink-400 transition-colors"><InstagramIcon className="w-5 h-5" /></a>
             <a href="https://facebook.com/wukong" target="_blank" rel="noreferrer" className="text-zinc-700 hover:text-blue-400 transition-colors"><FacebookIcon className="w-5 h-5" /></a>
+            <a href="https://wa.me/5411555555" target="_blank" rel="noreferrer" className="text-zinc-700 hover:text-green-400 transition-colors"><WhatsAppIcon className="w-5 h-5" /></a>
           </div>
         </div>
         <div className="text-center mt-10 pt-8 border-t border-white/5">
@@ -642,14 +613,11 @@ function Footer() {
   );
 }
 
-/* =================================================================== */
-/*   MAIN                                                                */
-/* =================================================================== */
 export default function HomePage() {
   useScrollReveal();
 
   return (
-    <div className="min-h-screen bg-[#050505]">
+    <div className="min-h-screen bg-[#050505] overflow-x-hidden">
       <Nav />
       <Hero />
       <Disciplinas />
