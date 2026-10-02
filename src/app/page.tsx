@@ -430,12 +430,11 @@ function Horarios() {
 }
 
 const horarios = [
-  { dia: "Lunes", boxeo: "10:00 / 20:00", jiujitsu: "8:00 / 19:00", mma: "—" },
-  { dia: "Martes", boxeo: "9:00 / 19:00", jiujitsu: "—", mma: "20:30" },
-  { dia: "Miércoles", boxeo: "10:00 / 20:00", jiujitsu: "8:00 / 19:00", mma: "—" },
-  { dia: "Jueves", boxeo: "9:00 / 19:00", jiujitsu: "—", mma: "20:30" },
-  { dia: "Viernes", boxeo: "10:00 / 19:00", jiujitsu: "8:00 / 18:00", mma: "20:00" },
-  { dia: "Sábado", boxeo: "10:00", jiujitsu: "9:00", mma: "11:30" },
+  { dia: "Lunes", boxeo: "14:00 / 16:00 / 21:00", jiujitsu: "17:00 / 18:00 / 20:00", mma: "15:00 / 19:00" },
+  { dia: "Martes", boxeo: "08:30 / 16:00", jiujitsu: "17:00 / 20:00", mma: "15:00 / 19:00" },
+  { dia: "Miércoles", boxeo: "08:30 / 14:00 / 21:00", jiujitsu: "18:00 / 20:00", mma: "19:00" },
+  { dia: "Jueves", boxeo: "08:30 / 16:00 / 21:00", jiujitsu: "17:00 / 20:00", mma: "15:00 / 19:00" },
+  { dia: "Viernes", boxeo: "08:30 / 14:00 / 16:00", jiujitsu: "17:00 / 20:00", mma: "15:00 / 19:00" },
 ];
 
 function Testimonials() {
