@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from 'react';
 import { CreditCard, Upload, FileText, CheckCircle, Clock, ArrowLeft, Loader2, AlertCircle } from 'lucide-react';
 import { supabase } from '@/infrastructure/supabase/client';

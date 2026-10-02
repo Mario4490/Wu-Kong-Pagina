@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from 'react';
 import { Bell, LogOut, CheckCircle, Clock, ArrowLeft } from 'lucide-react';
 import { supabase } from '@/infrastructure/supabase/client';

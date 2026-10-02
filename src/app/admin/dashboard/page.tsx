@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { LayoutDashboard, Users, CreditCard, Bell, Settings, LogOut } from 'lucide-react';
 import { supabase } from '@/infrastructure/supabase/client';
