@@ -510,7 +510,7 @@ function Noticias() {
 
 function Contacto() {
   const mapUrl = "https://www.google.com/maps/search/?api=1&query=Cacique+Matías+Aracu+433+Puerto+Iguazú+Misiones";
-  const embedUrl = "https://www.google.com/maps/embed/v1/place?key=YOUR_GOOGLE_MAPS_API_KEY&q=Cacique+Matías+Aracu+433+Puerto+Iguazú+Misiones";
+  const embedUrl = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3472.478212345678!2d-53.7383!3d-25.5933!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zQ2FjaXF1ZSBNYXTt1YXMgQXJhY3UgNDMzLCBQdW reducerIuI3V6w!5f2!4m2!1m1!1s0x0%3A0x0!2zLTI1LDU5MzMsLTUzLjczODM!"; // URL de inserción estándar sin API Key
 
   return (
     <section id="contacto" className="relative py-24 md:py-32 bg-[#08080a] overflow-hidden">
