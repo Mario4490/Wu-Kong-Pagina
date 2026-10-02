@@ -33,7 +33,7 @@ export default function AvisosPage() {
           .from('hermes_avisos')
           .select('*')
           .eq('alumno_id', user.id)
-          .order('fecha_creacion', { ascending: false });
+          .order('created_at', { ascending: false });
 
         if (fetchError) throw fetchError;
         setAvisos(data || []);
