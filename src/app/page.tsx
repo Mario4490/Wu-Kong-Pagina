@@ -522,7 +522,7 @@ function Contacto() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div className="space-y-5 reveal">
             {[
-              { icon: MapPin, label: "Ubicación", value: "Cacique Matías Aracu 433, N3370 Puerto Iguazú, Misiones" },
+              { icon: MapPin, label: "Ubicación", value: "https://maps.app.goo.gl/WrMgkX98UNxLugyP7" },
               { icon: Phone, label: "WhatsApp", value: "03754570445" },
               { icon: Mail, label: "Email", value: "hola@wukong.com.ar" },
             ].map(({ icon: Icon, label, value }) => (
