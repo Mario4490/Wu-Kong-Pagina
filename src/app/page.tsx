@@ -21,7 +21,68 @@ import {
 /* =================================================================== */
 /*   SVG: Social Icons                                                   */
 /* =================================================================== */
-function InstagramIcon({ className = "w-5 h-5" }: { className?: string }) {
+/* =================================================================== */
+/*   MODAL: Registration                                                   */
+/* =================================================================== */
+function RegistrationModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 animate-in fade-in duration-300">
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={onClose} />
+
+      <div className="relative w-full max-w-lg glass-card rounded-3xl border border-red-600/30 shadow-[0_0_50px_rgba(220,38,38,0.2)] overflow-hidden animate-in zoom-in-95 duration-300">
+        {/* Decorative Glow */}
+        <div className="absolute -top-24 -right-24 w-48 h-48 bg-red-600/20 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="relative p-8 sm:p-10">
+          <button onClick={onClose} className="absolute top-6 right-6 p-2 text-zinc-500 hover:text-white transition-colors">
+            <X className="w-6 h-6" />
+          </button>
+
+          <div className="text-center mb-8">
+            <h2 className="text-3xl sm:text-4xl font-bebas tracking-wide text-white mb-2">Inscribite Ahora</h2>
+            <p className="text-zinc-400 text-xs sm:text-sm uppercase tracking-widest font-medium">Comenzá tu camino en las artes marciales</p>
+            <div className="w-12 h-1 bg-red-600 mx-auto mt-4" />
+          </div>
+
+          <form className="space-y-5" onSubmit={(e) => { e.preventDefault(); alert("Consulta enviada"); onClose(); }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold ml-1">Nombre Completo</label>
+                <input type="text" required placeholder="Ej. Juan Pérez" className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm placeholder:text-zinc-600 focus:outline-none focus:border-red-600/50 transition-all" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold ml-1">WhatsApp</label>
+                <input type="tel" required placeholder="Ej. 3757..." className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm placeholder:text-zinc-600 focus:outline-none focus:border-red-600/50 transition-all" />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold ml-1">Disciplina de Interés</label>
+              <select className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-zinc-400 text-sm focus:outline-none focus:border-red-600/50 transition-all appearance-none cursor-pointer">
+                <option value="" disabled selected>Seleccioná una disciplina</option>
+                <option value="boxeo">Boxeo (Wukong)</option>
+                <option value="jiujitsu">Jiu Jitsu (Aquiles)</option>
+                <option value="mma">MMA</option>
+              </select>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold ml-1">Mensaje Adicional</label>
+              <textarea rows={3} placeholder="Contanos si tenés experiencia previa..." className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm placeholder:text-zinc-600 focus:outline-none focus:border-red-600/50 transition-all resize-none" />
+            </div>
+
+            <button type="submit" className="w-full py-4 bg-red-600 text-white font-black text-sm uppercase tracking-widest rounded-2xl hover:bg-red-700 active:scale-95 transition-all shadow-[0_0_30px_rgba(220,38,38,0.4)] flex items-center justify-center gap-2 group">
+              Enviar Solicitud <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+}
+
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
@@ -111,30 +172,32 @@ function SectionHead({ title, subtitle, align = "left" }: { title: string; subti
 function Nav() {
   const [isOpen, setIsOpen] = useState(false);
   const sections = [
-    { label: "Inicio", href: "#inicio" },
-    { label: "Disciplinas", href: "#disciplinas" },
-    { label: "El Dojo", href: "#acerca" },
-    { label: "Equipo", href: "#entrenadores" },
-    { label: "Horarios", href: "#horarios" },
+    { label: "Home", href: "#inicio" },
+    { label: "Entrenamientos", href: "#disciplinas" },
+    { label: "Instalaciones", href: "#acerca" },
+    { label: "Maestros", href: "#entrenadores" },
+    { label: "Agenda", href: "#horarios" },
     { label: "Contacto", href: "#contacto" },
   ];
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-white/5 overflow-hidden">
+      <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-red-600/20 backdrop-blur-md overflow-hidden transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
-          <a href="#inicio" className="flex items-center gap-2 md:gap-3">
-            <Image src="/logo_wukong.png" alt="Wukong" width={40} height={40} className="w-8 h-8 md:w-10 md:h-10 object-contain" />
-            <Image src="/logo_aquiles.png" alt="Aquiles" width={40} height={40} className="w-8 h-8 md:w-10 md:h-10 object-contain hidden sm:block" />
+          <a href="#inicio" className="flex items-center gap-2 md:gap-3 group">
+            <Image src="/logo_principal.png" alt="Wukong & Aquiles" width={40} height={40} className="w-8 h-8 md:w-10 md:h-10 object-contain group-hover:scale-110 transition-transform duration-300" />
           </a>
-          <div className="hidden lg:flex items-center gap-6">
+          <div className="hidden lg:flex items-center gap-8">
             {sections.map((s) => (
-              <a key={s.label} href={s.href} className="text-[11px] md:text-[13px] font-bold uppercase tracking-widest text-zinc-500 hover:text-white transition-colors">{s.label}</a>
+              <a key={s.label} href={s.href} className="text-[11px] md:text-[13px] font-black uppercase tracking-[0.2em] text-zinc-500 hover:text-red-500 transition-all duration-300 relative group">
+                {s.label}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-600 transition-all duration-300 group-hover:w-full" />
+              </a>
             ))}
           </div>
           <div className="flex items-center gap-3 md:gap-4">
-            <a href="/login" className="hidden md:block text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">Ingresar</a>
-            <a href="/signup" className="inline-flex px-4 py-2 md:px-6 md:py-2.5 bg-red-600 text-white text-[10px] md:text-sm font-bold uppercase tracking-widest rounded-full hover:bg-red-700 transition-all active:scale-95">Inscribirse</a>
+            <a href="/login" className="hidden md:block text-xs font-black uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">Ingresar</a>
+            <a href="/signup" className="inline-flex px-5 py-2 md:px-7 md:py-2.5 bg-red-600 text-white text-[10px] md:text-sm font-black uppercase tracking-widest rounded-full hover:bg-red-700 hover:shadow-[0_0_20px_rgba(220,38,38,0.5)] transition-all active:scale-95">Inscribirse</a>
             <button className="lg:hidden p-2 text-zinc-400 hover:text-white" onClick={() => setIsOpen(true)}>
               <Menu className="w-6 h-6" />
             </button>
@@ -142,18 +205,18 @@ function Nav() {
         </div>
       </nav>
 
-      <div className={`fixed inset-0 z-[60] bg-black/95 backdrop-blur-xl transition-opacity duration-300 lg:hidden ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
-        <button className="absolute top-6 right-6 p-2 text-white bg-white/10 rounded-full hover:bg-white/20 transition-colors" onClick={() => setIsOpen(false)}>
+      <div className={`fixed inset-0 z-[60] bg-black/98 backdrop-blur-2xl transition-all duration-500 lg:hidden ${isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"}`}>
+        <button className="absolute top-6 right-6 p-2 text-white bg-red-600/20 rounded-full hover:bg-red-600/40 transition-colors" onClick={() => setIsOpen(false)}>
           <X className="w-6 h-6" />
         </button>
-        <div className="flex flex-col items-center justify-center h-full gap-6 p-6">
-          <Image src="/logo_wukong.png" alt="Wukong" width={64} height={64} className="mb-6" />
+        <div className="flex flex-col items-center justify-center h-full gap-8 p-6">
+          <Image src="/logo_principal.png" alt="Wukong & Aquiles" width={120} height={120} className="mb-8 animate-pulse" />
           {sections.map((s) => (
-            <a key={s.label} href={s.href} onClick={() => setIsOpen(false)} className="text-3xl font-bebas tracking-widest text-zinc-400 hover:text-white transition-colors">{s.label}</a>
+            <a key={s.label} href={s.href} onClick={() => setIsOpen(false)} className="text-4xl font-bebas tracking-widest text-zinc-400 hover:text-red-500 transition-all duration-300">{s.label}</a>
           ))}
-          <div className="flex flex-col w-full max-w-xs gap-4 mt-8">
-            <a href="/login" onClick={() => setIsOpen(false)} className="py-4 text-center border border-white/20 rounded-2xl text-sm font-bold uppercase tracking-widest text-white hover:bg-white/5 transition-colors">Ingresar</a>
-            <a href="/signup" onClick={() => setIsOpen(false)} className="py-4 text-center bg-red-600 rounded-2xl text-sm font-bold uppercase tracking-widest text-white hover:bg-red-700 transition-colors">Inscribirse</a>
+          <div className="flex flex-col w-full max-w-xs gap-4 mt-12">
+            <a href="/login" onClick={() => setIsOpen(false)} className="py-4 text-center border border-red-600/30 rounded-2xl text-sm font-black uppercase tracking-widest text-white hover:bg-red-600/10 transition-all">Ingresar</a>
+            <a href="/signup" onClick={() => setIsOpen(false)} className="py-4 text-center bg-red-600 rounded-2xl text-sm font-black uppercase tracking-widest text-white hover:bg-red-700 shadow-[0_0_30px_rgba(220,38,38,0.4)] transition-all">Inscribirse</a>
           </div>
         </div>
       </div>
@@ -163,48 +226,49 @@ function Nav() {
 
 function Hero() {
   return (
-    <section id="inicio" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-red-900/20 via-[#050505] to-[#050505] z-10"/>
-        <div className="absolute inset-0 bg-[url('/hero-dojo.jpg')] bg-cover bg-center opacity-15 mix-blend-overlay w-full h-full" />
+    <section id="inicio" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-[#050505]">
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-red-900/30 via-[#050505] to-[#050505] z-10"/>
+        <div className="absolute inset-0 bg-[url('/hero-dojo.jpg')] bg-cover bg-center opacity-20 mix-blend-overlay w-full h-full" />
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none" />
       </div>
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 flex flex-col items-center text-center">
-        <div className="flex items-center justify-center gap-6 md:gap-8 mb-10 reveal">
-          <Image src="/logo_wukong.png" alt="Wukong" width={180} height={180} className="w-16 h-16 sm:w-20 sm:h-20 md:w-44 md:h-44 object-contain animate-float drop-shadow-[0_0_40px_rgba(229,26,34,0.35)]" priority />
-          <Image src="/logo_aquiles.png" alt="Aquiles" width={180} height={180} className="w-16 h-16 sm:w-20 sm:h-20 md:w-44 md:h-44 object-contain animate-float drop-shadow-[0_0_30px_rgba(255,255,255,0.08)]" style={{ animationDelay: "1.5s" }} priority />
+        <div className="relative mb-12 reveal">
+          <div className="absolute inset-0 blur-3xl bg-red-600/30 animate-pulse rounded-full" />
+          <Image src="/logo_principal.png" alt="Wukong & Aquiles" width={280} height={280} className="relative w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 object-contain animate-float drop-shadow-[0_0_50px_rgba(220,38,38,0.5)]" priority />
         </div>
 
-        <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-bebas text-white tracking-wider leading-none mb-4 reveal delay-1 text-glow break-words">
+        <h1 className="text-5xl sm:text-7xl md:text-9xl lg:text-[12rem] font-bebas text-white tracking-tighter leading-none mb-6 reveal delay-1 text-glow break-words italic">
           WUKONG <span className="text-red-600">&</span> AQUILES
         </h1>
-        <p className="text-xs sm:text-sm md:text-xl text-zinc-500 uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold mb-8 reveal delay-1 px-4 text-center">
-          Artes Marciales · Boxeo · Jiu Jitsu · MMA
+        <p className="text-xs sm:text-sm md:text-2xl text-zinc-400 uppercase tracking-[0.3em] font-black mb-10 reveal delay-1 px-4 text-center">
+          Artes Marciales <span className="text-red-600 mx-2">•</span> Boxeo <span className="text-red-600 mx-2">•</span> Jiu Jitsu <span className="text-red-600 mx-2">•</span> MMA
         </p>
-        <p className="text-sm sm:text-base md:text-2xl text-zinc-400 max-w-2xl mx-auto mb-12 reveal delay-2 font-medium leading-relaxed px-4 text-center">
-          Forjá tu disciplina con los mejores. El centro de entrenamiento más completo y avanzado de la ciudad.
+        <p className="text-sm sm:text-base md:text-2xl text-zinc-500 max-w-3xl mx-auto mb-16 reveal delay-2 font-medium leading-relaxed px-4 text-center italic">
+          "Donde la disciplina se encuentra con el poder. Forjá tu espíritu en el centro de entrenamiento más avanzado de la región."
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-5 w-full sm:w-auto reveal delay-3 px-6 sm:px-0">
-          <a href="/signup" className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 sm:px-10 sm:py-5 bg-red-600 overflow-hidden rounded-2xl text-white font-bold uppercase tracking-widest transition-transform hover:scale-105 shadow-[0_0_50px_-10px_rgba(229,26,34,0.6)] text-center">
+        <div className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto reveal delay-3 px-6 sm:px-0">
+          <a href="/signup" className="group relative inline-flex items-center justify-center gap-3 px-10 py-5 bg-red-600 overflow-hidden rounded-2xl text-white font-black uppercase tracking-widest transition-all hover:scale-105 shadow-[0_0_40px_rgba(220,38,38,0.6)] text-center">
             <span className="relative z-10">Comenzar Ahora</span>
-            <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
-            <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-2 transition-transform" />
+            <div className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-900 opacity-0 group-hover:opacity-100 transition-opacity" />
           </a>
-          <a href="#disciplinas" className="inline-flex items-center justify-center gap-2 px-8 py-4 sm:px-10 sm:py-5 glass border-white/15 rounded-2xl text-white font-bold uppercase tracking-widest hover:bg-white/10 transition-colors text-center">
-            Explorar <ChevronDown className="w-4 h-4" />
+          <a href="#disciplinas" className="inline-flex items-center justify-center gap-2 px-10 py-5 glass border-white/10 rounded-2xl text-white font-black uppercase tracking-widest hover:bg-white/10 hover:border-red-600/50 transition-all text-center">
+            Explorar <ChevronDown className="w-4 h-4 animate-bounce" />
           </a>
         </div>
 
-        <div className="grid grid-cols-3 gap-4 sm:gap-16 mt-20 px-4 py-8 glass rounded-3xl w-full max-w-lg reveal delay-3">
+        <div className="grid grid-cols-3 gap-4 sm:gap-16 mt-24 px-4 py-10 glass-card rounded-3xl w-full max-w-xl reveal delay-3 border-red-600/20 bg-red-600/5">
           <StatItem value={200} label="Alumnos" />
           <StatItem value={15} label="Años" suffix="+" />
           <StatItem value={3} label="Disciplinas" suffix="" />
         </div>
       </div>
 
-      <a href="#disciplinas" className="absolute bottom-8 left-1/2 -translate-x-1/2 text-zinc-600 hover:text-zinc-300 transition-colors animate-bounce">
-        <ChevronDown className="w-6 h-6" />
+      <a href="#disciplinas" className="absolute bottom-8 left-1/2 -translate-x-1/2 text-red-600 hover:text-red-400 transition-colors animate-bounce">
+        <ChevronDown className="w-8 h-8" />
       </a>
     </section>
   );
@@ -213,40 +277,47 @@ function Hero() {
 function Disciplinas() {
   return (
     <section id="disciplinas" className="relative py-24 md:py-32 bg-[#050505] overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(229,26,34,0.05),transparent_70%)] pointer-events-none" />
+      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(220,38,38,0.08),transparent_70%)] pointer-events-none" />
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <SectionHead title="Disciplinas" subtitle="Tres caminos, un objetivo: la excelencia marcial." />
+        <SectionHead title="Entrenamientos" subtitle="Tres caminos, un objetivo: la excelencia marcial." />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {disciplinas.map((d, i) => (
-            <article key={d.nombre} className={`reveal delay-${i + 1} group relative rounded-3xl bg-gradient-to-b ${d.gradient} border ${d.border} p-6 sm:p-8 flex flex-col overflow-hidden hover:border-red-600/40 transition-all duration-500 w-full`}>
-              <div className="absolute -top-20 -right-20 w-40 h-40 bg-red-600/5 rounded-full blur-3xl group-hover:bg-red-600/10 transition-colors duration-700" />
+            <article key={d.nombre} className={`reveal delay-${i + 1} group relative p-px rounded-3xl transition-all duration-500 hover:scale-[1.02]`}>
+              {/* Dynamic Border Gradient */}
+              <div className={`absolute inset-0 bg-gradient-to-br ${d.gradient} rounded-3xl opacity-50 group-hover:opacity-100 transition-opacity duration-500`} />
 
-              <div className="flex items-center gap-4 mb-6">
-                <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white/5 border ${d.border} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                  {d.logo ? (
-                    <Image src={d.logo} alt={d.team} width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8 object-contain" />
-                  ) : (
-                    <d.icon className={`w-6 h-6 sm:w-7 sm:h-7 ${d.accent}`} />
-                  )}
+              <div className="relative h-full rounded-[23px] bg-[#0a0a0b] p-6 sm:p-8 flex flex-col overflow-hidden border border-white/5 group-hover:border-red-600/30 transition-all duration-500">
+                {/* Angular Background Element */}
+                <div className="absolute -top-12 -right-12 w-32 h-32 bg-red-600/10 rounded-full blur-3xl group-hover:bg-red-600/20 transition-colors duration-700" />
+                <div className="absolute bottom-0 right-0 w-0 h-0 bg-red-600/10 group-hover:w-24 group-hover:h-24 transition-all duration-500" style={{ clipPath: 'polygon(100% 0, 0% 100%, 100% 100%)' }} />
+
+                <div className="flex items-center gap-4 mb-6 relative z-10">
+                  <div className={`w-14 h-14 rounded-2xl bg-white/5 border ${d.border} flex items-center justify-center group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(220,38,38,0.2)] transition-all duration-300`}>
+                    {d.logo ? (
+                      <Image src={d.logo} alt={d.team} width={32} height={32} className="w-7 h-7 sm:w-9 sm:h-9 object-contain" />
+                    ) : (
+                      <d.icon className={`w-6 h-6 sm:w-7 sm:h-7 ${d.accent}`} />
+                    )}
+                  </div>
+                  <div className="overflow-hidden">
+                    <h3 className="text-2xl sm:text-3xl font-bebas text-white uppercase tracking-wide truncate group-hover:text-red-500 transition-colors">{d.nombre}</h3>
+                    <p className={`text-[9px] sm:text-xs font-black tracking-[0.2em] uppercase ${d.accent}`}>{d.team}</p>
+                  </div>
                 </div>
-                <div className="overflow-hidden">
-                  <h3 className="text-xl sm:text-2xl md:text-3xl font-bebas text-white uppercase tracking-wide truncate">{d.nombre}</h3>
-                  <p className={`text-[9px] sm:text-xs font-bold tracking-[0.2em] uppercase ${d.accent}`}>{d.team}</p>
+
+                <p className="text-zinc-400 text-sm leading-relaxed mb-6 flex-1 relative z-10 italic">"{d.desc}"</p>
+
+                <div className="flex flex-wrap gap-2 mb-8 relative z-10">
+                  {d.niveles.map((n) => (
+                    <span key={n} className="px-2 py-1 rounded-md bg-white/5 border border-white/10 text-[9px] sm:text-[10px] font-bold text-zinc-500 uppercase tracking-wider group-hover:border-red-600/30 transition-colors">{n}</span>
+                  ))}
                 </div>
+
+                <a href="#horarios" className={`inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest ${d.accent} hover:gap-3 transition-all relative z-10 group-hover:translate-x-1`}>
+                  Ver agenda <ChevronRight className="w-4 h-4" />
+                </a>
               </div>
-
-              <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed mb-6 flex-1">{d.desc}</p>
-
-              <div className="flex flex-wrap gap-2 mb-6">
-                {d.niveles.map((n) => (
-                  <span key={n} className="px-2 py-1 rounded-lg bg-white/5 border border-white/5 text-[9px] sm:text-[10px] font-bold text-zinc-500 uppercase tracking-wider">{n}</span>
-                ))}
-              </div>
-
-              <a href="#horarios" className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider ${d.accent} hover:gap-3 transition-all`}>
-                Ver horarios <ChevronRight className="w-4 h-4" />
-              </a>
             </article>
           ))}
         </div>
@@ -617,11 +688,12 @@ function Footer() {
 
 export default function HomePage() {
   useScrollReveal();
+  const [isRegModalOpen, setIsRegModalOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#050505] overflow-x-hidden">
-      <Nav />
-      <Hero />
+      <Nav onInscribeClick={() => setIsRegModalOpen(true)} />
+      <Hero onInscribeClick={() => setIsRegModalOpen(true)} />
       <Disciplinas />
       <Gallery />
       <Coaches />
@@ -630,6 +702,7 @@ export default function HomePage() {
       <Noticias />
       <Contacto />
       <Footer />
+      <RegistrationModal isOpen={isRegModalOpen} onClose={() => setIsRegModalOpen(false)} />
     </div>
   );
 }
